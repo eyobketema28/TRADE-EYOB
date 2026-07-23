@@ -52,7 +52,6 @@
             padding: 28px 24px 40px;
         }
 
-        /* ---------- SPLASH ---------- */
         #splash {
             position: fixed;
             inset: 0;
@@ -184,7 +183,6 @@
             transform: scale(1.03);
         }
 
-        /* ---------- APP ---------- */
         .greeting-banner {
             display: flex;
             align-items: center;
@@ -648,7 +646,6 @@
             font-size: 14px;
         }
 
-        /* Token input modal */
         .token-modal {
             display: none;
             position: fixed;
@@ -703,64 +700,6 @@
             justify-content: flex-end;
         }
         .token-modal .btn-row button {
-            padding: 10px 24px;
-        }
-
-        /* Gist setup modal */
-        .gist-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            align-items: center;
-            justify-content: center;
-        }
-        .gist-modal.show {
-            display: flex;
-        }
-        .gist-modal-content {
-            background: var(--surface);
-            border: 1px solid var(--gold-dim);
-            border-radius: 16px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-        }
-        .gist-modal h2 {
-            color: var(--gold);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
-            margin-bottom: 12px;
-        }
-        .gist-modal p {
-            color: var(--ink-dim);
-            margin-bottom: 16px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        .gist-modal input {
-            width: 100%;
-            background: var(--surface-raised);
-            border: 1px solid var(--hairline);
-            border-radius: 8px;
-            padding: 10px 14px;
-            color: var(--ink);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            outline: none;
-            margin-bottom: 12px;
-        }
-        .gist-modal input:focus {
-            border-color: var(--gold-dim);
-        }
-        .gist-modal .btn-row {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-        .gist-modal .btn-row button {
             padding: 10px 24px;
         }
 
@@ -837,29 +776,13 @@
             <h2>🔑 GitHub Token Required</h2>
             <p>To auto-save your trades to GitHub, you need a Personal Access Token.</p>
             <p style="font-size:12px;color:var(--ink-dim);">
-                Create one at: <strong style="color:var(--gold);">Settings → Developer settings → Personal access tokens → Tokens (classic)</strong><br>
-                Select <strong style="color:var(--green);">gist</strong> scope (NOT repo!).
+                Create one at: <strong style="color:var(--gold);">https://github.com/settings/tokens</strong><br>
+                Select <strong style="color:var(--green);">repo</strong> scope.
             </p>
             <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
             <div class="btn-row">
                 <button class="btn-cancel" id="tokenCancelBtn">Cancel</button>
                 <button class="btn-gold" id="tokenSaveBtn">Save Token</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- GIST MODAL -->
-    <div class="gist-modal" id="gistModal">
-        <div class="gist-modal-content">
-            <h2>📝 Gist ID Required</h2>
-            <p>Create a Gist at <strong style="color:var(--gold);">gist.github.com</strong> called <strong style="color:var(--green);">trades.json</strong></p>
-            <p style="font-size:12px;color:var(--ink-dim);">
-                Copy the Gist ID from the URL: <strong style="color:var(--gold);">gist.github.com/YOUR-USERNAME/<span style="color:var(--green);">GIST_ID</span></strong>
-            </p>
-            <input type="text" id="gistInput" placeholder="abc123def456" />
-            <div class="btn-row">
-                <button class="btn-cancel" id="gistCancelBtn">Cancel</button>
-                <button class="btn-gold" id="gistSaveBtn">Save Gist ID</button>
             </div>
         </div>
     </div>
@@ -881,7 +804,6 @@
     <!-- MAIN APP -->
     <div class="wrap">
 
-        <!-- GREETING BANNER -->
         <div class="greeting-banner">
             <span>👋</span>
             <span>Welcome back, <span class="greeting-name">Sir Eyob</span></span>
@@ -889,7 +811,6 @@
             <span class="github-status" id="githubStatus">⏳ Loading...</span>
         </div>
 
-        <!-- HEADER -->
         <div class="header">
             <div class="brand">
                 <img id="app-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'app-logo\' class=\'fallback\'>EY</div>'">
@@ -906,22 +827,18 @@
                 <button class="btn-ghost" id="importBtn">Import</button>
                 <input type="file" id="importFile" accept="application/json" style="display:none">
                 <button class="btn-ghost" id="githubTokenBtn">🔑 GitHub</button>
-                <button class="btn-ghost" id="gistSetupBtn">📝 Gist</button>
-                <button class="btn-ghost" id="syncBtn" style="display:none;">🔄 Sync</button>
+                <button class="btn-ghost" id="syncBtn" style="display:none;">🔄 Sync Now</button>
                 <button class="btn-gold" id="toggleFormBtn">+ New Entry</button>
             </div>
         </div>
 
-        <!-- TABS -->
         <div class="tabs">
             <button class="tab active" data-tab="journal">Journal</button>
             <button class="tab" data-tab="analytics">Analytics</button>
         </div>
 
-        <!-- STATS -->
         <div class="stats-row" id="statsRow"></div>
 
-        <!-- ENTRY FORM -->
         <form class="entry-form" id="entryForm" style="display:none;">
             <label class="field">Date<input type="date" id="f-date"></label>
             <label class="field">Symbol<input type="text" id="f-symbol" placeholder="EURUSD" required></label>
@@ -947,7 +864,6 @@
             <div class="form-submit-row"><button type="submit" class="btn-gold">Log Trade</button></div>
         </form>
 
-        <!-- JOURNAL TAB -->
         <div id="journalTab">
             <div class="chart-box" id="equityChart"></div>
             <div class="session-filters" id="sessionFilters"></div>
@@ -958,10 +874,9 @@
                 </div>
                 <div id="tradeRows"></div>
             </div>
-            <div class="footnote">🔄 Auto-syncs every 15s via GitHub Gist</div>
+            <div class="footnote">🔄 Auto-syncs via GitHub · All devices stay in sync</div>
         </div>
 
-        <!-- ANALYTICS TAB -->
         <div id="analyticsTab" style="display:none;"></div>
 
     </div>
@@ -972,9 +887,10 @@
         // ============================================================
         const SESSIONS = ["Daily", "London", "New York", "Other"];
         const STORAGE_KEY = "trade-ledger:trades";
+        const GITHUB_REPO = "Eyobketema28/TRADE-EYOB";
+        const GITHUB_PATH = "trades.json";
         const TOKEN_STORAGE_KEY = "trade-ledger:github-token";
-        const GIST_STORAGE_KEY = "trade-ledger:gist-id";
-        const SYNC_INTERVAL = 15000; // Sync every 15 seconds
+        const SYNC_INTERVAL = 15000;
 
         const COLORS = { green: "#39FF8C", red: "#FF4D6A", steel: "#55665C", hairline: "#1E2B23", inkDim: "#7C9488", gold: "#FFD700" };
 
@@ -1018,10 +934,10 @@
         let currentTab = "journal";
         let sessionFilter = "All";
         let githubToken = localStorage.getItem(TOKEN_STORAGE_KEY) || "";
-        let gistId = localStorage.getItem(GIST_STORAGE_KEY) || "";
         let isSaving = false;
         let isSyncing = false;
         let syncTimer = null;
+        let lastSyncSHA = null;
 
         function todaysQuote() {
             const start = new Date(new Date().getFullYear(), 0, 0);
@@ -1036,9 +952,8 @@
 
         function saveTrades() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
-            // Auto-sync to Gist if token and gistId exist
-            if (githubToken && githubToken.length > 10 && gistId && gistId.length > 0) {
-                saveToGist();
+            if (githubToken && githubToken.length > 10) {
+                saveToGitHub();
             }
         }
 
@@ -1078,7 +993,7 @@
         function fmtR(r) { return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); }
 
         // ============================================================
-        // GITHUB GIST STORAGE - MUCH SIMPLER AND MORE RELIABLE
+        // GITHUB STORAGE - FIXED VERSION
         // ============================================================
         function updateGithubStatus(text, type) {
             const el = document.getElementById('githubStatus');
@@ -1091,8 +1006,8 @@
             if (type === 'syncing') el.classList.add('syncing');
         }
 
-        async function saveToGist() {
-            if (!githubToken || githubToken.length < 10 || !gistId || gistId.length < 3 || isSaving) return false;
+        async function saveToGitHub() {
+            if (!githubToken || githubToken.length < 10 || isSaving) return false;
             if (trades.length === 0) return false;
 
             isSaving = true;
@@ -1100,35 +1015,54 @@
 
             try {
                 const data = JSON.stringify(trades, null, 2);
+                const content = btoa(unescape(encodeURIComponent(data)));
 
-                const res = await fetch(`https://api.github.com/gists/${gistId}`, {
-                    method: 'PATCH',
+                // Get current SHA
+                let sha = null;
+                try {
+                    const shaRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+                        headers: {
+                            'Authorization': `token ${githubToken}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    if (shaRes.ok) {
+                        const file = await shaRes.json();
+                        sha = file.sha;
+                    }
+                } catch (e) {
+                    console.log('File not found, creating new');
+                }
+
+                const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+                    method: 'PUT',
                     headers: {
                         'Authorization': `token ${githubToken}`,
                         'Content-Type': 'application/json',
                         'Accept': 'application/vnd.github.v3+json'
                     },
                     body: JSON.stringify({
-                        files: {
-                            'trades.json': {
-                                content: data
-                            }
-                        }
+                        message: `Update trades - ${new Date().toISOString().slice(0, 10)}`,
+                        content: content,
+                        sha: sha || undefined,
+                        branch: 'main'
                     })
                 });
 
-                if (res.ok) {
+                if (putRes.ok) {
+                    const result = await putRes.json();
+                    lastSyncSHA = result.content.sha;
                     updateGithubStatus(`✅ ${trades.length} saved`, 'success');
                     setTimeout(() => {
-                        updateGithubStatus(`✅ Gist: ${trades.length}`, 'success');
+                        updateGithubStatus(`✅ GitHub: ${trades.length}`, 'success');
                     }, 3000);
                     return true;
                 } else {
-                    const err = await res.json();
-                    throw new Error(err.message || `Failed to save: ${res.status}`);
+                    const err = await putRes.json();
+                    throw new Error(err.message || `Failed: ${putRes.status}`);
                 }
             } catch (error) {
-                console.error('❌ Gist save error:', error);
+                console.error('❌ Save error:', error);
                 updateGithubStatus(`❌ ${error.message || 'Save failed'}`, 'error');
                 return false;
             } finally {
@@ -1136,14 +1070,14 @@
             }
         }
 
-        async function loadFromGist() {
-            if (!githubToken || githubToken.length < 10 || !gistId || gistId.length < 3 || isSyncing) return false;
+        async function loadFromGitHub() {
+            if (!githubToken || githubToken.length < 10 || isSyncing) return false;
 
             isSyncing = true;
-            updateGithubStatus('☁️ Loading...', 'syncing');
+            updateGithubStatus('🔄 Syncing...', 'syncing');
 
             try {
-                const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+                const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
                     headers: {
                         'Authorization': `token ${githubToken}`,
                         'Accept': 'application/vnd.github.v3+json'
@@ -1151,43 +1085,38 @@
                 });
 
                 if (res.ok) {
-                    const gist = await res.json();
-                    const content = gist.files['trades.json']?.content;
+                    const file = await res.json();
+                    const content = JSON.parse(atob(file.content));
 
-                    if (content) {
-                        const parsed = JSON.parse(content);
-                        if (Array.isArray(parsed)) {
-                            const currentData = JSON.stringify(trades);
-                            const newData = JSON.stringify(parsed);
+                    if (Array.isArray(content)) {
+                        const currentData = JSON.stringify(trades);
+                        const newData = JSON.stringify(content);
 
-                            if (currentData !== newData) {
-                                trades = parsed;
-                                localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
-                                render();
-                                updateGithubStatus(`✅ Loaded ${trades.length}`, 'success');
-                                setTimeout(() => {
-                                    updateGithubStatus(`✅ Gist: ${trades.length}`, 'success');
-                                }, 3000);
-                                return true;
-                            } else {
-                                updateGithubStatus(`✅ ${trades.length} trades`, 'success');
-                                return true;
-                            }
+                        if (currentData !== newData) {
+                            trades = content;
+                            lastSyncSHA = file.sha;
+                            localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
+                            render();
+                            updateGithubStatus(`✅ Synced ${trades.length}`, 'success');
+                            setTimeout(() => {
+                                updateGithubStatus(`✅ GitHub: ${trades.length}`, 'success');
+                            }, 3000);
+                            return true;
+                        } else {
+                            lastSyncSHA = file.sha;
+                            updateGithubStatus(`✅ ${trades.length} trades`, 'success');
+                            return true;
                         }
                     }
                 } else if (res.status === 404) {
-                    // Gist doesn't exist yet - create it if we have data
-                    if (trades.length > 0) {
-                        await saveToGist();
-                    }
-                    updateGithubStatus('📁 Create Gist first', 'error');
+                    updateGithubStatus('📁 No file yet', 'error');
                     return false;
                 } else {
                     const err = await res.json();
                     throw new Error(err.message || `GitHub error: ${res.status}`);
                 }
             } catch (error) {
-                console.error('❌ Gist load error:', error);
+                console.error('❌ Load error:', error);
                 updateGithubStatus(`❌ ${error.message || 'Load failed'}`, 'error');
                 return false;
             } finally {
@@ -1198,8 +1127,8 @@
         function startAutoSync() {
             if (syncTimer) clearInterval(syncTimer);
             syncTimer = setInterval(() => {
-                if (githubToken && githubToken.length > 10 && gistId && gistId.length > 0) {
-                    loadFromGist();
+                if (githubToken && githubToken.length > 10) {
+                    loadFromGitHub();
                 }
             }, SYNC_INTERVAL);
         }
@@ -1596,104 +1525,63 @@
                 document.getElementById("tokenModal").classList.remove("show");
                 document.getElementById("syncBtn").style.display = "inline-block";
                 updateGithubStatus('✅ Token saved!', 'success');
-                checkAndSync();
+                setTimeout(() => {
+                    loadFromGitHub();
+                    startAutoSync();
+                    if (trades.length > 0) {
+                        setTimeout(() => saveToGitHub(), 1000);
+                    }
+                }, 500);
             } else {
                 alert('Please enter a valid GitHub token (starts with ghp_)');
             }
         });
 
-        document.getElementById("gistSetupBtn").addEventListener("click", () => {
-            document.getElementById("gistModal").classList.add("show");
-            document.getElementById("gistInput").value = gistId;
-        });
-
-        document.getElementById("gistCancelBtn").addEventListener("click", () => {
-            document.getElementById("gistModal").classList.remove("show");
-        });
-
-        document.getElementById("gistSaveBtn").addEventListener("click", () => {
-            const gist = document.getElementById("gistInput").value.trim();
-            if (gist && gist.length > 2) {
-                gistId = gist;
-                localStorage.setItem(GIST_STORAGE_KEY, gist);
-                document.getElementById("gistModal").classList.remove("show");
-                document.getElementById("syncBtn").style.display = "inline-block";
-                updateGithubStatus('✅ Gist ID saved!', 'success');
-                checkAndSync();
-            } else {
-                alert('Please enter a valid Gist ID');
-            }
-        });
-
         document.getElementById("syncBtn").addEventListener("click", () => {
             if (trades.length > 0) {
-                saveToGist();
+                saveToGitHub();
             }
-            loadFromGist();
+            loadFromGitHub();
         });
 
-        // Close modals on outside click
+        // Close modal on outside click
         document.getElementById("tokenModal").addEventListener("click", (e) => {
             if (e.target === e.currentTarget) {
                 document.getElementById("tokenModal").classList.remove("show");
             }
         });
-        document.getElementById("gistModal").addEventListener("click", (e) => {
-            if (e.target === e.currentTarget) {
-                document.getElementById("gistModal").classList.remove("show");
-            }
-        });
-
-        function checkAndSync() {
-            if (githubToken && githubToken.length > 10 && gistId && gistId.length > 0) {
-                setTimeout(async () => {
-                    await loadFromGist();
-                    startAutoSync();
-                    // Also save if we have data
-                    if (trades.length > 0) {
-                        setTimeout(() => saveToGist(), 1000);
-                    }
-                }, 500);
-            }
-        }
 
         // ============================================================
         // INIT
         // ============================================================
         async function init() {
-            // Load from localStorage first
             trades = loadTrades();
 
-            // Check if token and gist exist
-            if (githubToken && githubToken.length > 10 && gistId && gistId.length > 0) {
+            if (githubToken && githubToken.length > 10) {
                 document.getElementById("syncBtn").style.display = "inline-block";
-                updateGithubStatus('☁️ Loading from Gist...', 'syncing');
+                updateGithubStatus('☁️ Loading from GitHub...', 'syncing');
 
-                // Try to load from Gist
-                const loaded = await loadFromGist();
+                const loaded = await loadFromGitHub();
 
                 if (!loaded && trades.length === 0) {
                     updateGithubStatus('📁 No data found', 'error');
                 }
 
-                // Start auto-sync
                 startAutoSync();
 
-                // If we have local data but gist is empty, save to gist
                 if (trades.length > 0 && !loaded) {
-                    setTimeout(() => saveToGist(), 1000);
+                    setTimeout(() => saveToGitHub(), 1000);
                 }
             } else {
                 if (trades.length > 0) {
                     updateGithubStatus(`📁 Local: ${trades.length}`, 'success');
                 } else {
-                    updateGithubStatus('⚡ Setup GitHub Gist', '');
+                    updateGithubStatus('⚡ Setup GitHub', '');
                 }
                 render();
             }
         }
 
-        // Start the app
         init();
     </script>
 </body>

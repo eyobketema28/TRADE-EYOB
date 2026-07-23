@@ -1584,19 +1584,19 @@
     "pnl": 3
   },
   {
-    "id": "mrxo8p3hd39rd",
+    "id": "mrxnrqq4vus9p",
     "date": "2026-07-23",
-    "symbol": "WW",
+    "symbol": "V",
     "direction": "Long",
     "session": "New York",
     "entry": "2",
     "stop": "1",
-    "exit": "9",
+    "exit": "5",
     "size": "0",
     "risk": 1,
     "target": null,
     "notes": "",
-    "r": 7,
+    "r": 3,
     "pnl": null
   }
 ]

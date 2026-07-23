@@ -883,7 +883,7 @@
                 </div>
                 <div id="tradeRows"></div>
             </div>
-            <div class="footnote">🔄 Auto-syncs to GitHub · All devices stay in sync</div>
+            <div class="footnote">🔄 Auto-syncs every 15s · All devices stay in sync</div>
         </div>
 
         <!-- ANALYTICS TAB -->
@@ -900,7 +900,7 @@
         const GITHUB_REPO = "Eyobketema28/TRADE-EYOB";
         const GITHUB_PATH = "trades.json";
         const TOKEN_STORAGE_KEY = "trade-ledger:github-token";
-        const SYNC_INTERVAL = 30000; // Sync every 30 seconds
+        const SYNC_INTERVAL = 15000; // Sync every 15 seconds
 
         const COLORS = { green: "#39FF8C", red: "#FF4D6A", steel: "#55665C", hairline: "#1E2B23", inkDim: "#7C9488", gold: "#FFD700" };
 
@@ -948,6 +948,10 @@
         let isSyncing = false;
         let lastSyncSHA = null;
         let syncTimer = null;
+        let deviceId = localStorage.getItem('deviceId') || 'device-' + Date.now().toString(36);
+
+        // Save device ID
+        localStorage.setItem('deviceId', deviceId);
 
         function todaysQuote() {
             const start = new Date(new Date().getFullYear(), 0, 0);
@@ -964,6 +968,7 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
             // Auto-sync to GitHub if token exists
             if (githubToken && githubToken.length > 10) {
+                // Don't wait, just save
                 saveToGitHub();
             }
         }
@@ -1004,7 +1009,7 @@
         function fmtR(r) { return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); }
 
         // ============================================================
-        // GITHUB STORAGE - REAL-TIME SYNC
+        // GITHUB STORAGE - REAL-TIME TWO-WAY SYNC
         // ============================================================
         function updateGithubStatus(text, type) {
             const el = document.getElementById('githubStatus');
@@ -1038,12 +1043,10 @@
         async function saveToGitHub() {
             if (!githubToken || githubToken.length < 10 || isSaving) return false;
             if (trades.length === 0) {
-                // Don't save empty data
                 return false;
             }
 
             isSaving = true;
-            updateGithubStatus('☁️ Saving...', 'saving');
 
             try {
                 const data = JSON.stringify(trades, null, 2);
@@ -1072,7 +1075,7 @@
                         'Accept': 'application/vnd.github.v3+json'
                     },
                     body: JSON.stringify({
-                        message: `Update trades - ${new Date().toISOString().slice(0, 10)} ${new Date().toLocaleTimeString()}`,
+                        message: `Update trades - ${new Date().toISOString().slice(0, 10)} ${new Date().toLocaleTimeString()} (${deviceId})`,
                         content: content,
                         sha: sha,
                         branch: 'main'
@@ -1082,9 +1085,9 @@
                 if (putRes.ok) {
                     const result = await putRes.json();
                     lastSyncSHA = result.content.sha;
-                    updateGithubStatus(`✅ ${trades.length} trades saved`, 'success');
+                    updateGithubStatus(`✅ ${trades.length} saved`, 'success');
                     setTimeout(() => {
-                        updateGithubStatus(`✅ GitHub: ${trades.length} trades`, 'success');
+                        updateGithubStatus(`✅ GitHub: ${trades.length}`, 'success');
                     }, 3000);
                     return true;
                 } else {
@@ -1093,7 +1096,7 @@
                 }
             } catch (error) {
                 console.error('❌ GitHub save error:', error);
-                updateGithubStatus(`❌ ${error.message || 'Save failed'}`, 'error');
+                updateGithubStatus(`❌ Save failed`, 'error');
                 return false;
             } finally {
                 isSaving = false;
@@ -1124,22 +1127,29 @@
                         const newData = JSON.stringify(content);
 
                         if (currentData !== newData) {
+                            // New data from GitHub! Update local
                             trades = content;
                             lastSyncSHA = file.sha;
                             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
                             render();
-                            updateGithubStatus(`✅ Synced ${trades.length} trades`, 'success');
+                            updateGithubStatus(`✅ Synced ${trades.length}`, 'success');
                             setTimeout(() => {
-                                updateGithubStatus(`✅ GitHub: ${trades.length} trades`, 'success');
+                                updateGithubStatus(`✅ GitHub: ${trades.length}`, 'success');
                             }, 3000);
                             return true;
                         } else {
-                            updateGithubStatus(`✅ ${trades.length} trades (up to date)`, 'success');
+                            // Data is the same, just update SHA
+                            lastSyncSHA = file.sha;
+                            updateGithubStatus(`✅ ${trades.length} trades`, 'success');
                             return true;
                         }
                     }
                 } else if (res.status === 404) {
-                    updateGithubStatus('📁 No file on GitHub yet', 'error');
+                    // File doesn't exist yet - create it if we have data
+                    if (trades.length > 0) {
+                        await saveToGitHub();
+                    }
+                    updateGithubStatus('📁 Creating file...', 'saving');
                     return false;
                 } else {
                     throw new Error(`GitHub error: ${res.status}`);
@@ -1567,9 +1577,8 @@
         document.getElementById("syncBtn").addEventListener("click", () => {
             if (trades.length > 0) {
                 saveToGitHub();
-            } else {
-                syncFromGitHub();
             }
+            syncFromGitHub();
         });
 
         // Close modal on outside click
@@ -1580,7 +1589,7 @@
         });
 
         // ============================================================
-        // INIT - Load from GitHub FIRST, then fallback to localStorage
+        // INIT - Force load from GitHub FIRST
         // ============================================================
         async function init() {
             // Check if token exists
@@ -1588,25 +1597,30 @@
                 document.getElementById("syncBtn").style.display = "inline-block";
                 updateGithubStatus('☁️ Loading from GitHub...', 'saving');
 
-                // Try to load from GitHub FIRST
+                // Force load from GitHub FIRST
                 const loaded = await syncFromGitHub();
 
-                if (loaded) {
-                    // Successfully loaded from GitHub - start auto-sync
-                    startAutoSync();
-                    return;
+                if (!loaded) {
+                    // GitHub failed, fallback to localStorage
+                    trades = loadTrades();
+                    if (trades.length > 0) {
+                        updateGithubStatus(`📁 Local: ${trades.length} trades`, 'success');
+                    } else {
+                        updateGithubStatus('📁 No data found', 'error');
+                    }
+                    render();
                 }
 
-                // GitHub failed, fallback to localStorage
-                trades = loadTrades();
-                if (trades.length > 0) {
-                    updateGithubStatus(`📁 Local: ${trades.length} trades`, 'success');
-                } else {
-                    updateGithubStatus('📁 No data found', 'error');
-                }
-                render();
-                // Still try to sync periodically even if initial load failed
+                // Start auto-sync regardless
                 startAutoSync();
+
+                // Also do an immediate save if we have trades but GitHub doesn't
+                if (trades.length > 0) {
+                    setTimeout(() => {
+                        saveToGitHub();
+                    }, 1000);
+                }
+
             } else {
                 // No token, use localStorage only
                 trades = loadTrades();

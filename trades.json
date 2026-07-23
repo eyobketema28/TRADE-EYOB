@@ -1582,5 +1582,21 @@
     "notes": "Deposit 3.00",
     "r": null,
     "pnl": 3
+  },
+  {
+    "id": "mrxo8p3hd39rd",
+    "date": "2026-07-23",
+    "symbol": "WW",
+    "direction": "Long",
+    "session": "New York",
+    "entry": "2",
+    "stop": "1",
+    "exit": "9",
+    "size": "0",
+    "risk": 1,
+    "target": null,
+    "notes": "",
+    "r": 7,
+    "pnl": null
   }
 ]

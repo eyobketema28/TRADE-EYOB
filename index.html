@@ -52,6 +52,7 @@
             padding: 28px 24px 40px;
         }
 
+        /* ---------- SPLASH ---------- */
         #splash {
             position: fixed;
             inset: 0;
@@ -183,6 +184,7 @@
             transform: scale(1.03);
         }
 
+        /* ---------- APP ---------- */
         .greeting-banner {
             display: flex;
             align-items: center;
@@ -211,7 +213,7 @@
             margin-left: auto;
             font-size: 13px;
         }
-        .greeting-banner .github-status {
+        .greeting-banner .sync-status {
             font-size: 11px;
             color: var(--green);
             background: rgba(57, 255, 140, 0.1);
@@ -223,23 +225,23 @@
             transition: all 0.2s ease;
             white-space: nowrap;
         }
-        .greeting-banner .github-status:hover {
+        .greeting-banner .sync-status:hover {
             background: rgba(57, 255, 140, 0.2);
         }
-        .greeting-banner .github-status.saving {
+        .greeting-banner .sync-status.saving {
             color: var(--gold);
             border-color: var(--gold-dim);
             animation: pulse 1s ease-in-out infinite;
         }
-        .greeting-banner .github-status.error {
+        .greeting-banner .sync-status.error {
             color: var(--red);
             border-color: var(--red);
         }
-        .greeting-banner .github-status.success {
+        .greeting-banner .sync-status.success {
             color: var(--green);
             border-color: var(--green);
         }
-        .greeting-banner .github-status.syncing {
+        .greeting-banner .sync-status.syncing {
             color: var(--gold);
             border-color: var(--gold-dim);
             animation: pulse 0.5s ease-in-out infinite;
@@ -646,7 +648,8 @@
             font-size: 14px;
         }
 
-        .token-modal {
+        /* Setup modal */
+        .setup-modal {
             display: none;
             position: fixed;
             inset: 0;
@@ -656,30 +659,33 @@
             align-items: center;
             justify-content: center;
         }
-        .token-modal.show {
+        .setup-modal.show {
             display: flex;
         }
-        .token-modal-content {
+        .setup-modal-content {
             background: var(--surface);
             border: 1px solid var(--gold-dim);
             border-radius: 16px;
             padding: 30px;
             max-width: 500px;
             width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
         }
-        .token-modal h2 {
+        .setup-modal h2 {
             color: var(--gold);
             font-family: 'Orbitron', sans-serif;
             font-size: 20px;
             margin-bottom: 12px;
         }
-        .token-modal p {
+        .setup-modal p {
             color: var(--ink-dim);
             margin-bottom: 16px;
             font-size: 14px;
             line-height: 1.5;
         }
-        .token-modal input {
+        .setup-modal input,
+        .setup-modal select {
             width: 100%;
             background: var(--surface-raised);
             border: 1px solid var(--hairline);
@@ -691,16 +697,22 @@
             outline: none;
             margin-bottom: 12px;
         }
-        .token-modal input:focus {
+        .setup-modal input:focus,
+        .setup-modal select:focus {
             border-color: var(--gold-dim);
         }
-        .token-modal .btn-row {
+        .setup-modal .btn-row {
             display: flex;
             gap: 10px;
             justify-content: flex-end;
         }
-        .token-modal .btn-row button {
+        .setup-modal .btn-row button {
             padding: 10px 24px;
+        }
+        .setup-modal .step {
+            color: var(--gold);
+            font-size: 12px;
+            margin-bottom: 8px;
         }
 
         /* responsive */
@@ -734,7 +746,7 @@
                 margin-left: 0;
                 width: 100%;
             }
-            .greeting-banner .github-status {
+            .greeting-banner .sync-status {
                 font-size: 10px;
                 padding: 3px 10px;
             }
@@ -770,19 +782,34 @@
 </head>
 <body>
 
-    <!-- TOKEN MODAL -->
-    <div class="token-modal" id="tokenModal">
-        <div class="token-modal-content">
-            <h2>🔑 GitHub Token Required</h2>
-            <p>To auto-save your trades to GitHub, you need a Personal Access Token.</p>
+    <!-- SETUP MODAL -->
+    <div class="setup-modal" id="setupModal">
+        <div class="setup-modal-content">
+            <h2>🔐 Cloud Storage Setup</h2>
+            <p>Store your trades securely in the cloud using <strong style="color:var(--gold);">JSONBin.io</strong>.</p>
+
+            <div class="step">Step 1: Get your API Key</div>
             <p style="font-size:12px;color:var(--ink-dim);">
-                Create one at: <strong style="color:var(--gold);">https://github.com/settings/tokens</strong><br>
-                Select <strong style="color:var(--green);">repo</strong> scope.
+                1. Go to <strong style="color:var(--gold);">jsonbin.io</strong> and sign up (free)<br>
+                2. Go to <strong style="color:var(--gold);">Dashboard → API Keys</strong><br>
+                3. Create a new key with <strong style="color:var(--green);">Read & Write</strong> access<br>
+                4. Copy the key
             </p>
-            <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+            <input type="password" id="apiKeyInput" placeholder="paste your API key here" />
+
+            <div class="step">Step 2: Create a Bin</div>
+            <p style="font-size:12px;color:var(--ink-dim);">
+                1. Go to <strong style="color:var(--gold);">jsonbin.io</strong> → <strong style="color:var(--green);">Create Bin</strong><br>
+                2. Name it: <strong style="color:var(--gold);">Trade Ledger</strong><br>
+                3. Paste: <strong style="color:var(--gold);">[]</strong> (empty array)<br>
+                4. Click <strong style="color:var(--green);">Create</strong><br>
+                5. Copy the Bin ID from the URL: <strong style="color:var(--gold);">jsonbin.io/b/BIN_ID</strong>
+            </p>
+            <input type="text" id="binIdInput" placeholder="paste your Bin ID here" />
+
             <div class="btn-row">
-                <button class="btn-cancel" id="tokenCancelBtn">Cancel</button>
-                <button class="btn-gold" id="tokenSaveBtn">Save Token</button>
+                <button class="btn-cancel" id="setupCancelBtn">Cancel</button>
+                <button class="btn-gold" id="setupSaveBtn">Save & Sync</button>
             </div>
         </div>
     </div>
@@ -808,7 +835,7 @@
             <span>👋</span>
             <span>Welcome back, <span class="greeting-name">Sir Eyob</span></span>
             <span class="greeting-quote" id="bannerQuote"></span>
-            <span class="github-status" id="githubStatus">⏳ Loading...</span>
+            <span class="sync-status" id="syncStatus">⏳ Loading...</span>
         </div>
 
         <div class="header">
@@ -826,8 +853,8 @@
                 <button class="btn-ghost" id="exportBtn">Export</button>
                 <button class="btn-ghost" id="importBtn">Import</button>
                 <input type="file" id="importFile" accept="application/json" style="display:none">
-                <button class="btn-ghost" id="githubTokenBtn">🔑 GitHub</button>
-                <button class="btn-ghost" id="syncBtn" style="display:none;">🔄 Sync Now</button>
+                <button class="btn-ghost" id="setupBtn">☁️ Cloud</button>
+                <button class="btn-ghost" id="syncBtn" style="display:none;">🔄 Sync</button>
                 <button class="btn-gold" id="toggleFormBtn">+ New Entry</button>
             </div>
         </div>
@@ -874,7 +901,7 @@
                 </div>
                 <div id="tradeRows"></div>
             </div>
-            <div class="footnote">🔄 Auto-syncs via GitHub · All devices stay in sync</div>
+            <div class="footnote">☁️ Cloud-synced via JSONBin · All devices stay in sync</div>
         </div>
 
         <div id="analyticsTab" style="display:none;"></div>
@@ -887,9 +914,8 @@
         // ============================================================
         const SESSIONS = ["Daily", "London", "New York", "Other"];
         const STORAGE_KEY = "trade-ledger:trades";
-        const GITHUB_REPO = "Eyobketema28/TRADE-EYOB";
-        const GITHUB_PATH = "trades.json";
-        const TOKEN_STORAGE_KEY = "trade-ledger:github-token";
+        const API_KEY_STORAGE_KEY = "trade-ledger:jsonbin-api-key";
+        const BIN_ID_STORAGE_KEY = "trade-ledger:jsonbin-bin-id";
         const SYNC_INTERVAL = 15000;
 
         const COLORS = { green: "#39FF8C", red: "#FF4D6A", steel: "#55665C", hairline: "#1E2B23", inkDim: "#7C9488", gold: "#FFD700" };
@@ -933,11 +959,11 @@
         let trades = [];
         let currentTab = "journal";
         let sessionFilter = "All";
-        let githubToken = localStorage.getItem(TOKEN_STORAGE_KEY) || "";
+        let apiKey = localStorage.getItem(API_KEY_STORAGE_KEY) || "";
+        let binId = localStorage.getItem(BIN_ID_STORAGE_KEY) || "";
         let isSaving = false;
         let isSyncing = false;
         let syncTimer = null;
-        let lastSyncSHA = null;
 
         function todaysQuote() {
             const start = new Date(new Date().getFullYear(), 0, 0);
@@ -952,8 +978,8 @@
 
         function saveTrades() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
-            if (githubToken && githubToken.length > 10) {
-                saveToGitHub();
+            if (apiKey && apiKey.length > 10 && binId && binId.length > 3) {
+                saveToJSONBin();
             }
         }
 
@@ -993,100 +1019,73 @@
         function fmtR(r) { return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); }
 
         // ============================================================
-        // GITHUB STORAGE - FIXED VERSION
+        // JSONBIN.IO STORAGE - SECURE & SIMPLE
         // ============================================================
-        function updateGithubStatus(text, type) {
-            const el = document.getElementById('githubStatus');
+        function updateStatus(text, type) {
+            const el = document.getElementById('syncStatus');
             if (!el) return;
             el.textContent = text;
-            el.className = 'github-status';
+            el.className = 'sync-status';
             if (type === 'saving') el.classList.add('saving');
             if (type === 'error') el.classList.add('error');
             if (type === 'success') el.classList.add('success');
             if (type === 'syncing') el.classList.add('syncing');
         }
 
-        async function saveToGitHub() {
-            if (!githubToken || githubToken.length < 10 || isSaving) return false;
+        async function saveToJSONBin() {
+            if (!apiKey || apiKey.length < 10 || !binId || binId.length < 3 || isSaving) return false;
             if (trades.length === 0) return false;
 
             isSaving = true;
-            updateGithubStatus('☁️ Saving...', 'saving');
+            updateStatus('☁️ Saving...', 'saving');
 
             try {
-                const data = JSON.stringify(trades, null, 2);
-                const content = btoa(unescape(encodeURIComponent(data)));
-
-                // Get current SHA
-                let sha = null;
-                try {
-                    const shaRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
-                        headers: {
-                            'Authorization': `token ${githubToken}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-                    if (shaRes.ok) {
-                        const file = await shaRes.json();
-                        sha = file.sha;
-                    }
-                } catch (e) {
-                    console.log('File not found, creating new');
-                }
-
-                const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
                     method: 'PUT',
                     headers: {
-                        'Authorization': `token ${githubToken}`,
                         'Content-Type': 'application/json',
-                        'Accept': 'application/vnd.github.v3+json'
+                        'X-Master-Key': apiKey,
+                        'X-Bin-Version': 'false'
                     },
-                    body: JSON.stringify({
-                        message: `Update trades - ${new Date().toISOString().slice(0, 10)}`,
-                        content: content,
-                        sha: sha || undefined,
-                        branch: 'main'
-                    })
+                    body: JSON.stringify(trades)
                 });
 
-                if (putRes.ok) {
-                    const result = await putRes.json();
-                    lastSyncSHA = result.content.sha;
-                    updateGithubStatus(`✅ ${trades.length} saved`, 'success');
+                if (res.ok) {
+                    updateStatus(`✅ ${trades.length} saved`, 'success');
                     setTimeout(() => {
-                        updateGithubStatus(`✅ GitHub: ${trades.length}`, 'success');
+                        updateStatus(`☁️ ${trades.length} trades`, 'success');
                     }, 3000);
                     return true;
                 } else {
-                    const err = await putRes.json();
-                    throw new Error(err.message || `Failed: ${putRes.status}`);
+                    const err = await res.json();
+                    throw new Error(err.message || `Failed: ${res.status}`);
                 }
             } catch (error) {
                 console.error('❌ Save error:', error);
-                updateGithubStatus(`❌ ${error.message || 'Save failed'}`, 'error');
+                updateStatus(`❌ ${error.message || 'Save failed'}`, 'error');
                 return false;
             } finally {
                 isSaving = false;
             }
         }
 
-        async function loadFromGitHub() {
-            if (!githubToken || githubToken.length < 10 || isSyncing) return false;
+        async function loadFromJSONBin() {
+            if (!apiKey || apiKey.length < 10 || !binId || binId.length < 3 || isSyncing) return false;
 
             isSyncing = true;
-            updateGithubStatus('🔄 Syncing...', 'syncing');
+            updateStatus('☁️ Syncing...', 'syncing');
 
             try {
-                const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
                     headers: {
-                        'Authorization': `token ${githubToken}`,
-                        'Accept': 'application/vnd.github.v3+json'
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': apiKey
                     }
                 });
 
                 if (res.ok) {
-                    const file = await res.json();
-                    const content = JSON.parse(atob(file.content));
+                    const data = await res.json();
+                    const content = data.record || data;
 
                     if (Array.isArray(content)) {
                         const currentData = JSON.stringify(trades);
@@ -1094,30 +1093,28 @@
 
                         if (currentData !== newData) {
                             trades = content;
-                            lastSyncSHA = file.sha;
                             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
                             render();
-                            updateGithubStatus(`✅ Synced ${trades.length}`, 'success');
+                            updateStatus(`✅ Synced ${trades.length}`, 'success');
                             setTimeout(() => {
-                                updateGithubStatus(`✅ GitHub: ${trades.length}`, 'success');
+                                updateStatus(`☁️ ${trades.length} trades`, 'success');
                             }, 3000);
                             return true;
                         } else {
-                            lastSyncSHA = file.sha;
-                            updateGithubStatus(`✅ ${trades.length} trades`, 'success');
+                            updateStatus(`☁️ ${trades.length} trades`, 'success');
                             return true;
                         }
                     }
                 } else if (res.status === 404) {
-                    updateGithubStatus('📁 No file yet', 'error');
+                    updateStatus('📁 Create bin first', 'error');
                     return false;
                 } else {
                     const err = await res.json();
-                    throw new Error(err.message || `GitHub error: ${res.status}`);
+                    throw new Error(err.message || `Error: ${res.status}`);
                 }
             } catch (error) {
                 console.error('❌ Load error:', error);
-                updateGithubStatus(`❌ ${error.message || 'Load failed'}`, 'error');
+                updateStatus(`❌ ${error.message || 'Load failed'}`, 'error');
                 return false;
             } finally {
                 isSyncing = false;
@@ -1127,8 +1124,8 @@
         function startAutoSync() {
             if (syncTimer) clearInterval(syncTimer);
             syncTimer = setInterval(() => {
-                if (githubToken && githubToken.length > 10) {
-                    loadFromGitHub();
+                if (apiKey && apiKey.length > 10 && binId && binId.length > 3) {
+                    loadFromJSONBin();
                 }
             }, SYNC_INTERVAL);
         }
@@ -1506,48 +1503,54 @@
         });
 
         // ============================================================
-        // GITHUB UI
+        // SETUP UI
         // ============================================================
-        document.getElementById("githubTokenBtn").addEventListener("click", () => {
-            document.getElementById("tokenModal").classList.add("show");
-            document.getElementById("tokenInput").value = githubToken;
+        document.getElementById("setupBtn").addEventListener("click", () => {
+            document.getElementById("setupModal").classList.add("show");
+            document.getElementById("apiKeyInput").value = apiKey;
+            document.getElementById("binIdInput").value = binId;
         });
 
-        document.getElementById("tokenCancelBtn").addEventListener("click", () => {
-            document.getElementById("tokenModal").classList.remove("show");
+        document.getElementById("setupCancelBtn").addEventListener("click", () => {
+            document.getElementById("setupModal").classList.remove("show");
         });
 
-        document.getElementById("tokenSaveBtn").addEventListener("click", () => {
-            const token = document.getElementById("tokenInput").value.trim();
-            if (token && token.length > 10) {
-                githubToken = token;
-                localStorage.setItem(TOKEN_STORAGE_KEY, token);
-                document.getElementById("tokenModal").classList.remove("show");
+        document.getElementById("setupSaveBtn").addEventListener("click", () => {
+            const key = document.getElementById("apiKeyInput").value.trim();
+            const bin = document.getElementById("binIdInput").value.trim();
+
+            if (key && key.length > 10 && bin && bin.length > 3) {
+                apiKey = key;
+                binId = bin;
+                localStorage.setItem(API_KEY_STORAGE_KEY, key);
+                localStorage.setItem(BIN_ID_STORAGE_KEY, bin);
+                document.getElementById("setupModal").classList.remove("show");
                 document.getElementById("syncBtn").style.display = "inline-block";
-                updateGithubStatus('✅ Token saved!', 'success');
+                updateStatus('✅ Setup complete!', 'success');
+
                 setTimeout(() => {
-                    loadFromGitHub();
+                    loadFromJSONBin();
                     startAutoSync();
                     if (trades.length > 0) {
-                        setTimeout(() => saveToGitHub(), 1000);
+                        setTimeout(() => saveToJSONBin(), 1000);
                     }
                 }, 500);
             } else {
-                alert('Please enter a valid GitHub token (starts with ghp_)');
+                alert('Please enter both a valid API Key and Bin ID');
             }
         });
 
         document.getElementById("syncBtn").addEventListener("click", () => {
             if (trades.length > 0) {
-                saveToGitHub();
+                saveToJSONBin();
             }
-            loadFromGitHub();
+            loadFromJSONBin();
         });
 
         // Close modal on outside click
-        document.getElementById("tokenModal").addEventListener("click", (e) => {
+        document.getElementById("setupModal").addEventListener("click", (e) => {
             if (e.target === e.currentTarget) {
-                document.getElementById("tokenModal").classList.remove("show");
+                document.getElementById("setupModal").classList.remove("show");
             }
         });
 
@@ -1557,26 +1560,26 @@
         async function init() {
             trades = loadTrades();
 
-            if (githubToken && githubToken.length > 10) {
+            if (apiKey && apiKey.length > 10 && binId && binId.length > 3) {
                 document.getElementById("syncBtn").style.display = "inline-block";
-                updateGithubStatus('☁️ Loading from GitHub...', 'syncing');
+                updateStatus('☁️ Loading from cloud...', 'syncing');
 
-                const loaded = await loadFromGitHub();
+                const loaded = await loadFromJSONBin();
 
                 if (!loaded && trades.length === 0) {
-                    updateGithubStatus('📁 No data found', 'error');
+                    updateStatus('📁 Create bin first', 'error');
                 }
 
                 startAutoSync();
 
                 if (trades.length > 0 && !loaded) {
-                    setTimeout(() => saveToGitHub(), 1000);
+                    setTimeout(() => saveToJSONBin(), 1000);
                 }
             } else {
                 if (trades.length > 0) {
-                    updateGithubStatus(`📁 Local: ${trades.length}`, 'success');
+                    updateStatus(`📁 Local: ${trades.length}`, 'success');
                 } else {
-                    updateGithubStatus('⚡ Setup GitHub', '');
+                    updateStatus('⚡ Setup cloud storage', '');
                 }
                 render();
             }

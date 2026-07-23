@@ -1582,5 +1582,21 @@
     "notes": "Deposit 3.00",
     "r": null,
     "pnl": 3
+  },
+  {
+    "id": "mrxnfzjvx9vaz",
+    "date": "2026-07-23",
+    "symbol": "TEST",
+    "direction": "Long",
+    "session": "New York",
+    "entry": "3",
+    "stop": "1",
+    "exit": "10000",
+    "size": "",
+    "risk": 1,
+    "target": null,
+    "notes": "",
+    "r": 4998.5,
+    "pnl": null
   }
 ]

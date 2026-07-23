@@ -1582,5 +1582,21 @@
     "notes": "Deposit 3.00",
     "r": null,
     "pnl": 3
+  },
+  {
+    "id": "mrxnrqq4vus9p",
+    "date": "2026-07-23",
+    "symbol": "V",
+    "direction": "Long",
+    "session": "New York",
+    "entry": "2",
+    "stop": "1",
+    "exit": "5",
+    "size": "0",
+    "risk": 1,
+    "target": null,
+    "notes": "",
+    "r": 3,
+    "pnl": null
   }
 ]

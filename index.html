@@ -212,6 +212,39 @@
             margin-left: auto;
             font-size: 13px;
         }
+        .greeting-banner .github-status {
+            font-size: 11px;
+            color: var(--green);
+            background: rgba(57, 255, 140, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--green-dim);
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .greeting-banner .github-status:hover {
+            background: rgba(57, 255, 140, 0.2);
+        }
+        .greeting-banner .github-status.saving {
+            color: var(--gold);
+            border-color: var(--gold-dim);
+            animation: pulse 1s ease-in-out infinite;
+        }
+        .greeting-banner .github-status.error {
+            color: var(--red);
+            border-color: var(--red);
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
 
         .header {
             display: flex;
@@ -604,6 +637,64 @@
             font-size: 14px;
         }
 
+        /* Token input modal */
+        .token-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+        }
+        .token-modal.show {
+            display: flex;
+        }
+        .token-modal-content {
+            background: var(--surface);
+            border: 1px solid var(--gold-dim);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+        }
+        .token-modal h2 {
+            color: var(--gold);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        .token-modal p {
+            color: var(--ink-dim);
+            margin-bottom: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .token-modal input {
+            width: 100%;
+            background: var(--surface-raised);
+            border: 1px solid var(--hairline);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: var(--ink);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .token-modal input:focus {
+            border-color: var(--gold-dim);
+        }
+        .token-modal .btn-row {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .token-modal .btn-row button {
+            padding: 10px 24px;
+        }
+
         /* responsive */
         @media (max-width: 700px) {
             .row {
@@ -635,6 +726,10 @@
                 margin-left: 0;
                 width: 100%;
             }
+            .greeting-banner .github-status {
+                font-size: 10px;
+                padding: 3px 10px;
+            }
         }
         @media (max-width: 480px) {
             .row {
@@ -659,6 +754,23 @@
 </head>
 <body>
 
+    <!-- TOKEN MODAL -->
+    <div class="token-modal" id="tokenModal">
+        <div class="token-modal-content">
+            <h2>🔑 GitHub Token Required</h2>
+            <p>To auto-save your trades to GitHub, you need a Personal Access Token.</p>
+            <p style="font-size:12px;color:var(--ink-dim);">
+                Create one at: <strong style="color:var(--gold);">Settings → Developer settings → Personal access tokens → Tokens (classic)</strong><br>
+                Select <strong style="color:var(--green);">repo</strong> scope.
+            </p>
+            <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+            <div class="btn-row">
+                <button class="btn-cancel" id="tokenCancelBtn">Cancel</button>
+                <button class="btn-gold" id="tokenSaveBtn">Save Token</button>
+            </div>
+        </div>
+    </div>
+
     <!-- SPLASH SCREEN -->
     <div id="splash">
         <img id="splash-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'splash-logo\' class=\'fallback\'>EY</div>'">
@@ -681,6 +793,7 @@
             <span>👋</span>
             <span>Welcome back, <span class="greeting-name">Sir Eyob</span></span>
             <span class="greeting-quote" id="bannerQuote"></span>
+            <span class="github-status" id="githubStatus">⏳ GitHub: Loading...</span>
         </div>
 
         <!-- HEADER -->
@@ -699,6 +812,8 @@
                 <button class="btn-ghost" id="exportBtn">Export</button>
                 <button class="btn-ghost" id="importBtn">Import</button>
                 <input type="file" id="importFile" accept="application/json" style="display:none">
+                <button class="btn-ghost" id="githubTokenBtn">🔑 GitHub</button>
+                <button class="btn-ghost" id="syncBtn" style="display:none;">🔄 Sync</button>
                 <button class="btn-gold" id="toggleFormBtn">+ New Entry</button>
             </div>
         </div>
@@ -749,7 +864,7 @@
                 </div>
                 <div id="tradeRows"></div>
             </div>
-            <div class="footnote">saved to this browser · export regularly to back up</div>
+            <div class="footnote">saved to browser · auto-synced to GitHub 🔄</div>
         </div>
 
         <!-- ANALYTICS TAB -->
@@ -763,6 +878,10 @@
         // ============================================================
         const SESSIONS = ["Daily", "London", "New York", "Other"];
         const STORAGE_KEY = "trade-ledger:trades";
+        const GITHUB_REPO = "Eyobketema28/TRADE-EYOB";
+        const GITHUB_PATH = "trades.json";
+        const TOKEN_STORAGE_KEY = "trade-ledger:github-token";
+
         const COLORS = { green: "#39FF8C", red: "#FF4D6A", steel: "#55665C", hairline: "#1E2B23", inkDim: "#7C9488", gold: "#FFD700" };
 
         const QUOTES = [
@@ -801,9 +920,11 @@
         // ============================================================
         // STATE
         // ============================================================
-        let trades = loadTrades();
+        let trades = [];
         let currentTab = "journal";
         let sessionFilter = "All";
+        let githubToken = localStorage.getItem(TOKEN_STORAGE_KEY) || "";
+        let isSaving = false;
 
         function todaysQuote() {
             const start = new Date(new Date().getFullYear(), 0, 0);
@@ -818,6 +939,10 @@
 
         function saveTrades() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
+            // Auto-sync to GitHub if token exists
+            if (githubToken && githubToken.length > 10) {
+                saveToGitHub();
+            }
         }
 
         function uid() {
@@ -855,9 +980,112 @@
 
         function fmtR(r) { return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); }
 
-        function hitsTarget(r, target) {
-            if (r === null || !target) return null;
-            return r >= target;
+        // ============================================================
+        // GITHUB STORAGE
+        // ============================================================
+        function updateGithubStatus(text, type) {
+            const el = document.getElementById('githubStatus');
+            el.textContent = text;
+            el.className = 'github-status';
+            if (type === 'saving') el.classList.add('saving');
+            if (type === 'error') el.classList.add('error');
+            if (type === 'success') el.classList.add('success');
+        }
+
+        async function saveToGitHub() {
+            if (!githubToken || githubToken.length < 10) {
+                updateGithubStatus('⚠️ No token', 'error');
+                return false;
+            }
+
+            if (isSaving) return false;
+            isSaving = true;
+            updateGithubStatus('☁️ Saving...', 'saving');
+
+            try {
+                const data = JSON.stringify(trades, null, 2);
+
+                // Get current file SHA
+                const getRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+                    headers: { 'Authorization': `token ${githubToken}` }
+                });
+
+                let sha = null;
+                if (getRes.ok) {
+                    const file = await getRes.json();
+                    sha = file.sha;
+                } else if (getRes.status !== 404) {
+                    throw new Error(`GitHub error: ${getRes.status}`);
+                }
+
+                // Update or create file
+                const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${githubToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Update trades - ${new Date().toISOString().slice(0, 10)}`,
+                        content: btoa(unescape(encodeURIComponent(data))),
+                        sha: sha
+                    })
+                });
+
+                if (putRes.ok) {
+                    updateGithubStatus(`✅ Saved ${trades.length} trades`, 'success');
+                    setTimeout(() => {
+                        updateGithubStatus(`✅ GitHub: ${trades.length} trades`, 'success');
+                    }, 3000);
+                    return true;
+                } else {
+                    const err = await putRes.json();
+                    throw new Error(err.message || `Failed to save: ${putRes.status}`);
+                }
+            } catch (error) {
+                console.error('❌ GitHub save error:', error);
+                updateGithubStatus(`❌ ${error.message || 'Save failed'}`, 'error');
+                return false;
+            } finally {
+                isSaving = false;
+            }
+        }
+
+        async function loadFromGitHub() {
+            if (!githubToken || githubToken.length < 10) {
+                updateGithubStatus('⚠️ No token', 'error');
+                return false;
+            }
+
+            updateGithubStatus('☁️ Loading...', 'saving');
+
+            try {
+                const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+                    headers: { 'Authorization': `token ${githubToken}` }
+                });
+
+                if (res.ok) {
+                    const file = await res.json();
+                    const content = JSON.parse(decodeURIComponent(escape(atob(file.content))));
+                    trades = content;
+                    saveTrades();
+                    render();
+                    updateGithubStatus(`✅ Loaded ${trades.length} trades from GitHub`, 'success');
+                    setTimeout(() => {
+                        updateGithubStatus(`✅ GitHub: ${trades.length} trades`, 'success');
+                    }, 3000);
+                    return true;
+                } else if (res.status === 404) {
+                    updateGithubStatus('📁 No file on GitHub yet', 'error');
+                    return false;
+                } else {
+                    throw new Error(`GitHub error: ${res.status}`);
+                }
+            } catch (error) {
+                console.error('❌ GitHub load error:', error);
+                updateGithubStatus(`❌ ${error.message || 'Load failed'}`, 'error');
+                return false;
+            }
         }
 
         // ============================================================
@@ -920,7 +1148,6 @@
 
             const maxDD = curve.length ? Math.min(...curve.map(c => c.drawdown)) : 0;
 
-            // Target hit rate
             const withTarget = withR.filter(t => t.target !== null && t.target !== undefined && t.target > 0);
             const targetHits = withTarget.filter(t => t.r !== null && t.r >= t.target).length;
             const targetRate = withTarget.length ? (targetHits / withTarget.length) * 100 : 0;
@@ -1221,9 +1448,12 @@
             reader.onload = (ev) => {
                 try {
                     const parsed = JSON.parse(ev.target.result);
-                    if (Array.isArray(parsed)) { trades = parsed;
+                    if (Array.isArray(parsed)) {
+                        trades = parsed;
                         saveTrades();
-                        render(); } else alert("File doesn't look like a valid trades export.");
+                        render();
+                        alert(`✅ Imported ${trades.length} trades successfully!`);
+                    } else alert("File doesn't look like a valid trades export.");
                 } catch { alert("Couldn't parse that file as JSON."); }
             };
             reader.readAsText(file);
@@ -1231,9 +1461,71 @@
         });
 
         // ============================================================
+        // GITHUB UI
+        // ============================================================
+        document.getElementById("githubTokenBtn").addEventListener("click", () => {
+            document.getElementById("tokenModal").classList.add("show");
+            document.getElementById("tokenInput").value = githubToken;
+        });
+
+        document.getElementById("tokenCancelBtn").addEventListener("click", () => {
+            document.getElementById("tokenModal").classList.remove("show");
+        });
+
+        document.getElementById("tokenSaveBtn").addEventListener("click", () => {
+            const token = document.getElementById("tokenInput").value.trim();
+            if (token && token.length > 10) {
+                githubToken = token;
+                localStorage.setItem(TOKEN_STORAGE_KEY, token);
+                document.getElementById("tokenModal").classList.remove("show");
+                document.getElementById("syncBtn").style.display = "inline-block";
+                updateGithubStatus('✅ Token saved!', 'success');
+                setTimeout(() => {
+                    loadFromGitHub();
+                }, 500);
+            } else {
+                alert('Please enter a valid GitHub token (starts with ghp_)');
+            }
+        });
+
+        document.getElementById("syncBtn").addEventListener("click", () => {
+            saveToGitHub();
+        });
+
+        // Close modal on outside click
+        document.getElementById("tokenModal").addEventListener("click", (e) => {
+            if (e.target === e.currentTarget) {
+                document.getElementById("tokenModal").classList.remove("show");
+            }
+        });
+
+        // ============================================================
         // INIT
         // ============================================================
-        render();
+        async function init() {
+            // Load from localStorage first
+            trades = loadTrades();
+
+            // If token exists, try to load from GitHub
+            if (githubToken && githubToken.length > 10) {
+                document.getElementById("syncBtn").style.display = "inline-block";
+                updateGithubStatus('☁️ Loading from GitHub...', 'saving');
+                const loaded = await loadFromGitHub();
+                if (!loaded && trades.length === 0) {
+                    updateGithubStatus('📁 No data found', 'error');
+                }
+            } else {
+                if (trades.length > 0) {
+                    updateGithubStatus(`📁 Local: ${trades.length} trades`, 'success');
+                } else {
+                    updateGithubStatus('⚡ Ready', '');
+                }
+            }
+
+            render();
+        }
+
+        init();
     </script>
 </body>
 </html>

@@ -197,6 +197,7 @@
             margin-bottom: 22px;
             font-size: 15px;
             color: var(--ink-dim);
+            flex-wrap: wrap;
         }
         .greeting-banner .greeting-name {
             color: var(--gold);
@@ -222,6 +223,7 @@
             font-family: 'JetBrains Mono', monospace;
             cursor: pointer;
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
         .greeting-banner .github-status:hover {
             background: rgba(57, 255, 140, 0.2);
@@ -234,6 +236,10 @@
         .greeting-banner .github-status.error {
             color: var(--red);
             border-color: var(--red);
+        }
+        .greeting-banner .github-status.success {
+            color: var(--green);
+            border-color: var(--green);
         }
 
         @keyframes pulse {
@@ -749,6 +755,14 @@
                 font-size: 24px;
                 letter-spacing: 3px;
             }
+            .header-actions .btn-ghost {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+            .header-actions .btn-gold {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
         }
     </style>
 </head>
@@ -793,7 +807,7 @@
             <span>👋</span>
             <span>Welcome back, <span class="greeting-name">Sir Eyob</span></span>
             <span class="greeting-quote" id="bannerQuote"></span>
-            <span class="github-status" id="githubStatus">⏳ GitHub: Loading...</span>
+            <span class="github-status" id="githubStatus">⏳ Loading...</span>
         </div>
 
         <!-- HEADER -->
@@ -925,6 +939,7 @@
         let sessionFilter = "All";
         let githubToken = localStorage.getItem(TOKEN_STORAGE_KEY) || "";
         let isSaving = false;
+        let hasLoadedFromGitHub = false;
 
         function todaysQuote() {
             const start = new Date(new Date().getFullYear(), 0, 0);
@@ -939,8 +954,8 @@
 
         function saveTrades() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
-            // Auto-sync to GitHub if token exists
-            if (githubToken && githubToken.length > 10) {
+            // Auto-sync to GitHub if token exists and we've loaded from GitHub
+            if (githubToken && githubToken.length > 10 && hasLoadedFromGitHub) {
                 saveToGitHub();
             }
         }
@@ -985,6 +1000,7 @@
         // ============================================================
         function updateGithubStatus(text, type) {
             const el = document.getElementById('githubStatus');
+            if (!el) return;
             el.textContent = text;
             el.className = 'github-status';
             if (type === 'saving') el.classList.add('saving');
@@ -994,7 +1010,6 @@
 
         async function saveToGitHub() {
             if (!githubToken || githubToken.length < 10) {
-                updateGithubStatus('⚠️ No token', 'error');
                 return false;
             }
 
@@ -1007,7 +1022,10 @@
 
                 // Get current file SHA
                 const getRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
-                    headers: { 'Authorization': `token ${githubToken}` }
+                    headers: {
+                        'Authorization': `token ${githubToken}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
                 });
 
                 let sha = null;
@@ -1015,25 +1033,29 @@
                     const file = await getRes.json();
                     sha = file.sha;
                 } else if (getRes.status !== 404) {
-                    throw new Error(`GitHub error: ${getRes.status}`);
+                    const err = await getRes.json();
+                    throw new Error(err.message || `GitHub error: ${getRes.status}`);
                 }
 
-                // Update or create file
+                const content = btoa(unescape(encodeURIComponent(data)));
+
                 const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `token ${githubToken}`,
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
                     },
                     body: JSON.stringify({
                         message: `Update trades - ${new Date().toISOString().slice(0, 10)}`,
-                        content: btoa(unescape(encodeURIComponent(data))),
-                        sha: sha
+                        content: content,
+                        sha: sha,
+                        branch: 'main'
                     })
                 });
 
                 if (putRes.ok) {
-                    updateGithubStatus(`✅ Saved ${trades.length} trades`, 'success');
+                    updateGithubStatus(`✅ ${trades.length} trades saved`, 'success');
                     setTimeout(() => {
                         updateGithubStatus(`✅ GitHub: ${trades.length} trades`, 'success');
                     }, 3000);
@@ -1053,33 +1075,46 @@
 
         async function loadFromGitHub() {
             if (!githubToken || githubToken.length < 10) {
-                updateGithubStatus('⚠️ No token', 'error');
+                updateGithubStatus('⚠️ No token set', 'error');
                 return false;
             }
 
-            updateGithubStatus('☁️ Loading...', 'saving');
+            updateGithubStatus('☁️ Loading from GitHub...', 'saving');
 
             try {
                 const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
-                    headers: { 'Authorization': `token ${githubToken}` }
+                    headers: {
+                        'Authorization': `token ${githubToken}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
                 });
 
                 if (res.ok) {
                     const file = await res.json();
-                    const content = JSON.parse(decodeURIComponent(escape(atob(file.content))));
-                    trades = content;
-                    saveTrades();
-                    render();
-                    updateGithubStatus(`✅ Loaded ${trades.length} trades from GitHub`, 'success');
-                    setTimeout(() => {
-                        updateGithubStatus(`✅ GitHub: ${trades.length} trades`, 'success');
-                    }, 3000);
-                    return true;
+                    // Decode base64 content
+                    const content = JSON.parse(atob(file.content));
+
+                    if (Array.isArray(content)) {
+                        trades = content;
+                        hasLoadedFromGitHub = true;
+                        // Save to localStorage as backup
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
+                        render();
+                        updateGithubStatus(`✅ ${trades.length} trades loaded from GitHub`, 'success');
+                        setTimeout(() => {
+                            updateGithubStatus(`✅ GitHub: ${trades.length} trades`, 'success');
+                        }, 3000);
+                        return true;
+                    } else {
+                        updateGithubStatus('📁 Invalid data format', 'error');
+                        return false;
+                    }
                 } else if (res.status === 404) {
                     updateGithubStatus('📁 No file on GitHub yet', 'error');
                     return false;
                 } else {
-                    throw new Error(`GitHub error: ${res.status}`);
+                    const err = await res.json();
+                    throw new Error(err.message || `GitHub error: ${res.status}`);
                 }
             } catch (error) {
                 console.error('❌ GitHub load error:', error);
@@ -1092,7 +1127,7 @@
         // STATISTICS
         // ============================================================
         function computeStats() {
-            const withR = trades.filter(t => t.r !== null);
+            const withR = trades.filter(t => t.r !== null && t.r !== undefined);
             const wins = withR.filter(t => outcome(t.r) === "win").length;
             const losses = withR.filter(t => outcome(t.r) === "loss").length;
             const total = withR.length;
@@ -1400,12 +1435,12 @@
                 symbol: symbol.toUpperCase(),
                 direction,
                 session: document.getElementById("f-session").value,
-                entry,
-                stop,
-                exit,
-                size,
-                risk,
-                target,
+                entry: entry,
+                stop: stop,
+                exit: exit,
+                size: size || "0",
+                risk: risk,
+                target: target,
                 notes: document.getElementById("f-notes").value,
                 r: calcR(direction, entry, stop, exit),
                 pnl: calcPnl(direction, entry, exit, size),
@@ -1450,6 +1485,7 @@
                     const parsed = JSON.parse(ev.target.result);
                     if (Array.isArray(parsed)) {
                         trades = parsed;
+                        hasLoadedFromGitHub = true;
                         saveTrades();
                         render();
                         alert(`✅ Imported ${trades.length} trades successfully!`);
@@ -1489,7 +1525,11 @@
         });
 
         document.getElementById("syncBtn").addEventListener("click", () => {
-            saveToGitHub();
+            if (trades.length > 0) {
+                saveToGitHub();
+            } else {
+                loadFromGitHub();
+            }
         });
 
         // Close modal on outside click
@@ -1500,31 +1540,43 @@
         });
 
         // ============================================================
-        // INIT
+        // INIT - Load from GitHub FIRST, then fallback to localStorage
         // ============================================================
         async function init() {
-            // Load from localStorage first
-            trades = loadTrades();
-
-            // If token exists, try to load from GitHub
+            // Check if token exists
             if (githubToken && githubToken.length > 10) {
                 document.getElementById("syncBtn").style.display = "inline-block";
                 updateGithubStatus('☁️ Loading from GitHub...', 'saving');
+
+                // Try to load from GitHub FIRST
                 const loaded = await loadFromGitHub();
-                if (!loaded && trades.length === 0) {
+
+                if (loaded) {
+                    // Successfully loaded from GitHub
+                    return;
+                }
+
+                // GitHub failed, fallback to localStorage
+                trades = loadTrades();
+                if (trades.length > 0) {
+                    updateGithubStatus(`📁 Local: ${trades.length} trades`, 'success');
+                } else {
                     updateGithubStatus('📁 No data found', 'error');
                 }
+                render();
             } else {
+                // No token, use localStorage only
+                trades = loadTrades();
                 if (trades.length > 0) {
                     updateGithubStatus(`📁 Local: ${trades.length} trades`, 'success');
                 } else {
                     updateGithubStatus('⚡ Ready', '');
                 }
+                render();
             }
-
-            render();
         }
 
+        // Start the app
         init();
     </script>
 </body>

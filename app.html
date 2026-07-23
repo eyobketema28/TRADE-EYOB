@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome Sir Eyob · Trade Ledger</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        :root {
+            --bg: #050807;
+            --surface: #0B100D;
+            --surface-raised: #121A15;
+            --hairline: #1E2B23;
+            --ink: #F2F6F3;
+            --ink-dim: #7C9488;
+            --green: #39FF8C;
+            --green-dim: #1C6B42;
+            --red: #FF4D6A;
+            --steel: #55665C;
+            --gold: #FFD700;
+            --gold-dim: #B8860B;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            background-image:
+                linear-gradient(rgba(57, 255, 140, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 255, 140, 0.035) 1px, transparent 1px);
+            background-size: 34px 34px;
+            padding: 0 0 40px 0;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .display {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 28px 24px 40px;
+        }
+
+        /* ---------- SPLASH ---------- */
+        #splash {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: radial-gradient(circle at 50% 30%, rgba(57, 255, 140, 0.12), var(--bg) 80%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+            backdrop-filter: blur(3px);
+        }
+        #splash.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        #splash-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 24px;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.2));
+            animation: pulse-gold 2.5s ease-in-out infinite;
+        }
+        #splash-logo.fallback {
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            color: var(--gold);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        @keyframes pulse-gold {
+            0%,
+            100% {
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.1));
+            }
+            50% {
+                filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.25));
+            }
+        }
+
+        #splash-title {
+            font-size: 46px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(57, 255, 140, 0.2);
+        }
+        #splash-title .gold {
+            color: var(--gold);
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+        #splash-title .green {
+            color: var(--green);
+        }
+        #splash-sub {
+            color: var(--ink-dim);
+            font-size: 16px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 6px;
+            margin-bottom: 28px;
+        }
+        #splash-sub .highlight {
+            color: var(--gold);
+        }
+
+        #splash-quote-box {
+            max-width: 540px;
+            border: 1px solid var(--hairline);
+            border-radius: 16px;
+            background: rgba(18, 26, 21, 0.7);
+            padding: 26px 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(8px);
+            border-left: 3px solid var(--gold);
+        }
+        #splash-quote {
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 1.6;
+            color: var(--ink);
+            font-style: italic;
+        }
+        #splash-quote::before {
+            content: "“";
+            color: var(--gold);
+            font-size: 26px;
+        }
+        #splash-quote::after {
+            content: "”";
+            color: var(--gold);
+            font-size: 26px;
+        }
+        #splash-date {
+            margin-top: 14px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        #enterBtn {
+            background: transparent;
+            color: var(--gold);
+            border: 1.5px solid var(--gold);
+            border-radius: 40px;
+            padding: 14px 48px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #enterBtn:hover {
+            background: var(--gold);
+            color: #041008;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.4);
+            transform: scale(1.03);
+        }
+
+        /* ---------- APP ---------- */
+        .greeting-banner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid var(--hairline);
+            border-left: 4px solid var(--gold);
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 12px 20px;
+            margin-bottom: 22px;
+            font-size: 15px;
+            color: var(--ink-dim);
+        }
+        .greeting-banner .greeting-name {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 18px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+        .greeting-banner .greeting-quote {
+            color: var(--ink-dim);
+            font-style: italic;
+            margin-left: auto;
+            font-size: 13px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        #app-logo {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.15));
+        }
+        #app-logo.fallback {
+            border-radius: 50%;
+            border: 1.5px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+            background: rgba(255, 215, 0, 0.04);
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .title .gold {
+            color: var(--gold);
+        }
+        .title .green {
+            color: var(--green);
+        }
+        .subtitle {
+            color: var(--ink-dim);
+            font-size: 13px;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+        }
+        .subtitle .highlight {
+            color: var(--gold);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            font-family: 'Rajdhani', sans-serif;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            padding: 9px 18px;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+        }
+        .btn-ghost {
+            background: var(--surface-raised);
+            color: var(--ink-dim);
+            border: 1px solid var(--hairline);
+            font-weight: 500;
+            padding: 8px 14px;
+            font-size: 12.5px;
+        }
+        .btn-ghost:hover {
+            border-color: var(--gold-dim);
+            color: var(--gold);
+        }
+        .btn-gold {
+            background: var(--gold);
+            color: #041008;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+            font-weight: 700;
+        }
+        .btn-gold:hover {
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            transform: scale(1.02);
+        }
+        .btn-green {
+            background: var(--green);
+            color: #041008;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            box-shadow: 0 0 18px rgba(57, 255, 140, 0.2);
+        }
+        .btn-green:hover {
+            box-shadow: 0 0 32px rgba(57, 255, 140, 0.4);
+            transform: scale(1.01);
+        }
+        .btn-cancel {
+            background: var(--surface-raised);
+            color: var(--ink);
+            border: 1px solid var(--hairline);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--hairline);
+        }
+        .tab {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 6px 10px;
+            margin-right: 28px;
+            color: var(--ink-dim);
+            border-bottom: 3px solid transparent;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            transition: all 0.2s ease;
+        }
+        .tab.active {
+            color: var(--gold);
+            border-bottom: 3px solid var(--gold);
+        }
+        .tab:hover {
+            color: var(--gold);
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 1px;
+            background: var(--hairline);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid var(--hairline);
+        }
+        .stat-cell {
+            background: var(--surface);
+            padding: 14px 16px;
+        }
+        .stat-label {
+            font-size: 10px;
+            color: var(--ink-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 4px;
+        }
+        .stat-value {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .tone-green {
+            color: var(--green);
+            text-shadow: 0 0 12px rgba(57, 255, 140, 0.3);
+        }
+        .tone-red {
+            color: var(--red);
+        }
+        .tone-gold {
+            color: var(--gold);
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+        }
+
+        form.entry-form {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 11px;
+            color: var(--ink-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .field input,
+        .field select,
+        .field textarea {
+            background: var(--surface-raised);
+            border: 1px solid var(--hairline);
+            border-radius: 8px;
+            padding: 8px 10px;
+            color: var(--ink);
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            transition: border 0.2s ease;
+        }
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--gold-dim);
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
+        }
+        .field textarea {
+            font-family: 'Rajdhani', sans-serif;
+            resize: vertical;
+        }
+        .form-full {
+            grid-column: 1 / -1;
+        }
+        .form-submit-row {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .chart-box {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: 12px;
+            padding: 12px 6px 6px;
+            margin-bottom: 20px;
+            height: 150px;
+        }
+        .chart-empty {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ink-dim);
+            font-size: 14px;
+        }
+
+        .session-filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .chip {
+            background: transparent;
+            color: var(--ink-dim);
+            border: 1px solid var(--hairline);
+            border-radius: 30px;
+            padding: 5px 16px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            transition: all 0.2s ease;
+        }
+        .chip.active {
+            background: var(--surface-raised);
+            color: var(--gold);
+            border-color: var(--gold-dim);
+        }
+        .chip:hover {
+            border-color: var(--gold-dim);
+            color: var(--gold);
+        }
+
+        .table-box {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .row {
+            display: grid;
+            grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px;
+            gap: 8px;
+            padding: 10px 16px;
+            align-items: center;
+            border-bottom: 1px solid var(--hairline);
+            font-size: 12.5px;
+            transition: background 0.15s ease;
+        }
+        .row:hover {
+            background: rgba(255, 215, 0, 0.03);
+        }
+        .row-head {
+            font-size: 10.5px;
+            color: var(--ink-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 8px 16px;
+        }
+        .row-empty {
+            padding: 28px;
+            text-align: center;
+            color: var(--ink-dim);
+            font-size: 14px;
+            grid-column: 1 / -1;
+        }
+        .stamp {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .stamp-win {
+            background: var(--green);
+            box-shadow: 0 0 10px rgba(57, 255, 140, 0.6);
+        }
+        .stamp-loss {
+            border: 2px solid var(--red);
+            background: transparent;
+        }
+        .stamp-flat {
+            width: 10px;
+            height: 2px;
+            border-radius: 2px;
+            background: var(--steel);
+        }
+        .del-btn {
+            background: none;
+            border: none;
+            color: var(--ink-dim);
+            cursor: pointer;
+            padding: 4px;
+            font-size: 16px;
+            transition: color 0.2s ease;
+        }
+        .del-btn:hover {
+            color: var(--red);
+        }
+        .notes-cell {
+            color: var(--ink-dim);
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .footnote {
+            margin-top: 12px;
+            font-size: 11px;
+            color: var(--ink-dim);
+            text-align: right;
+            letter-spacing: 0.6px;
+        }
+
+        .analytics-grid {
+            display: grid;
+            gap: 20px;
+        }
+        .chart-card {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: 14px;
+            padding: 14px 10px 10px;
+            transition: border-color 0.2s ease;
+        }
+        .chart-card:hover {
+            border-color: var(--gold-dim);
+        }
+        .chart-card-title {
+            font-size: 12px;
+            color: var(--ink-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
+            padding-left: 8px;
+        }
+        .chart-card-body {
+            height: 160px;
+        }
+
+        .empty-analytics {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: 14px;
+            padding: 48px;
+            text-align: center;
+            color: var(--ink-dim);
+            font-size: 14px;
+        }
+
+        /* responsive */
+        @media (max-width: 700px) {
+            .row {
+                grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px;
+                gap: 4px;
+                font-size: 11px;
+                padding: 8px 10px;
+            }
+            .row-head {
+                font-size: 9px;
+                padding: 6px 10px;
+            }
+            .title {
+                font-size: 18px;
+            }
+            #splash-title {
+                font-size: 30px;
+            }
+            #splash-quote {
+                font-size: 17px;
+            }
+            form.entry-form {
+                grid-template-columns: 1fr 1fr;
+            }
+            .greeting-banner {
+                flex-wrap: wrap;
+            }
+            .greeting-banner .greeting-quote {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+        @media (max-width: 480px) {
+            .row {
+                grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px;
+                gap: 3px;
+                font-size: 10px;
+                padding: 6px 6px;
+            }
+            .row-head {
+                font-size: 8px;
+                padding: 4px 6px;
+            }
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+            }
+            #splash-title {
+                font-size: 24px;
+                letter-spacing: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SPLASH SCREEN -->
+    <div id="splash">
+        <img id="splash-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'splash-logo\' class=\'fallback\'>EY</div>'">
+        <div id="splash-title">
+            WELCOME <span class="gold">SIR</span> <span class="green">EYOB</span>
+        </div>
+        <div id="splash-sub">discipline is the <span class="highlight">edge</span></div>
+        <div id="splash-quote-box">
+            <div id="splash-quote"></div>
+            <div id="splash-date"></div>
+        </div>
+        <button id="enterBtn">Enter</button>
+    </div>
+
+    <!-- MAIN APP -->
+    <div class="wrap">
+
+        <!-- GREETING BANNER -->
+        <div class="greeting-banner">
+            <span>👋</span>
+            <span>Welcome back, <span class="greeting-name">Sir Eyob</span></span>
+            <span class="greeting-quote" id="bannerQuote"></span>
+        </div>
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="brand">
+                <img id="app-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'app-logo\' class=\'fallback\'>EY</div>'">
+                <div>
+                    <div class="title">
+                        <span class="gold">SIR</span> <span class="green">EYOB</span>
+                        <span style="color:var(--ink-dim);font-size:14px;letter-spacing:1px;">· LEDGER</span>
+                    </div>
+                    <div class="subtitle">a running record of every <span class="highlight">position</span></div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-ghost" id="exportBtn">Export</button>
+                <button class="btn-ghost" id="importBtn">Import</button>
+                <input type="file" id="importFile" accept="application/json" style="display:none">
+                <button class="btn-gold" id="toggleFormBtn">+ New Entry</button>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" data-tab="journal">Journal</button>
+            <button class="tab" data-tab="analytics">Analytics</button>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-row" id="statsRow"></div>
+
+        <!-- ENTRY FORM -->
+        <form class="entry-form" id="entryForm" style="display:none;">
+            <label class="field">Date<input type="date" id="f-date"></label>
+            <label class="field">Symbol<input type="text" id="f-symbol" placeholder="EURUSD" required></label>
+            <label class="field">Direction
+                <select id="f-direction"><option>Long</option><option>Short</option></select>
+            </label>
+            <label class="field">Session
+                <select id="f-session">
+                    <option>Daily</option><option selected>New York</option><option>London</option><option>Other</option>
+                </select>
+            </label>
+            <label class="field">Entry<input type="number" step="any" id="f-entry" required></label>
+            <label class="field">Stop<input type="number" step="any" id="f-stop" required></label>
+            <label class="field">Exit<input type="number" step="any" id="f-exit" required></label>
+            <label class="field">Size (optional)<input type="number" step="any" id="f-size" placeholder="units"></label>
+            <label class="field">Risk % <span style="font-weight:400;font-size:10px;color:var(--ink-dim);">(per trade)</span>
+                <input type="number" step="0.1" id="f-risk" placeholder="1.0" value="1.0">
+            </label>
+            <label class="field">Target R:R <span style="font-weight:400;font-size:10px;color:var(--ink-dim);">(optional)</span>
+                <input type="number" step="0.1" id="f-target" placeholder="2.0">
+            </label>
+            <label class="field form-full">Notes<textarea id="f-notes" rows="2" placeholder="Setup quality, emotions, lessons learned..."></textarea></label>
+            <div class="form-submit-row"><button type="submit" class="btn-gold">Log Trade</button></div>
+        </form>
+
+        <!-- JOURNAL TAB -->
+        <div id="journalTab">
+            <div class="chart-box" id="equityChart"></div>
+            <div class="session-filters" id="sessionFilters"></div>
+            <div class="table-box">
+                <div class="row row-head">
+                    <span></span><span>Date</span><span>Symbol</span><span>Dir</span><span>Session</span>
+                    <span>Entry</span><span>Stop</span><span>Exit</span><span>R</span><span>P&amp;L</span><span>Notes</span><span></span>
+                </div>
+                <div id="tradeRows"></div>
+            </div>
+            <div class="footnote">saved to this browser · export regularly to back up</div>
+        </div>
+
+        <!-- ANALYTICS TAB -->
+        <div id="analyticsTab" style="display:none;"></div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // CONFIG
+        // ============================================================
+        const SESSIONS = ["Daily", "London", "New York", "Other"];
+        const STORAGE_KEY = "trade-ledger:trades";
+        const COLORS = { green: "#39FF8C", red: "#FF4D6A", steel: "#55665C", hairline: "#1E2B23", inkDim: "#7C9488", gold: "#FFD700" };
+
+        const QUOTES = [
+            "What you focus on expands. Trade the setup in front of you, not the one in your head.",
+            "Energy flows where attention goes. Give your losses less of it than your process.",
+            "The market mirrors the trader. Calm charts, calm mind.",
+            "You don't rise to the level of your goals, you fall to the level of your discipline.",
+            "Abundance is a habit before it's a number in an account.",
+            "Every green candle you missed taught you something red couldn't.",
+            "Patience compounds faster than leverage.",
+            "You attract the trades that match the state you enter the session in.",
+            "A quiet mind sees the chart clearly. A loud one sees what it fears.",
+            "Discipline today writes the equity curve of tomorrow.",
+            "The trade you didn't take can teach as much as the one you did.",
+            "Consistency is a magnet. Chaos repels good decisions.",
+            "Trust the process publicly, refine it privately.",
+            "Your next winning streak starts with the next disciplined loss.",
+            "Certainty is not required to act with conviction.",
+            "What you tolerate in your trading, you will keep attracting.",
+            "Small, repeatable edges beat big, unrepeatable wins.",
+            "The chart doesn't owe you anything. Neither does the outcome you're chasing.",
+            "Visualize the process, not just the profit.",
+            "Every entry is a vote for the trader you're becoming.",
+            "Gratitude for the account you have attracts the growth you want.",
+            "Losses are tuition, not verdicts.",
+            "Alignment beats intensity. Show up the same way every session.",
+            "The market rewards patience it never announces in advance.",
+            "You are not your last trade.",
+            "Clarity of intention precedes clarity of execution.",
+            "Protect your capital like it protects your future.",
+            "What you repeat, you become. Repeat the plan, not the panic.",
+            "Confidence is built one respected stop-loss at a time.",
+            "The version of you that journals is the version that improves.",
+        ];
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let trades = loadTrades();
+        let currentTab = "journal";
+        let sessionFilter = "All";
+
+        function todaysQuote() {
+            const start = new Date(new Date().getFullYear(), 0, 0);
+            const diff = new Date() - start;
+            const dayOfYear = Math.floor(diff / 86400000);
+            return QUOTES[dayOfYear % QUOTES.length];
+        }
+
+        function loadTrades() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+        }
+
+        function saveTrades() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
+        }
+
+        function uid() {
+            return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+        }
+
+        // ============================================================
+        // CALCULATIONS
+        // ============================================================
+        function calcR(direction, entry, stop, exit) {
+            const e = parseFloat(entry),
+                s = parseFloat(stop),
+                x = parseFloat(exit);
+            if ([e, s, x].some(v => isNaN(v))) return null;
+            const risk = Math.abs(e - s);
+            if (risk === 0) return null;
+            const reward = direction === "Long" ? x - e : e - x;
+            return reward / risk;
+        }
+
+        function calcPnl(direction, entry, exit, size) {
+            const e = parseFloat(entry),
+                x = parseFloat(exit),
+                sz = parseFloat(size);
+            if ([e, x, sz].some(v => isNaN(v)) || sz <= 0) return null;
+            return direction === "Long" ? (x - e) * sz : (e - x) * sz;
+        }
+
+        function outcome(r) {
+            if (r === null) return "flat";
+            if (r > 0.05) return "win";
+            if (r < -0.05) return "loss";
+            return "flat";
+        }
+
+        function fmtR(r) { return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); }
+
+        function hitsTarget(r, target) {
+            if (r === null || !target) return null;
+            return r >= target;
+        }
+
+        // ============================================================
+        // STATISTICS
+        // ============================================================
+        function computeStats() {
+            const withR = trades.filter(t => t.r !== null);
+            const wins = withR.filter(t => outcome(t.r) === "win").length;
+            const losses = withR.filter(t => outcome(t.r) === "loss").length;
+            const total = withR.length;
+            const winRate = wins + losses ? (wins / (wins + losses)) * 100 : 0;
+            const totalR = withR.reduce((s, t) => s + t.r, 0);
+            const avgR = total ? totalR / total : 0;
+            const avgWin = wins ? withR.filter(t => outcome(t.r) === "win").reduce((s, t) => s + t.r, 0) / wins : 0;
+            const avgLoss = losses ? withR.filter(t => outcome(t.r) === "loss").reduce((s, t) => s + t.r, 0) / losses : 0;
+            const expectancy = total ? (winRate / 100) * avgWin + (1 - winRate / 100) * avgLoss : 0;
+
+            let streak = 0,
+                streakType = null;
+            for (let i = withR.length - 1; i >= 0; i--) {
+                const o = outcome(withR[i].r);
+                if (o === "flat") break;
+                if (streakType === null) { streakType = o;
+                    streak = 1; } else if (o === streakType) streak++;
+                else break;
+            }
+
+            let cum = 0,
+                peak = 0;
+            const curve = withR.map((t, i) => {
+                cum += t.r;
+                peak = Math.max(peak, cum);
+                return { i: i + 1, cum: +cum.toFixed(2), drawdown: +(cum - peak).toFixed(2) };
+            });
+
+            const bySession = SESSIONS.map(s => {
+                const rows = withR.filter(t => t.session === s);
+                const rSum = rows.reduce((sum, t) => sum + t.r, 0);
+                return { label: s, value: +rSum.toFixed(2), count: rows.length };
+            }).filter(s => s.count > 0);
+
+            const monthMap = {};
+            withR.forEach(t => { const m = t.date.slice(0, 7);
+                monthMap[m] = (monthMap[m] || 0) + t.r; });
+            const byMonth = Object.keys(monthMap).sort().map(m => ({ label: m.slice(5), value: +monthMap[m].toFixed(2) }));
+
+            const buckets = [
+                { label: "<-2R", min: -Infinity, max: -2 },
+                { label: "-2..-1R", min: -2, max: -1 },
+                { label: "-1..0R", min: -1, max: 0 },
+                { label: "0..1R", min: 0, max: 1 },
+                { label: "1..2R", min: 1, max: 2 },
+                { label: "2..3R", min: 2, max: 3 },
+                { label: ">3R", min: 3, max: Infinity },
+            ];
+            const histogram = buckets.map(b => ({
+                label: b.label,
+                value: withR.filter(t => t.r >= b.min && t.r < b.max).length,
+            }));
+
+            const maxDD = curve.length ? Math.min(...curve.map(c => c.drawdown)) : 0;
+
+            // Target hit rate
+            const withTarget = withR.filter(t => t.target !== null && t.target !== undefined && t.target > 0);
+            const targetHits = withTarget.filter(t => t.r !== null && t.r >= t.target).length;
+            const targetRate = withTarget.length ? (targetHits / withTarget.length) * 100 : 0;
+
+            return {
+                total,
+                winRate,
+                avgR,
+                totalR,
+                expectancy,
+                streak,
+                streakType,
+                curve,
+                bySession,
+                byMonth,
+                histogram,
+                maxDD,
+                targetRate,
+                withTargetCount: withTarget.length
+            };
+        }
+
+        // ============================================================
+        // SVG CHARTS
+        // ============================================================
+        function svgLineChart(data, opts) {
+            const w = 600,
+                h = opts.height || 130,
+                pad = 10;
+            if (data.length < 2) return `<div class="chart-empty">need more data</div>`;
+            const vals = data.map(d => d.value);
+            const min = Math.min(0, ...vals),
+                max = Math.max(0, ...vals);
+            const range = max - min || 1;
+            const x = i => pad + (i / (data.length - 1)) * (w - pad * 2);
+            const y = v => h - pad - ((v - min) / range) * (h - pad * 2);
+            const zeroY = y(0);
+            const points = data.map((d, i) => `${x(i)},${y(d.value)}`).join(" ");
+            let fillPath = "";
+            if (opts.fill) {
+                const first = x(0),
+                    last = x(data.length - 1);
+                fillPath =
+                    `<polygon points="${first},${zeroY} ${points} ${last},${zeroY}" fill="${opts.fill}" opacity="0.15"/>`;
+            }
+            return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" preserveAspectRatio="none">
+            <line x1="${pad}" y1="${zeroY}" x2="${w - pad}" y2="${zeroY}" stroke="${COLORS.hairline}" stroke-dasharray="4,4"/>
+            ${fillPath}
+            <polyline points="${points}" fill="none" stroke="${opts.stroke}" stroke-width="2.5" vector-effect="non-scaling-stroke" style="filter: drop-shadow(0 0 8px ${opts.stroke}66)"/>
+          </svg>`;
+        }
+
+        function svgBarChart(data) {
+            const w = 600,
+                h = 150,
+                pad = 8,
+                gap = 8;
+            if (!data.length) return `<div class="chart-empty">no data</div>`;
+            const vals = data.map(d => d.value);
+            const min = Math.min(0, ...vals),
+                max = Math.max(0, ...vals);
+            const range = (max - min) || 1;
+            const barW = Math.min((w - pad * 2 - gap * (data.length - 1)) / data.length, 50);
+            const zeroY = h - 24 - ((0 - min) / range) * (h - 24 - pad);
+            let bars = "",
+                labels = "";
+            data.forEach((d, i) => {
+                const bx = pad + i * (barW + gap);
+                const by = h - 24 - ((d.value - min) / range) * (h - 24 - pad);
+                const barTop = Math.min(by, zeroY);
+                const barH = Math.abs(by - zeroY);
+                const color = d.value >= 0 ? COLORS.green : COLORS.red;
+                bars += `<rect x="${bx}" y="${barTop}" width="${barW}" height="${Math.max(barH, 1)}" fill="${color}" rx="3"/>`;
+                labels +=
+                    `<text x="${bx + barW / 2}" y="${h - 6}" font-size="9" fill="${COLORS.inkDim}" text-anchor="middle" font-family="Rajdhani, sans-serif">${d.label}</text>`;
+            });
+            return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" preserveAspectRatio="none">
+            <line x1="${pad}" y1="${zeroY}" x2="${w - pad}" y2="${zeroY}" stroke="${COLORS.hairline}"/>
+            ${bars}${labels}
+          </svg>`;
+        }
+
+        // ============================================================
+        // RENDER
+        // ============================================================
+        function render() {
+            renderStats();
+            renderTabs();
+            if (currentTab === "journal") {
+                document.getElementById("journalTab").style.display = "";
+                document.getElementById("analyticsTab").style.display = "none";
+                renderEquityChart();
+                renderSessionFilters();
+                renderTable();
+            } else {
+                document.getElementById("journalTab").style.display = "none";
+                document.getElementById("analyticsTab").style.display = "";
+                renderAnalytics();
+            }
+        }
+
+        function renderTabs() {
+            document.querySelectorAll(".tab").forEach(el => {
+                el.classList.toggle("active", el.dataset.tab === currentTab);
+            });
+        }
+
+        function renderStats() {
+            const s = computeStats();
+            const cell = (label, value, tone) => `
+            <div class="stat-cell">
+              <div class="stat-label">${label}</div>
+              <div class="stat-value mono ${tone ? 'tone-' + tone : ''}">${value}</div>
+            </div>`;
+            const html = [
+                cell("Win Rate", s.total ? s.winRate.toFixed(0) + "%" : "—"),
+                cell("Avg R", s.total ? fmtR(s.avgR) + "R" : "—", s.avgR > 0 ? "green" : s.avgR < 0 ? "red" : ""),
+                cell("Total R", s.total ? fmtR(s.totalR) + "R" : "—", s.totalR > 0 ? "green" : s.totalR < 0 ? "red" : ""),
+                cell("Expectancy", s.total ? fmtR(s.expectancy) + "R" : "—", s.expectancy > 0 ? "green" : s.expectancy <
+                    0 ? "red" : ""),
+                cell("Max DD", s.total ? s.maxDD.toFixed(2) + "R" : "—", s.maxDD < 0 ? "red" : ""),
+                cell("Streak", s.streak ? s.streak + " " + (s.streakType === "win" ? "W" : "L") : "—", s.streakType ===
+                    "win" ? "green" : s.streakType === "loss" ? "red" : ""),
+                cell("Target Hit%", s.withTargetCount ? s.targetRate.toFixed(0) + "%" : "—", s.targetRate > 50 ? "gold" :
+                    ""),
+            ].join("");
+            document.getElementById("statsRow").innerHTML = html;
+        }
+
+        function renderEquityChart() {
+            const s = computeStats();
+            const el = document.getElementById("equityChart");
+            if (s.curve.length > 1) {
+                el.innerHTML = svgLineChart(s.curve.map(c => ({ value: c.cum })), { stroke: COLORS.gold, fill: COLORS
+                        .gold });
+            } else {
+                el.innerHTML = `<div class="chart-empty">Log a couple of trades to see your equity curve</div>`;
+            }
+        }
+
+        function renderSessionFilters() {
+            const el = document.getElementById("sessionFilters");
+            const opts = ["All", ...SESSIONS];
+            el.innerHTML = opts.map(s =>
+                `<button class="chip ${sessionFilter === s ? 'active' : ''}" data-session="${s}">${s}</button>`
+            ).join("");
+            el.querySelectorAll(".chip").forEach(btn => {
+                btn.addEventListener("click", () => { sessionFilter = btn.dataset.session;
+                    render(); });
+            });
+        }
+
+        function renderTable() {
+            const filtered = sessionFilter === "All" ? trades : trades.filter(t => t.session === sessionFilter);
+            const rowsEl = document.getElementById("tradeRows");
+            if (filtered.length === 0) {
+                rowsEl.innerHTML = `<div class="row"><div class="row-empty">No trades logged yet. Add your first entry above.</div></div>`;
+                return;
+            }
+            rowsEl.innerHTML = [...filtered].reverse().map(t => {
+                const o = outcome(t.r);
+                const stampClass = o === "win" ? "stamp-win" : o === "loss" ? "stamp-loss" : "stamp-flat";
+                const tone = o === "win" ? "tone-green" : o === "loss" ? "tone-red" : "";
+                const dirColor = t.direction === "Long" ? "tone-green" : "tone-red";
+                const targetHit = t.target && t.r !== null && t.r >= t.target;
+                const targetBadge = targetHit ? '🎯' : '';
+                return `<div class="row mono">
+              <span class="stamp ${stampClass}"></span>
+              <span style="color:var(--ink-dim)">${t.date}</span>
+              <span style="font-weight:600">${t.symbol}</span>
+              <span class="${dirColor}">${t.direction}</span>
+              <span style="color:var(--ink-dim);font-family:Rajdhani,sans-serif">${t.session}</span>
+              <span>${t.entry}</span><span>${t.stop}</span><span>${t.exit}</span>
+              <span class="${tone}">${fmtR(t.r)} ${targetBadge}</span>
+              <span class="${tone}">${t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—"}</span>
+              <span class="notes-cell">${(t.notes || "").replace(/</g, "&lt;")}</span>
+              <button class="del-btn" data-id="${t.id}">✕</button>
+            </div>`;
+            }).join("");
+            rowsEl.querySelectorAll(".del-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    trades = trades.filter(t => t.id !== btn.dataset.id);
+                    saveTrades();
+                    render();
+                });
+            });
+        }
+
+        function renderAnalytics() {
+            const s = computeStats();
+            const el = document.getElementById("analyticsTab");
+            if (s.total < 2) {
+                el.innerHTML = `<div class="empty-analytics">Log a few more trades to unlock analytics.</div>`;
+                return;
+            }
+            const card = (title, svg) => `
+            <div class="chart-card">
+              <div class="chart-card-title">${title}</div>
+              <div class="chart-card-body">${svg}</div>
+            </div>`;
+            el.innerHTML = `<div class="analytics-grid">
+            ${card("Drawdown (R)", svgLineChart(s.curve.map(c => ({ value: c.drawdown })), { stroke: COLORS.red, fill: COLORS.red }))}
+            ${card("Performance by Session", svgBarChart(s.bySession))}
+            ${card("Monthly R", svgBarChart(s.byMonth))}
+            ${card("R-Multiple Distribution", svgBarChart(s.histogram))}
+          </div>`;
+        }
+
+        // ============================================================
+        // SPLASH
+        // ============================================================
+        const quoteText = todaysQuote();
+        document.getElementById("splash-quote").textContent = quoteText;
+        document.getElementById("bannerQuote").textContent = quoteText;
+        document.getElementById("splash-date").textContent = new Date().toLocaleDateString(undefined, { weekday: 'long',
+            year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById("enterBtn").addEventListener("click", () => {
+            document.getElementById("splash").classList.add("hidden");
+        });
+
+        // ============================================================
+        // FORM
+        // ============================================================
+        document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
+
+        document.getElementById("toggleFormBtn").addEventListener("click", () => {
+            const form = document.getElementById("entryForm");
+            const btn = document.getElementById("toggleFormBtn");
+            const isOpen = form.style.display !== "none";
+            form.style.display = isOpen ? "none" : "grid";
+            btn.textContent = isOpen ? "+ New Entry" : "Cancel";
+            btn.className = isOpen ? "btn-gold" : "btn-cancel";
+        });
+
+        document.getElementById("entryForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const symbol = document.getElementById("f-symbol").value.trim();
+            const entry = document.getElementById("f-entry").value;
+            const stop = document.getElementById("f-stop").value;
+            const exit = document.getElementById("f-exit").value;
+            if (!symbol || !entry || !stop || !exit) return;
+            const direction = document.getElementById("f-direction").value;
+            const size = document.getElementById("f-size").value;
+            const risk = parseFloat(document.getElementById("f-risk").value) || null;
+            const target = parseFloat(document.getElementById("f-target").value) || null;
+
+            const trade = {
+                id: uid(),
+                date: document.getElementById("f-date").value,
+                symbol: symbol.toUpperCase(),
+                direction,
+                session: document.getElementById("f-session").value,
+                entry,
+                stop,
+                exit,
+                size,
+                risk,
+                target,
+                notes: document.getElementById("f-notes").value,
+                r: calcR(direction, entry, stop, exit),
+                pnl: calcPnl(direction, entry, exit, size),
+            };
+            trades.push(trade);
+            trades.sort((a, b) => a.date.localeCompare(b.date));
+            saveTrades();
+            e.target.reset();
+            document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
+            document.getElementById("f-risk").value = "1.0";
+            document.getElementById("entryForm").style.display = "none";
+            const btn = document.getElementById("toggleFormBtn");
+            btn.textContent = "+ New Entry";
+            btn.className = "btn-gold";
+            render();
+        });
+
+        document.querySelectorAll(".tab").forEach(el => {
+            el.addEventListener("click", () => { currentTab = el.dataset.tab;
+                render(); });
+        });
+
+        document.getElementById("exportBtn").addEventListener("click", () => {
+            const blob = new Blob([JSON.stringify(trades, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `trades-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById("importBtn").addEventListener("click", () => {
+            document.getElementById("importFile").click();
+        });
+        document.getElementById("importFile").addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try {
+                    const parsed = JSON.parse(ev.target.result);
+                    if (Array.isArray(parsed)) { trades = parsed;
+                        saveTrades();
+                        render(); } else alert("File doesn't look like a valid trades export.");
+                } catch { alert("Couldn't parse that file as JSON."); }
+            };
+            reader.readAsText(file);
+            e.target.value = "";
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        render();
+    </script>
+</body>
+</html>

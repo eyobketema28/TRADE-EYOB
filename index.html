@@ -9,23 +9,15 @@
     <meta name="application-name" content="Sir Eyob Ledger" />
     <meta name="theme-color" content="#000000" />
     <meta name="msapplication-TileColor" content="#000000" />
-    <meta name="msapplication-TileImage" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000000'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' fill='%23FFFFFF'>EY</text></svg>" />
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000000'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='50' cy='50' r='45' fill='none' stroke='%23FFFFFF' stroke-width='2'/></svg>" />
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23000000'/><text x='90' y='122' font-size='86' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='90' cy='90' r='80' fill='none' stroke='%23FFFFFF' stroke-width='3'/></svg>" />
-    <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='38' fill='%23000000'/><text x='96' y='130' font-size='92' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='96' cy='96' r='85' fill='none' stroke='%23FFFFFF' stroke-width='3'/></svg>" />
-    <link rel="icon" type="image/png" sizes="512x512" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23000000'/><text x='256' y='346' font-size='246' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='256' cy='256' r='226' fill='none' stroke='%23FFFFFF' stroke-width='4'/></svg>" />
 
     <title>Sir Eyob · Trade Ledger</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
             --bg: #000000;
             --bg-card: #080808;
@@ -37,874 +29,168 @@
             --text-dim: #666666;
             --text-muted: #444444;
             --green: #00FF88;
-            --green-dim: #008844;
             --red: #FF3355;
-            --red-dim: #881122;
-            --mt5-blue: #0088FF;
             --shadow: 0 8px 32px rgba(0,0,0,0.9);
         }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Rajdhani', sans-serif;
-            min-height: 100vh;
-            background-image: 
-                radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.015) 0%, transparent 70%);
-            padding: 0 0 40px 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-light);
-            border-radius: 2px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-dim);
-        }
-
+        body { background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; min-height: 100vh; padding: 0 0 40px 0; -webkit-tap-highlight-color: transparent; }
         .mono { font-family: 'JetBrains Mono', monospace; }
         .display { font-family: 'Orbitron', sans-serif; }
+        .wrap { max-width: 1200px; margin: 0 auto; padding: 20px 24px 40px; }
 
-        .wrap {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px 24px 40px;
-        }
+        /* Splash */
+        #splash { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
+        #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #splash-logo { width: 120px; height: 120px; object-fit: contain; margin-bottom: 30px; filter: drop-shadow(0 0 60px rgba(255,255,255,0.05)); animation: pulse-white 3s ease-in-out infinite; }
+        #splash-logo.fallback { border-radius: 50%; border: 2px solid var(--text); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 40px; color: var(--text); background: rgba(255,255,255,0.02); }
+        @keyframes pulse-white { 0%,100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.03)); transform: scale(1); } 50% { filter: drop-shadow(0 0 60px rgba(255,255,255,0.08)); transform: scale(1.02); } }
+        #splash-title { font-size: 52px; font-weight: 900; letter-spacing: 10px; text-transform: uppercase; font-family: 'Orbitron', sans-serif; color: var(--text); }
+        #splash-title .highlight { color: var(--text); opacity: 0.7; }
+        #splash-sub { color: var(--text-dim); font-size: 16px; letter-spacing: 8px; text-transform: uppercase; margin-top: 8px; margin-bottom: 30px; font-weight: 300; }
+        #splash-sub .highlight { color: var(--text); }
+        #splash-quote-box { max-width: 540px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-card); padding: 28px 32px; margin-bottom: 30px; }
+        #splash-quote { font-size: 18px; font-weight: 300; line-height: 1.6; color: var(--text-dim); font-style: italic; font-family: 'Rajdhani', sans-serif; }
+        #splash-quote::before { content: "“"; color: var(--text); font-size: 24px; font-family: 'Georgia', serif; }
+        #splash-quote::after { content: "”"; color: var(--text); font-size: 24px; font-family: 'Georgia', serif; }
+        #splash-date { margin-top: 12px; font-size: 11px; letter-spacing: 4px; color: var(--text-dim); text-transform: uppercase; font-weight: 300; }
+        #enterBtn { background: transparent; color: var(--text); border: 1.5px solid var(--text); border-radius: 50px; padding: 16px 56px; font-family: 'Orbitron', sans-serif; font-size: 13px; letter-spacing: 5px; text-transform: uppercase; cursor: pointer; transition: all 0.4s ease; }
+        #enterBtn:hover { background: var(--text); color: var(--bg); box-shadow: 0 0 60px rgba(255,255,255,0.05); transform: scale(1.02); }
 
-        /* SPLASH */
-        #splash {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            background: var(--bg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-            text-align: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-        #splash.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        #splash-logo {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            margin-bottom: 30px;
-            filter: drop-shadow(0 0 60px rgba(255,255,255,0.05));
-            animation: pulse-white 3s ease-in-out infinite;
-        }
-        #splash-logo.fallback {
-            border-radius: 50%;
-            border: 2px solid var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 40px;
-            color: var(--text);
-            background: rgba(255,255,255,0.02);
-        }
-        @keyframes pulse-white {
-            0%, 100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.03)); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 60px rgba(255,255,255,0.08)); transform: scale(1.02); }
-        }
-        #splash-title {
-            font-size: 52px;
-            font-weight: 900;
-            letter-spacing: 10px;
-            text-transform: uppercase;
-            font-family: 'Orbitron', sans-serif;
-            color: var(--text);
-        }
-        #splash-title .highlight {
-            color: var(--text);
-            opacity: 0.7;
-        }
-        #splash-sub {
-            color: var(--text-dim);
-            font-size: 16px;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            margin-top: 8px;
-            margin-bottom: 30px;
-            font-weight: 300;
-        }
-        #splash-sub .highlight {
-            color: var(--text);
-        }
-        #splash-quote-box {
-            max-width: 540px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            background: var(--bg-card);
-            padding: 28px 32px;
-            margin-bottom: 30px;
-        }
-        #splash-quote {
-            font-size: 18px;
-            font-weight: 300;
-            line-height: 1.6;
-            color: var(--text-dim);
-            font-style: italic;
-            font-family: 'Rajdhani', sans-serif;
-        }
-        #splash-quote::before {
-            content: "“";
-            color: var(--text);
-            font-size: 24px;
-            font-family: 'Georgia', serif;
-        }
-        #splash-quote::after {
-            content: "”";
-            color: var(--text);
-            font-size: 24px;
-            font-family: 'Georgia', serif;
-        }
-        #splash-date {
-            margin-top: 12px;
-            font-size: 11px;
-            letter-spacing: 4px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            font-weight: 300;
-        }
-        #enterBtn {
-            background: transparent;
-            color: var(--text);
-            border: 1.5px solid var(--text);
-            border-radius: 50px;
-            padding: 16px 56px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 13px;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.4s ease;
-        }
-        #enterBtn:hover {
-            background: var(--text);
-            color: var(--bg);
-            box-shadow: 0 0 60px rgba(255,255,255,0.05);
-            transform: scale(1.02);
-        }
+        /* Greeting */
+        .greeting-banner { display: flex; align-items: center; gap: 16px; border: 1px solid var(--border); background: var(--bg-card); border-radius: 10px; padding: 12px 20px; margin-bottom: 24px; font-size: 14px; color: var(--text-dim); flex-wrap: wrap; }
+        .greeting-banner .greeting-name { color: var(--text); font-weight: 700; font-size: 17px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
+        .greeting-banner .greeting-quote { color: var(--text-dim); font-style: italic; margin-left: auto; font-size: 12px; }
+        .greeting-banner .github-status { font-size: 10px; color: var(--green); background: rgba(0,255,136,0.05); padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(0,255,136,0.1); font-family: 'JetBrains Mono', monospace; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
+        .greeting-banner .github-status:hover { background: rgba(0,255,136,0.1); }
+        .greeting-banner .github-status.saving { color: var(--text); border-color: var(--border-light); animation: pulse 1s ease-in-out infinite; }
+        .greeting-banner .github-status.error { color: var(--red); border-color: rgba(255,51,85,0.3); }
+        .greeting-banner .github-status.success { color: var(--green); border-color: rgba(0,255,136,0.3); }
+        .greeting-banner .github-status.syncing { color: var(--text); border-color: var(--border-light); animation: pulse 0.5s ease-in-out infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* GREETING BANNER */
-        .greeting-banner {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            border: 1px solid var(--border);
-            background: var(--bg-card);
-            border-radius: 10px;
-            padding: 12px 20px;
-            margin-bottom: 24px;
-            font-size: 14px;
-            color: var(--text-dim);
-            flex-wrap: wrap;
-        }
-        .greeting-banner .greeting-name {
-            color: var(--text);
-            font-weight: 700;
-            font-size: 17px;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-        }
-        .greeting-banner .greeting-quote {
-            color: var(--text-dim);
-            font-style: italic;
-            margin-left: auto;
-            font-size: 12px;
-        }
-        .greeting-banner .github-status {
-            font-size: 10px;
-            color: var(--green);
-            background: rgba(0,255,136,0.05);
-            padding: 4px 14px;
-            border-radius: 20px;
-            border: 1px solid rgba(0,255,136,0.1);
-            font-family: 'JetBrains Mono', monospace;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-        .greeting-banner .github-status:hover {
-            background: rgba(0,255,136,0.1);
-        }
-        .greeting-banner .github-status.saving {
-            color: var(--text);
-            border-color: var(--border-light);
-            animation: pulse 1s ease-in-out infinite;
-        }
-        .greeting-banner .github-status.error {
-            color: var(--red);
-            border-color: rgba(255,51,85,0.3);
-        }
-        .greeting-banner .github-status.success {
-            color: var(--green);
-            border-color: rgba(0,255,136,0.3);
-        }
-        .greeting-banner .github-status.syncing {
-            color: var(--text);
-            border-color: var(--border-light);
-            animation: pulse 0.5s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .brand { display: flex; align-items: center; gap: 14px; }
+        #app-logo { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 0 20px rgba(255,255,255,0.03)); }
+        #app-logo.fallback { border-radius: 50%; border: 1.5px solid var(--text); display: flex; align-items: center; justify-content: center; color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 14px; background: rgba(255,255,255,0.02); }
+        .title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 3px; text-transform: uppercase; color: var(--text); }
+        .title .highlight { opacity: 0.6; }
+        .subtitle { color: var(--text-dim); font-size: 11px; margin-top: 2px; letter-spacing: 1.5px; font-weight: 300; }
+        .subtitle .highlight { color: var(--text); opacity: 0.8; }
+        .header-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+        button { font-family: 'Rajdhani', sans-serif; cursor: pointer; border: none; border-radius: 6px; font-weight: 600; font-size: 12px; padding: 7px 14px; letter-spacing: 0.5px; transition: all 0.25s ease; }
+        .btn-ghost { background: var(--bg-card); color: var(--text-dim); border: 1px solid var(--border); font-weight: 500; padding: 6px 12px; font-size: 11px; }
+        .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); background: var(--bg-card-hover); }
+        .btn-primary { background: var(--text); color: var(--bg); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .btn-primary:hover { opacity: 0.8; transform: scale(1.02); }
+        .btn-cancel { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
+        .btn-mt5 { background: var(--text); color: var(--bg); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .btn-mt5:hover { opacity: 0.8; transform: scale(1.02); }
+        .btn-mt5.active { background: var(--green); color: var(--bg); }
 
-        /* HEADER */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        #app-logo {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.03));
-        }
-        #app-logo.fallback {
-            border-radius: 50%;
-            border: 1.5px solid var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
-            background: rgba(255,255,255,0.02);
-        }
-        .title {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 20px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--text);
-        }
-        .title .highlight {
-            opacity: 0.6;
-        }
-        .subtitle {
-            color: var(--text-dim);
-            font-size: 11px;
-            margin-top: 2px;
-            letter-spacing: 1.5px;
-            font-weight: 300;
-        }
-        .subtitle .highlight {
-            color: var(--text);
-            opacity: 0.8;
-        }
-        .header-actions {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        button {
-            font-family: 'Rajdhani', sans-serif;
-            cursor: pointer;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 12px;
-            padding: 7px 14px;
-            letter-spacing: 0.5px;
-            transition: all 0.25s ease;
-        }
-        .btn-ghost {
-            background: var(--bg-card);
-            color: var(--text-dim);
-            border: 1px solid var(--border);
-            font-weight: 500;
-            padding: 6px 12px;
-            font-size: 11px;
-        }
-        .btn-ghost:hover {
-            border-color: var(--text-dim);
-            color: var(--text);
-            background: var(--bg-card-hover);
-        }
-        .btn-primary {
-            background: var(--text);
-            color: var(--bg);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
-        .btn-primary:hover {
-            opacity: 0.8;
-            transform: scale(1.02);
-        }
-        .btn-cancel {
-            background: var(--bg-card);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-        .btn-mt5 {
-            background: var(--text);
-            color: var(--bg);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
-        .btn-mt5:hover {
-            opacity: 0.8;
-            transform: scale(1.02);
-        }
-        .btn-mt5.active {
-            background: var(--green);
-            color: var(--bg);
-        }
+        /* Tabs */
+        .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
+        .tab { background: none; border: none; cursor: pointer; padding: 10px 8px 10px; margin-right: 32px; color: var(--text-dim); border-bottom: 2px solid transparent; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; }
+        .tab.active { color: var(--text); border-bottom: 2px solid var(--text); }
+        .tab:hover { color: var(--text); }
 
-        /* TABS */
-        .tabs {
-            display: flex;
-            gap: 0;
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--border);
-        }
-        .tab {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 10px 8px 10px;
-            margin-right: 32px;
-            color: var(--text-dim);
-            border-bottom: 2px solid transparent;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-        }
-        .tab.active {
-            color: var(--text);
-            border-bottom: 2px solid var(--text);
-        }
-        .tab:hover {
-            color: var(--text);
-        }
-
-        /* STATS */
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-        }
-        .stat-cell {
-            background: var(--bg-card);
-            padding: 14px 16px;
-        }
-        .stat-label {
-            font-size: 9px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 4px;
-            font-weight: 500;
-        }
-        .stat-value {
-            font-size: 18px;
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
-        }
+        /* Stats */
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
+        .stat-cell { background: var(--bg-card); padding: 14px 16px; }
+        .stat-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; font-weight: 500; }
+        .stat-value { font-size: 18px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
         .tone-green { color: var(--green); }
         .tone-red { color: var(--red); }
         .tone-white { color: var(--text); }
 
-        /* FORM */
-        form.entry-form {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 14px;
-        }
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            font-size: 9px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-        .field input, .field select, .field textarea {
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 8px 12px;
-            color: var(--text);
-            font-size: 13px;
-            font-family: 'JetBrains Mono', monospace;
-            outline: none;
-            transition: border 0.25s ease;
-        }
-        .field input:focus, .field select:focus, .field textarea:focus {
-            border-color: var(--text-dim);
-        }
-        .field textarea {
-            font-family: 'Rajdhani', sans-serif;
-            resize: vertical;
-        }
+        /* Form */
+        form.entry-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
+        .field { display: flex; flex-direction: column; gap: 4px; font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
+        .field input, .field select, .field textarea { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 13px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.25s ease; }
+        .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--text-dim); }
+        .field textarea { font-family: 'Rajdhani', sans-serif; resize: vertical; }
         .form-full { grid-column: 1 / -1; }
-        .form-submit-row {
-            grid-column: 1 / -1;
-            display: flex;
-            justify-content: flex-end;
-        }
+        .form-submit-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; }
 
-        /* CHART - COOL STYLING */
-        .chart-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 16px 6px 6px;
-            margin-bottom: 20px;
-            height: 160px;
-            position: relative;
-            overflow: hidden;
-        }
-        .chart-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
-            pointer-events: none;
-        }
-        .chart-box svg {
-            filter: drop-shadow(0 0 20px rgba(0,255,136,0.05));
-        }
-        .chart-empty {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-dim);
-            font-size: 13px;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
+        /* Chart */
+        .chart-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 6px 6px; margin-bottom: 20px; height: 160px; position: relative; overflow: hidden; }
+        .chart-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%); pointer-events: none; }
+        .chart-box svg { filter: drop-shadow(0 0 20px rgba(0,255,136,0.05)); }
+        .chart-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 1px; }
 
-        /* FILTERS */
-        .session-filters {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-        }
-        .chip {
-            background: transparent;
-            color: var(--text-dim);
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            padding: 4px 16px;
-            font-size: 11px;
-            cursor: pointer;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.25s ease;
-        }
-        .chip.active {
-            background: var(--bg-card);
-            color: var(--text);
-            border-color: var(--text);
-        }
-        .chip:hover {
-            border-color: var(--text-dim);
-            color: var(--text);
-        }
+        /* Filters */
+        .session-filters { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+        .chip { background: transparent; color: var(--text-dim); border: 1px solid var(--border); border-radius: 30px; padding: 4px 16px; font-size: 11px; cursor: pointer; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: all 0.25s ease; }
+        .chip.active { background: var(--bg-card); color: var(--text); border-color: var(--text); }
+        .chip:hover { border-color: var(--text-dim); color: var(--text); }
 
-        /* TABLE */
-        .table-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .row {
-            display: grid;
-            grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px;
-            gap: 8px;
-            padding: 9px 16px;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            font-size: 12px;
-            transition: background 0.2s ease;
-        }
-        .row:hover {
-            background: var(--bg-card-hover);
-        }
-        .row-head {
-            font-size: 9px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            padding: 8px 16px;
-            font-weight: 600;
-            border-bottom: 1px solid var(--border);
-        }
-        .row-empty {
-            padding: 40px;
-            text-align: center;
-            color: var(--text-dim);
-            font-size: 13px;
-            grid-column: 1 / -1;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-        .stamp {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        .stamp-win {
-            background: var(--green);
-            box-shadow: 0 0 12px rgba(0,255,136,0.2);
-        }
-        .stamp-loss {
-            border: 2px solid var(--red);
-            background: transparent;
-        }
-        .stamp-flat {
-            width: 8px;
-            height: 1px;
-            border-radius: 1px;
-            background: var(--text-dim);
-        }
-        .del-btn {
-            background: none;
-            border: none;
-            color: var(--text-dim);
-            cursor: pointer;
-            padding: 4px;
-            font-size: 14px;
-            transition: color 0.2s ease;
-        }
-        .del-btn:hover {
-            color: var(--red);
-        }
-        .notes-cell {
-            color: var(--text-dim);
-            font-size: 11px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .footnote {
-            margin-top: 12px;
-            font-size: 10px;
-            color: var(--text-dim);
-            text-align: right;
-            letter-spacing: 1px;
-            font-weight: 300;
-        }
+        /* Table */
+        .table-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+        .row { display: grid; grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px; gap: 8px; padding: 9px 16px; align-items: center; border-bottom: 1px solid var(--border); font-size: 12px; transition: background 0.2s ease; }
+        .row:hover { background: var(--bg-card-hover); }
+        .row-head { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; padding: 8px 16px; font-weight: 600; border-bottom: 1px solid var(--border); }
+        .row-empty { padding: 40px; text-align: center; color: var(--text-dim); font-size: 13px; grid-column: 1 / -1; font-weight: 300; letter-spacing: 0.5px; }
+        .stamp { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .stamp-win { background: var(--green); box-shadow: 0 0 12px rgba(0,255,136,0.2); }
+        .stamp-loss { border: 2px solid var(--red); background: transparent; }
+        .stamp-flat { width: 8px; height: 1px; border-radius: 1px; background: var(--text-dim); }
+        .del-btn { background: none; border: none; color: var(--text-dim); cursor: pointer; padding: 4px; font-size: 14px; transition: color 0.2s ease; }
+        .del-btn:hover { color: var(--red); }
+        .notes-cell { color: var(--text-dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .footnote { margin-top: 12px; font-size: 10px; color: var(--text-dim); text-align: right; letter-spacing: 1px; font-weight: 300; }
 
-        /* ANALYTICS */
+        /* Analytics */
         .analytics-grid { display: grid; gap: 20px; }
-        .chart-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px 12px 12px;
-            transition: border-color 0.25s ease;
-        }
-        .chart-card:hover {
-            border-color: var(--border-light);
-        }
-        .chart-card-title {
-            font-size: 10px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 8px;
-            padding-left: 8px;
-            font-weight: 500;
-        }
+        .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 12px 12px; transition: border-color 0.25s ease; }
+        .chart-card:hover { border-color: var(--border-light); }
+        .chart-card-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; padding-left: 8px; font-weight: 500; }
         .chart-card-body { height: 160px; }
-        .empty-analytics {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 60px;
-            text-align: center;
-            color: var(--text-dim);
-            font-size: 13px;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
+        .empty-analytics { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 60px; text-align: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 0.5px; }
 
-        /* MODALS */
-        .token-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(10px);
-            align-items: center;
-            justify-content: center;
-        }
+        /* Modals */
+        .token-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; }
         .token-modal.show { display: flex; }
-        .token-modal-content {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 32px;
-            max-width: 460px;
-            width: 90%;
-        }
-        .token-modal h2 {
-            color: var(--text);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-        }
-        .token-modal p {
-            color: var(--text-dim);
-            margin-bottom: 16px;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-        .token-modal input {
-            width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 10px 14px;
-            color: var(--text);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            outline: none;
-            margin-bottom: 12px;
-        }
+        .token-modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 460px; width: 90%; }
+        .token-modal h2 { color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 18px; margin-bottom: 12px; letter-spacing: 1px; }
+        .token-modal p { color: var(--text-dim); margin-bottom: 16px; font-size: 13px; line-height: 1.6; }
+        .token-modal input { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none; margin-bottom: 12px; }
         .token-modal input:focus { border-color: var(--text-dim); }
-        .token-modal .btn-row {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
+        .token-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
         .token-modal .btn-row button { padding: 8px 20px; font-size: 12px; }
 
-        /* MT5 LOGIN MODAL */
-        .mt5-login-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 300;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(12px);
-            align-items: center;
-            justify-content: center;
-        }
+        /* MT5 Login Modal */
+        .mt5-login-modal { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.95); backdrop-filter: blur(12px); align-items: center; justify-content: center; }
         .mt5-login-modal.show { display: flex; }
-        .mt5-login-content {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 32px 28px;
-            max-width: 440px;
-            width: 92%;
-            position: relative;
-        }
-        .mt5-login-content .mt5-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
+        .mt5-login-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; max-width: 440px; width: 92%; position: relative; }
+        .mt5-login-content .mt5-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
         .mt5-login-content .mt5-header .mt5-icon { font-size: 28px; }
-        .mt5-login-content .mt5-header h2 {
-            color: var(--text);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 16px;
-            letter-spacing: 1px;
-        }
-        .mt5-login-content .mt5-header .mt5-badge {
-            margin-left: auto;
-            font-size: 9px;
-            background: rgba(255,255,255,0.03);
-            padding: 4px 12px;
-            border-radius: 20px;
-            color: var(--text-dim);
-            border: 1px solid var(--border);
-            letter-spacing: 0.5px;
-        }
+        .mt5-login-content .mt5-header h2 { color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 16px; letter-spacing: 1px; }
+        .mt5-login-content .mt5-header .mt5-badge { margin-left: auto; font-size: 9px; background: rgba(255,255,255,0.03); padding: 4px 12px; border-radius: 20px; color: var(--text-dim); border: 1px solid var(--border); letter-spacing: 0.5px; }
         .mt5-login-content .field-group { margin-bottom: 14px; }
-        .mt5-login-content .field-group label {
-            display: block;
-            font-size: 9px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-            font-weight: 500;
-        }
-        .mt5-login-content .field-group input,
-        .mt5-login-content .field-group select {
-            width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 9px 12px;
-            color: var(--text);
-            font-size: 13px;
-            font-family: 'JetBrains Mono', monospace;
-            outline: none;
-            transition: border 0.25s ease;
-        }
-        .mt5-login-content .field-group input:focus,
-        .mt5-login-content .field-group select:focus {
-            border-color: var(--text-dim);
-        }
-        .mt5-login-content .field-group .helper {
-            font-size: 10px;
-            color: var(--text-dim);
-            margin-top: 4px;
-        }
-        .mt5-login-content .btn-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 18px;
-            justify-content: flex-end;
-        }
+        .mt5-login-content .field-group label { display: block; font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 500; }
+        .mt5-login-content .field-group input, .mt5-login-content .field-group select { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; color: var(--text); font-size: 13px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.25s ease; }
+        .mt5-login-content .field-group input:focus, .mt5-login-content .field-group select:focus { border-color: var(--text-dim); }
+        .mt5-login-content .field-group .helper { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
+        .mt5-login-content .btn-row { display: flex; gap: 10px; margin-top: 18px; justify-content: flex-end; }
         .mt5-login-content .btn-row button { padding: 8px 24px; font-size: 12px; }
-        .mt5-login-content .status-msg {
-            padding: 10px 14px;
-            border-radius: 6px;
-            margin-top: 12px;
-            font-size: 12px;
-            display: none;
-        }
-        .mt5-login-content .status-msg.success {
-            display: block;
-            background: rgba(0,255,136,0.05);
-            border: 1px solid rgba(0,255,136,0.1);
-            color: var(--green);
-        }
-        .mt5-login-content .status-msg.error {
-            display: block;
-            background: rgba(255,51,85,0.05);
-            border: 1px solid rgba(255,51,85,0.1);
-            color: var(--red);
-        }
-        .mt5-login-content .status-msg.info {
-            display: block;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border);
-            color: var(--text-dim);
-        }
+        .mt5-login-content .status-msg { padding: 10px 14px; border-radius: 6px; margin-top: 12px; font-size: 12px; display: none; }
+        .mt5-login-content .status-msg.success { display: block; background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.1); color: var(--green); }
+        .mt5-login-content .status-msg.error { display: block; background: rgba(255,51,85,0.05); border: 1px solid rgba(255,51,85,0.1); color: var(--red); }
+        .mt5-login-content .status-msg.info { display: block; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--text-dim); }
 
-        /* MT5 BANNER */
-        .mt5-banner {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px 18px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            border-left: 2px solid var(--text-dim);
-            transition: border-color 0.3s ease;
-        }
+        /* MT5 Banner */
+        .mt5-banner { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-left: 2px solid var(--text-dim); transition: border-color 0.3s ease; }
         .mt5-banner.connected { border-left-color: var(--green); }
-        .mt5-banner .mt5-info {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 13px;
-            color: var(--text-dim);
-            flex-wrap: wrap;
-        }
-        .mt5-banner .mt5-info .mt5-label {
-            color: var(--text);
-            font-weight: 700;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
-            letter-spacing: 1px;
-        }
-        .mt5-banner .mt5-info .mt5-status {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            padding: 3px 14px;
-            border-radius: 20px;
-            background: rgba(0,255,136,0.05);
-            border: 1px solid rgba(0,255,136,0.1);
-            color: var(--green);
-        }
-        .mt5-banner .mt5-info .mt5-status.inactive {
-            color: var(--text-dim);
-            border-color: var(--border);
-            background: transparent;
-        }
-        .mt5-banner .mt5-info .mt5-status.connected {
-            color: var(--green);
-            border-color: rgba(0,255,136,0.2);
-            background: rgba(0,255,136,0.05);
-        }
-        .mt5-banner .mt5-info .mt5-account {
-            font-size: 11px;
-            color: var(--text-dim);
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .mt5-banner .mt5-actions {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
+        .mt5-banner .mt5-info { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--text-dim); flex-wrap: wrap; }
+        .mt5-banner .mt5-info .mt5-label { color: var(--text); font-weight: 700; font-family: 'Orbitron', sans-serif; font-size: 11px; letter-spacing: 1px; }
+        .mt5-banner .mt5-info .mt5-status { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 14px; border-radius: 20px; background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.1); color: var(--green); }
+        .mt5-banner .mt5-info .mt5-status.inactive { color: var(--text-dim); border-color: var(--border); background: transparent; }
+        .mt5-banner .mt5-info .mt5-status.connected { color: var(--green); border-color: rgba(0,255,136,0.2); background: rgba(0,255,136,0.05); }
+        .mt5-banner .mt5-info .mt5-account { font-size: 11px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+        .mt5-banner .mt5-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
-        /* RESPONSIVE */
+        /* Responsive */
         @media (max-width: 700px) {
-            .row {
-                grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px;
-                gap: 4px;
-                font-size: 10px;
-                padding: 7px 10px;
-            }
+            .row { grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px; gap: 4px; font-size: 10px; padding: 7px 10px; }
             .row-head { font-size: 8px; padding: 6px 10px; }
             .title { font-size: 16px; }
             #splash-title { font-size: 32px; letter-spacing: 4px; }
@@ -919,12 +205,7 @@
             .mt5-login-content { padding: 20px 16px; }
         }
         @media (max-width: 480px) {
-            .row {
-                grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px;
-                gap: 3px;
-                font-size: 9px;
-                padding: 6px 6px;
-            }
+            .row { grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px; gap: 3px; font-size: 9px; padding: 6px 6px; }
             .row-head { font-size: 7px; padding: 4px 6px; }
             .stats-row { grid-template-columns: 1fr 1fr; }
             #splash-title { font-size: 22px; letter-spacing: 2px; }
@@ -939,9 +220,9 @@
     <div class="token-modal" id="tokenModal">
         <div class="token-modal-content">
             <h2>GitHub Token</h2>
-            <p>Enter your GitHub Personal Access Token to enable cloud sync.</p>
+            <p>Enter your GitHub Personal Access Token for cloud sync.</p>
             <p style="font-size:11px;color:var(--text-dim);">
-                Create one at: <strong style="color:var(--text);">github.com/settings/tokens</strong><br>
+                Create at: <strong style="color:var(--text);">github.com/settings/tokens</strong><br>
                 Select <strong style="color:var(--green);">repo</strong> scope.
             </p>
             <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
@@ -958,73 +239,41 @@
             <div class="mt5-header">
                 <span class="mt5-icon">◆</span>
                 <h2>MT5 Connection</h2>
-                <span class="mt5-badge">Live</span>
+                <span class="mt5-badge">Simulation</span>
             </div>
 
             <div class="field-group">
                 <label>Broker Server</label>
                 <select id="mt5Server">
-                    <optgroup label="Exness">
-                        <option value="Exness-MT5Trial9">Exness-MT5Trial9</option>
-                        <option value="Exness-MT5Trial10">Exness-MT5Trial10</option>
-                        <option value="Exness-MT5Trial11">Exness-MT5Trial11</option>
-                        <option value="Exness-MT5Trial12">Exness-MT5Trial12</option>
-                        <option value="Exness-MT5Live5">Exness-MT5Live5</option>
-                        <option value="Exness-MT5Live6">Exness-MT5Live6</option>
-                        <option value="Exness-MT5Real">Exness-MT5Real</option>
-                    </optgroup>
-                    <optgroup label="IC Markets">
-                        <option value="ICMarkets-Demo">ICMarkets-Demo</option>
-                        <option value="ICMarkets-Live">ICMarkets-Live</option>
-                        <option value="ICMarkets-Demo2">ICMarkets-Demo2</option>
-                        <option value="ICMarkets-Live2">ICMarkets-Live2</option>
-                        <option value="ICMarkets-Live3">ICMarkets-Live3</option>
-                        <option value="ICMarkets-Live4">ICMarkets-Live4</option>
-                        <option value="ICMarkets-Live5">ICMarkets-Live5</option>
-                        <option value="ICMarkets-Live6">ICMarkets-Live6</option>
-                    </optgroup>
-                    <optgroup label="XM">
-                        <option value="XM-Demo">XM-Demo</option>
-                        <option value="XM-Live">XM-Live</option>
-                        <option value="XMGlobal-Demo">XMGlobal-Demo</option>
-                        <option value="XMGlobal-Live">XMGlobal-Live</option>
-                    </optgroup>
-                    <optgroup label="Pepperstone">
-                        <option value="Pepperstone-Demo">Pepperstone-Demo</option>
-                        <option value="Pepperstone-Live">Pepperstone-Live</option>
-                        <option value="Pepperstone-Demo2">Pepperstone-Demo2</option>
-                        <option value="Pepperstone-Live2">Pepperstone-Live2</option>
-                    </optgroup>
-                    <optgroup label="FxPro">
-                        <option value="FxPro-Demo">FxPro-Demo</option>
-                        <option value="FxPro-Live">FxPro-Live</option>
-                        <option value="FxPro-Demo2">FxPro-Demo2</option>
-                        <option value="FxPro-Live2">FxPro-Live2</option>
-                    </optgroup>
-                    <optgroup label="Custom">
-                        <option value="Custom">✏️ Enter Custom Server</option>
-                    </optgroup>
+                    <option value="Exness-MT5Trial9">Exness-MT5Trial9</option>
+                    <option value="Exness-MT5Trial10">Exness-MT5Trial10</option>
+                    <option value="ICMarkets-Demo">ICMarkets-Demo</option>
+                    <option value="ICMarkets-Live">ICMarkets-Live</option>
+                    <option value="XM-Demo">XM-Demo</option>
+                    <option value="XM-Live">XM-Live</option>
+                    <option value="Pepperstone-Demo">Pepperstone-Demo</option>
+                    <option value="Pepperstone-Live">Pepperstone-Live</option>
+                    <option value="Custom">✏️ Custom Server</option>
                 </select>
             </div>
 
             <div class="field-group" id="customServerGroup" style="display:none;">
-                <label>Custom Server Address</label>
+                <label>Custom Server</label>
                 <input type="text" id="mt5CustomServer" placeholder="mt5.yourbroker.com:443" />
-                <div class="helper">Paste the exact server name from your MT5 login window</div>
             </div>
 
             <div class="field-group">
                 <label>Login ID</label>
-                <input type="text" id="mt5Login" placeholder="12345678" />
+                <input type="text" id="mt5Login" placeholder="12345678" value="123456" />
             </div>
 
             <div class="field-group">
                 <label>Password</label>
-                <input type="password" id="mt5Password" placeholder="••••••••" />
+                <input type="password" id="mt5Password" placeholder="••••••••" value="password" />
             </div>
 
             <div class="field-group">
-                <label>Trading Session</label>
+                <label>Session</label>
                 <select id="mt5Session">
                     <option>New York</option>
                     <option>London</option>
@@ -1042,12 +291,10 @@
         </div>
     </div>
 
-    <!-- SPLASH SCREEN -->
+    <!-- SPLASH -->
     <div id="splash">
         <img id="splash-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'splash-logo\' class=\'fallback\'>EY</div>'">
-        <div id="splash-title">
-            WELCOME <span class="highlight">SIR</span> <span class="highlight">EYOB</span>
-        </div>
+        <div id="splash-title">WELCOME <span class="highlight">SIR</span> <span class="highlight">EYOB</span></div>
         <div id="splash-sub">discipline is the <span class="highlight">edge</span></div>
         <div id="splash-quote-box">
             <div id="splash-quote"></div>
@@ -1070,10 +317,7 @@
             <div class="brand">
                 <img id="app-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'app-logo\' class=\'fallback\'>EY</div>'">
                 <div>
-                    <div class="title">
-                        SIR <span class="highlight">EYOB</span>
-                        <span style="color:var(--text-dim);font-size:13px;letter-spacing:1px;">· LEDGER</span>
-                    </div>
+                    <div class="title">SIR <span class="highlight">EYOB</span> <span style="color:var(--text-dim);font-size:13px;letter-spacing:1px;">· LEDGER</span></div>
                     <div class="subtitle">a running record of every <span class="highlight">position</span></div>
                 </div>
             </div>
@@ -1087,7 +331,7 @@
             </div>
         </div>
 
-        <!-- MT5 Integration Banner -->
+        <!-- MT5 Banner -->
         <div class="mt5-banner" id="mt5Banner">
             <div class="mt5-info">
                 <span class="mt5-label">◆ MT5</span>
@@ -1122,13 +366,9 @@
             <label class="field">Entry<input type="number" step="any" id="f-entry" required></label>
             <label class="field">Stop<input type="number" step="any" id="f-stop" required></label>
             <label class="field">Exit<input type="number" step="any" id="f-exit" required></label>
-            <label class="field">Size (optional)<input type="number" step="any" id="f-size" placeholder="units"></label>
-            <label class="field">Risk % <span style="font-weight:400;font-size:8px;color:var(--text-dim);">(per trade)</span>
-                <input type="number" step="0.1" id="f-risk" placeholder="1.0" value="1.0">
-            </label>
-            <label class="field">Target R:R <span style="font-weight:400;font-size:8px;color:var(--text-dim);">(optional)</span>
-                <input type="number" step="0.1" id="f-target" placeholder="2.0">
-            </label>
+            <label class="field">Size<input type="number" step="any" id="f-size" placeholder="units"></label>
+            <label class="field">Risk %<input type="number" step="0.1" id="f-risk" placeholder="1.0" value="1.0"></label>
+            <label class="field">Target R:R<input type="number" step="0.1" id="f-target" placeholder="2.0"></label>
             <label class="field form-full">Notes<textarea id="f-notes" rows="2" placeholder="Setup quality, emotions, lessons learned..."></textarea></label>
             <div class="form-submit-row"><button type="submit" class="btn-primary">Log Trade</button></div>
         </form>
@@ -1161,10 +401,7 @@
         const TOKEN_STORAGE_KEY = "trade-ledger:github-token";
         const MT5_CONFIG_KEY = "trade-ledger:mt5-config";
         const MT5_CREDENTIALS_KEY = "trade-ledger:mt5-credentials";
-        const SYNC_INTERVAL = 15000;
         const MT5_API_URL = 'http://localhost:5000/api/mt5';
-
-        const COLORS = { green: "#00FF88", red: "#FF3355", text: "#FFFFFF", textDim: "#666666", border: "#1A1A1A" };
 
         const QUOTES = [
             "What you focus on expands. Trade the setup in front of you, not the one in your head.",
@@ -1177,26 +414,6 @@
             "You attract the trades that match the state you enter the session in.",
             "A quiet mind sees the chart clearly. A loud one sees what it fears.",
             "Discipline today writes the equity curve of tomorrow.",
-            "The trade you didn't take can teach as much as the one you did.",
-            "Consistency is a magnet. Chaos repels good decisions.",
-            "Trust the process publicly, refine it privately.",
-            "Your next winning streak starts with the next disciplined loss.",
-            "Certainty is not required to act with conviction.",
-            "What you tolerate in your trading, you will keep attracting.",
-            "Small, repeatable edges beat big, unrepeatable wins.",
-            "The chart doesn't owe you anything. Neither does the outcome you're chasing.",
-            "Visualize the process, not just the profit.",
-            "Every entry is a vote for the trader you're becoming.",
-            "Gratitude for the account you have attracts the growth you want.",
-            "Losses are tuition, not verdicts.",
-            "Alignment beats intensity. Show up the same way every session.",
-            "The market rewards patience it never announces in advance.",
-            "You are not your last trade.",
-            "Clarity of intention precedes clarity of execution.",
-            "Protect your capital like it protects your future.",
-            "What you repeat, you become. Repeat the plan, not the panic.",
-            "Confidence is built one respected stop-loss at a time.",
-            "The version of you that journals is the version that improves.",
         ];
 
         // ============================================================
@@ -1206,23 +423,15 @@
         let currentTab = "journal";
         let sessionFilter = "All";
         let githubToken = localStorage.getItem(TOKEN_STORAGE_KEY) || "";
-        let isSaving = false;
-        let isSyncing = false;
-        let syncTimer = null;
-        let lastSyncSHA = null;
-
         let mt5Config = JSON.parse(localStorage.getItem(MT5_CONFIG_KEY) || '{"enabled":false,"connected":false}');
         let mt5Credentials = JSON.parse(localStorage.getItem(MT5_CREDENTIALS_KEY) || '{}');
         let mt5IsConnected = false;
-        let mt5TradesReceived = 0;
         let mt5AccountInfo = { login: '', server: '', name: '' };
-        let mt5Listener = null;
 
         function todaysQuote() {
             const start = new Date(new Date().getFullYear(), 0, 0);
             const diff = new Date() - start;
-            const dayOfYear = Math.floor(diff / 86400000);
-            return QUOTES[dayOfYear % QUOTES.length];
+            return QUOTES[Math.floor(diff / 86400000) % QUOTES.length];
         }
 
         function loadTrades() {
@@ -1236,14 +445,10 @@
             }
         }
 
-        function uid() {
-            return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-        }
+        function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 
         function calcR(direction, entry, stop, exit) {
-            const e = parseFloat(entry),
-                s = parseFloat(stop),
-                x = parseFloat(exit);
+            const e = parseFloat(entry), s = parseFloat(stop), x = parseFloat(exit);
             if ([e, s, x].some(v => isNaN(v))) return null;
             const risk = Math.abs(e - s);
             if (risk === 0) return null;
@@ -1252,9 +457,7 @@
         }
 
         function calcPnl(direction, entry, exit, size) {
-            const e = parseFloat(entry),
-                x = parseFloat(exit),
-                sz = parseFloat(size);
+            const e = parseFloat(entry), x = parseFloat(exit), sz = parseFloat(size);
             if ([e, x, sz].some(v => isNaN(v)) || sz <= 0) return null;
             return direction === "Long" ? (x - e) * sz : (e - x) * sz;
         }
@@ -1268,298 +471,138 @@
 
         function fmtR(r) { return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); }
 
+        // ============================================================
+        // GITHUB
+        // ============================================================
         function updateGithubStatus(text, type) {
             const el = document.getElementById('githubStatus');
             if (!el) return;
             el.textContent = text;
             el.className = 'github-status';
-            if (type === 'saving') el.classList.add('saving');
-            if (type === 'error') el.classList.add('error');
-            if (type === 'success') el.classList.add('success');
-            if (type === 'syncing') el.classList.add('syncing');
+            if (type) el.classList.add(type);
         }
 
         async function saveToGitHub() {
-            if (!githubToken || githubToken.length < 10 || isSaving) return false;
-            if (trades.length === 0) return false;
-
-            isSaving = true;
+            if (!githubToken || githubToken.length < 10) return false;
             updateGithubStatus('● Saving...', 'saving');
-
             try {
-                const data = JSON.stringify(trades, null, 2);
-                const content = btoa(unescape(encodeURIComponent(data)));
-
-                let sha = null;
-                try {
-                    const shaRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
-                        headers: {
-                            'Authorization': `token ${githubToken}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-                    if (shaRes.ok) {
-                        const file = await shaRes.json();
-                        sha = file.sha;
-                    }
-                } catch (e) { console.log('File not found, creating new'); }
-
-                const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+                const content = btoa(unescape(encodeURIComponent(JSON.stringify(trades, null, 2))));
+                const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
                     method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${githubToken}`,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/vnd.github.v3+json'
-                    },
-                    body: JSON.stringify({
-                        message: `Update trades - ${new Date().toISOString().slice(0, 10)}`,
-                        content: content,
-                        sha: sha || undefined,
-                        branch: 'main'
-                    })
+                    headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: `Update trades`, content: content, branch: 'main' })
                 });
-
-                if (putRes.ok) {
-                    const result = await putRes.json();
-                    lastSyncSHA = result.content.sha;
+                if (res.ok) {
                     updateGithubStatus(`● ${trades.length} saved`, 'success');
-                    setTimeout(() => { updateGithubStatus(`● GitHub: ${trades.length}`, 'success'); }, 3000);
                     return true;
-                } else {
-                    const err = await putRes.json();
-                    throw new Error(err.message || `Failed: ${putRes.status}`);
                 }
-            } catch (error) {
-                console.error('❌ Save error:', error);
-                updateGithubStatus(`● ${error.message || 'Save failed'}`, 'error');
+                throw new Error('Save failed');
+            } catch (e) {
+                updateGithubStatus('● Save failed', 'error');
                 return false;
-            } finally {
-                isSaving = false;
             }
         }
 
         async function loadFromGitHub() {
-            if (!githubToken || githubToken.length < 10 || isSyncing) return false;
-
-            isSyncing = true;
+            if (!githubToken || githubToken.length < 10) return false;
             updateGithubStatus('● Syncing...', 'syncing');
-
             try {
                 const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
-                    headers: {
-                        'Authorization': `token ${githubToken}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
+                    headers: { 'Authorization': `token ${githubToken}` }
                 });
-
                 if (res.ok) {
-                    const file = await res.json();
-                    const content = JSON.parse(atob(file.content));
-
+                    const data = await res.json();
+                    const content = JSON.parse(atob(data.content));
                     if (Array.isArray(content)) {
-                        const currentData = JSON.stringify(trades);
-                        const newData = JSON.stringify(content);
-
-                        if (currentData !== newData) {
-                            trades = content;
-                            lastSyncSHA = file.sha;
-                            localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
-                            render();
-                            updateGithubStatus(`● Synced ${trades.length}`, 'success');
-                            setTimeout(() => { updateGithubStatus(`● GitHub: ${trades.length}`, 'success'); }, 3000);
-                            return true;
-                        } else {
-                            lastSyncSHA = file.sha;
-                            updateGithubStatus(`● ${trades.length} trades`, 'success');
-                            return true;
-                        }
+                        trades = content;
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
+                        render();
+                        updateGithubStatus(`● ${trades.length} synced`, 'success');
+                        return true;
                     }
-                } else if (res.status === 404) {
-                    updateGithubStatus('● No file yet', 'error');
-                    return false;
-                } else {
-                    const err = await res.json();
-                    throw new Error(err.message || `GitHub error: ${res.status}`);
                 }
-            } catch (error) {
-                console.error('❌ Load error:', error);
-                updateGithubStatus(`● ${error.message || 'Load failed'}`, 'error');
                 return false;
-            } finally {
-                isSyncing = false;
+            } catch (e) {
+                updateGithubStatus('● Sync failed', 'error');
+                return false;
             }
         }
 
-        function startAutoSync() {
-            if (syncTimer) clearInterval(syncTimer);
-            syncTimer = setInterval(() => {
-                if (githubToken && githubToken.length > 10) {
-                    loadFromGitHub();
-                }
-            }, SYNC_INTERVAL);
-        }
-
+        // ============================================================
+        // STATS
+        // ============================================================
         function computeStats() {
-            const withR = trades.filter(t => t.r !== null && t.r !== undefined);
+            const withR = trades.filter(t => t.r !== null);
             const wins = withR.filter(t => outcome(t.r) === "win").length;
             const losses = withR.filter(t => outcome(t.r) === "loss").length;
             const total = withR.length;
-            const winRate = wins + losses ? (wins / (wins + losses)) * 100 : 0;
+            const winRate = total ? (wins / total) * 100 : 0;
             const totalR = withR.reduce((s, t) => s + t.r, 0);
             const avgR = total ? totalR / total : 0;
-            const avgWin = wins ? withR.filter(t => outcome(t.r) === "win").reduce((s, t) => s + t.r, 0) / wins : 0;
-            const avgLoss = losses ? withR.filter(t => outcome(t.r) === "loss").reduce((s, t) => s + t.r, 0) / losses : 0;
-            const expectancy = total ? (winRate / 100) * avgWin + (1 - winRate / 100) * avgLoss : 0;
-
-            let streak = 0,
-                streakType = null;
+            const expectancy = total ? totalR / total : 0;
+            let streak = 0, streakType = null;
             for (let i = withR.length - 1; i >= 0; i--) {
                 const o = outcome(withR[i].r);
                 if (o === "flat") break;
-                if (streakType === null) { streakType = o;
-                    streak = 1; } else if (o === streakType) streak++;
+                if (!streakType) { streakType = o; streak = 1; }
+                else if (o === streakType) streak++;
                 else break;
             }
-
-            let cum = 0,
-                peak = 0;
-            const curve = withR.map((t, i) => {
+            let cum = 0, peak = 0;
+            const curve = withR.map(t => {
                 cum += t.r;
                 peak = Math.max(peak, cum);
-                return { i: i + 1, cum: +cum.toFixed(2), drawdown: +(cum - peak).toFixed(2) };
+                return { cum: +cum.toFixed(2), drawdown: +(cum - peak).toFixed(2) };
             });
-
-            const bySession = SESSIONS.map(s => {
-                const rows = withR.filter(t => t.session === s);
-                const rSum = rows.reduce((sum, t) => sum + t.r, 0);
-                return { label: s, value: +rSum.toFixed(2), count: rows.length };
-            }).filter(s => s.count > 0);
-
-            const monthMap = {};
-            withR.forEach(t => { const m = t.date.slice(0, 7);
-                monthMap[m] = (monthMap[m] || 0) + t.r; });
-            const byMonth = Object.keys(monthMap).sort().map(m => ({ label: m.slice(5), value: +monthMap[m].toFixed(2) }));
-
-            const buckets = [
-                { label: "<-2R", min: -Infinity, max: -2 },
-                { label: "-2..-1R", min: -2, max: -1 },
-                { label: "-1..0R", min: -1, max: 0 },
-                { label: "0..1R", min: 0, max: 1 },
-                { label: "1..2R", min: 1, max: 2 },
-                { label: "2..3R", min: 2, max: 3 },
-                { label: ">3R", min: 3, max: Infinity },
-            ];
-            const histogram = buckets.map(b => ({
-                label: b.label,
-                value: withR.filter(t => t.r >= b.min && t.r < b.max).length,
-            }));
-
             const maxDD = curve.length ? Math.min(...curve.map(c => c.drawdown)) : 0;
-
-            const withTarget = withR.filter(t => t.target !== null && t.target !== undefined && t.target > 0);
-            const targetHits = withTarget.filter(t => t.r !== null && t.r >= t.target).length;
-            const targetRate = withTarget.length ? (targetHits / withTarget.length) * 100 : 0;
-
-            return {
-                total,
-                winRate,
-                avgR,
-                totalR,
-                expectancy,
-                streak,
-                streakType,
-                curve,
-                bySession,
-                byMonth,
-                histogram,
-                maxDD,
-                targetRate,
-                withTargetCount: withTarget.length
-            };
+            return { total, winRate, avgR, totalR, expectancy, streak, streakType, curve, maxDD };
         }
 
-        // COOL CHART FUNCTIONS - Black & White Theme
+        // ============================================================
+        // CHARTS
+        // ============================================================
         function svgLineChart(data, opts) {
-            const w = 600,
-                h = opts.height || 140,
-                pad = 12;
+            const w = 600, h = opts.height || 140, pad = 12;
             if (data.length < 2) return `<div class="chart-empty">need more data</div>`;
             const vals = data.map(d => d.value);
-            const min = Math.min(0, ...vals),
-                max = Math.max(0, ...vals);
+            const min = Math.min(0, ...vals), max = Math.max(0, ...vals);
             const range = max - min || 1;
             const x = i => pad + (i / (data.length - 1)) * (w - pad * 2);
             const y = v => h - pad - ((v - min) / range) * (h - pad * 2);
             const zeroY = y(0);
             const points = data.map((d, i) => `${x(i)},${y(d.value)}`).join(" ");
-            let fillPath = "";
-            if (opts.fill) {
-                const first = x(0),
-                    last = x(data.length - 1);
-                fillPath =
-                    `<polygon points="${first},${zeroY} ${points} ${last},${zeroY}" fill="${opts.fill}" opacity="0.06"/>`;
-            }
-            const strokeColor = opts.stroke || '#FFFFFF';
-            const glow = opts.glow || 'rgba(255,255,255,0.05)';
-            return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" preserveAspectRatio="none">
-            <defs>
-                <filter id="glow">
-                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                    <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                </filter>
-            </defs>
-            <line x1="${pad}" y1="${zeroY}" x2="${w - pad}" y2="${zeroY}" stroke="#1A1A1A" stroke-dasharray="3,4"/>
+            const fillPath = opts.fill ? `<polygon points="${x(0)},${zeroY} ${points} ${x(data.length-1)},${zeroY}" fill="${opts.fill}" opacity="0.06"/>` : '';
+            return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%">
+            <line x1="${pad}" y1="${zeroY}" x2="${w-pad}" y2="${zeroY}" stroke="#1A1A1A" stroke-dasharray="3,4"/>
             ${fillPath}
-            <polyline points="${points}" fill="none" stroke="${strokeColor}" stroke-width="2.5" filter="url(#glow)" opacity="0.9"/>
-            ${data.map((d, i) => {
-                if (i % Math.ceil(data.length / 8) === 0 || i === data.length - 1) {
-                    return `<circle cx="${x(i)}" cy="${y(d.value)}" r="3" fill="${strokeColor}" opacity="0.8"/>`;
-                }
-                return '';
-            }).join('')}
+            <polyline points="${points}" fill="none" stroke="${opts.stroke || '#FFFFFF'}" stroke-width="2.5" opacity="0.9"/>
           </svg>`;
         }
 
         function svgBarChart(data) {
-            const w = 600,
-                h = 150,
-                pad = 8,
-                gap = 6;
+            const w = 600, h = 150, pad = 8, gap = 6;
             if (!data.length) return `<div class="chart-empty">no data</div>`;
             const vals = data.map(d => d.value);
-            const min = Math.min(0, ...vals),
-                max = Math.max(0, ...vals);
+            const min = Math.min(0, ...vals), max = Math.max(0, ...vals);
             const range = (max - min) || 1;
             const barW = Math.min((w - pad * 2 - gap * (data.length - 1)) / data.length, 40);
             const zeroY = h - 24 - ((0 - min) / range) * (h - 24 - pad);
-            let bars = "",
-                labels = "";
+            let bars = '', labels = '';
             data.forEach((d, i) => {
                 const bx = pad + i * (barW + gap);
                 const by = h - 24 - ((d.value - min) / range) * (h - 24 - pad);
                 const barTop = Math.min(by, zeroY);
                 const barH = Math.abs(by - zeroY);
                 const color = d.value >= 0 ? '#00FF88' : '#FF3355';
-                bars += `<rect x="${bx}" y="${barTop}" width="${barW}" height="${Math.max(barH, 1)}" fill="${color}" rx="2" opacity="0.85"/>
-                        <rect x="${bx}" y="${barTop}" width="${barW}" height="${Math.max(barH, 1)}" fill="url(#barGlow)" rx="2" opacity="0.15"/>`;
-                labels +=
-                    `<text x="${bx + barW / 2}" y="${h - 6}" font-size="8" fill="#666666" text-anchor="middle" font-family="Rajdhani, sans-serif">${d.label}</text>`;
+                bars += `<rect x="${bx}" y="${barTop}" width="${barW}" height="${Math.max(barH, 1)}" fill="${color}" rx="2" opacity="0.85"/>`;
+                labels += `<text x="${bx+barW/2}" y="${h-6}" font-size="8" fill="#666" text-anchor="middle">${d.label}</text>`;
             });
-            return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" preserveAspectRatio="none">
-            <defs>
-                <linearGradient id="barGlow" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.5"/>
-                    <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
-                </linearGradient>
-            </defs>
-            <line x1="${pad}" y1="${zeroY}" x2="${w - pad}" y2="${zeroY}" stroke="#1A1A1A"/>
-            ${bars}${labels}
-          </svg>`;
+            return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%"><line x1="${pad}" y1="${zeroY}" x2="${w-pad}" y2="${zeroY}" stroke="#1A1A1A"/>${bars}${labels}</svg>`;
         }
 
+        // ============================================================
+        // RENDER
+        // ============================================================
         function render() {
             renderStats();
             renderTabs();
@@ -1578,31 +621,20 @@
         }
 
         function renderTabs() {
-            document.querySelectorAll(".tab").forEach(el => {
-                el.classList.toggle("active", el.dataset.tab === currentTab);
-            });
+            document.querySelectorAll(".tab").forEach(el => el.classList.toggle("active", el.dataset.tab === currentTab));
         }
 
         function renderStats() {
             const s = computeStats();
-            const cell = (label, value, tone) => `
-            <div class="stat-cell">
-              <div class="stat-label">${label}</div>
-              <div class="stat-value mono ${tone ? 'tone-' + tone : ''}">${value}</div>
-            </div>`;
-            const html = [
+            const cell = (label, value, tone) => `<div class="stat-cell"><div class="stat-label">${label}</div><div class="stat-value mono ${tone ? 'tone-'+tone : ''}">${value}</div></div>`;
+            document.getElementById("statsRow").innerHTML = [
                 cell("Win Rate", s.total ? s.winRate.toFixed(0) + "%" : "—"),
                 cell("Avg R", s.total ? fmtR(s.avgR) + "R" : "—", s.avgR > 0 ? "green" : s.avgR < 0 ? "red" : ""),
                 cell("Total R", s.total ? fmtR(s.totalR) + "R" : "—", s.totalR > 0 ? "green" : s.totalR < 0 ? "red" : ""),
-                cell("Expectancy", s.total ? fmtR(s.expectancy) + "R" : "—", s.expectancy > 0 ? "green" : s.expectancy <
-                    0 ? "red" : ""),
+                cell("Expectancy", s.total ? fmtR(s.expectancy) + "R" : "—", s.expectancy > 0 ? "green" : s.expectancy < 0 ? "red" : ""),
                 cell("Max DD", s.total ? s.maxDD.toFixed(2) + "R" : "—", s.maxDD < 0 ? "red" : ""),
-                cell("Streak", s.streak ? s.streak + " " + (s.streakType === "win" ? "W" : "L") : "—", s.streakType ===
-                    "win" ? "green" : s.streakType === "loss" ? "red" : ""),
-                cell("Target Hit%", s.withTargetCount ? s.targetRate.toFixed(0) + "%" : "—", s.targetRate > 50 ?
-                    "white" : ""),
+                cell("Streak", s.streak ? s.streak + " " + (s.streakType === "win" ? "W" : "L") : "—", s.streakType === "win" ? "green" : s.streakType === "loss" ? "red" : ""),
             ].join("");
-            document.getElementById("statsRow").innerHTML = html;
         }
 
         function renderEquityChart() {
@@ -1611,19 +643,16 @@
             if (s.curve.length > 1) {
                 el.innerHTML = svgLineChart(s.curve.map(c => ({ value: c.cum })), { stroke: '#FFFFFF', fill: '#FFFFFF' });
             } else {
-                el.innerHTML = `<div class="chart-empty">Log a couple of trades to see your equity curve</div>`;
+                el.innerHTML = `<div class="chart-empty">Log trades to see your equity curve</div>`;
             }
         }
 
         function renderSessionFilters() {
             const el = document.getElementById("sessionFilters");
             const opts = ["All", ...SESSIONS];
-            el.innerHTML = opts.map(s =>
-                `<button class="chip ${sessionFilter === s ? 'active' : ''}" data-session="${s}">${s}</button>`
-            ).join("");
+            el.innerHTML = opts.map(s => `<button class="chip ${sessionFilter === s ? 'active' : ''}" data-session="${s}">${s}</button>`).join("");
             el.querySelectorAll(".chip").forEach(btn => {
-                btn.addEventListener("click", () => { sessionFilter = btn.dataset.session;
-                    render(); });
+                btn.addEventListener("click", () => { sessionFilter = btn.dataset.session; render(); });
             });
         }
 
@@ -1631,8 +660,7 @@
             const filtered = sessionFilter === "All" ? trades : trades.filter(t => t.session === sessionFilter);
             const rowsEl = document.getElementById("tradeRows");
             if (filtered.length === 0) {
-                rowsEl.innerHTML =
-                    `<div class="row"><div class="row-empty">No trades logged yet. Add your first entry above.</div></div>`;
+                rowsEl.innerHTML = `<div class="row"><div class="row-empty">No trades logged yet.</div></div>`;
                 return;
             }
             rowsEl.innerHTML = [...filtered].reverse().map(t => {
@@ -1640,9 +668,6 @@
                 const stampClass = o === "win" ? "stamp-win" : o === "loss" ? "stamp-loss" : "stamp-flat";
                 const tone = o === "win" ? "tone-green" : o === "loss" ? "tone-red" : "";
                 const dirColor = t.direction === "Long" ? "tone-green" : "tone-red";
-                const targetHit = t.target && t.r !== null && t.r >= t.target;
-                const targetBadge = targetHit ? '✓' : '';
-                const mt5Tag = t.mt5 ? '◆' : '';
                 return `<div class="row mono">
               <span class="stamp ${stampClass}"></span>
               <span style="color:var(--text-dim)">${t.date}</span>
@@ -1650,9 +675,9 @@
               <span class="${dirColor}">${t.direction}</span>
               <span style="color:var(--text-dim);font-family:Rajdhani,sans-serif">${t.session}</span>
               <span>${t.entry}</span><span>${t.stop}</span><span>${t.exit}</span>
-              <span class="${tone}">${fmtR(t.r)} ${targetBadge}</span>
+              <span class="${tone}">${fmtR(t.r)}</span>
               <span class="${tone}">${t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—"}</span>
-              <span class="notes-cell">${(t.notes || "").replace(/</g, "&lt;")} ${mt5Tag}</span>
+              <span class="notes-cell">${(t.notes || "").replace(/</g, "&lt;")} ${t.mt5 ? '◆' : ''}</span>
               <button class="del-btn" data-id="${t.id}">✕</button>
             </div>`;
             }).join("");
@@ -1669,19 +694,15 @@
             const s = computeStats();
             const el = document.getElementById("analyticsTab");
             if (s.total < 2) {
-                el.innerHTML = `<div class="empty-analytics">Log a few more trades to unlock analytics.</div>`;
+                el.innerHTML = `<div class="empty-analytics">Log more trades to unlock analytics.</div>`;
                 return;
             }
-            const card = (title, svg) => `
-            <div class="chart-card">
-              <div class="chart-card-title">${title}</div>
-              <div class="chart-card-body">${svg}</div>
-            </div>`;
+            const bySession = SESSIONS.map(sess => {
+                const rows = trades.filter(t => t.session === sess && t.r !== null);
+                return { label: sess, value: rows.reduce((sum, t) => sum + t.r, 0) };
+            }).filter(s => s.value !== 0);
             el.innerHTML = `<div class="analytics-grid">
-            ${card("Drawdown (R)", svgLineChart(s.curve.map(c => ({ value: c.drawdown })), { stroke: '#FF3355', fill: '#FF3355' }))}
-            ${card("Performance by Session", svgBarChart(s.bySession))}
-            ${card("Monthly R", svgBarChart(s.byMonth))}
-            ${card("R-Multiple Distribution", svgBarChart(s.histogram))}
+            ${bySession.length ? `<div class="chart-card"><div class="chart-card-title">Performance by Session</div><div class="chart-card-body">${svgBarChart(bySession)}</div></div>` : ''}
           </div>`;
         }
 
@@ -1715,15 +736,8 @@
             const el = document.getElementById('mt5StatusMsg');
             el.textContent = message;
             el.className = 'status-msg ' + type;
-            if (type === 'info' || type === 'success' || type === 'error') {
-                el.style.display = 'block';
-            }
-        }
-
-        function hideMT5Status() {
-            const el = document.getElementById('mt5StatusMsg');
-            el.style.display = 'none';
-            el.className = 'status-msg';
+            el.style.display = 'block';
+            setTimeout(() => { if (el.style.display === 'block') el.style.display = 'none'; }, 5000);
         }
 
         async function connectToMT5(credentials) {
@@ -1731,115 +745,37 @@
                 const response = await fetch(`${MT5_API_URL}/connect`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        login: credentials.login,
-                        password: credentials.password,
-                        server: credentials.server
-                    })
+                    body: JSON.stringify(credentials)
                 });
-
                 const data = await response.json();
-
                 if (data.success) {
                     mt5IsConnected = true;
                     mt5AccountInfo = data.account || { login: credentials.login, server: credentials.server };
-                    mt5Config.connected = true;
-                    mt5Config.enabled = true;
-                    localStorage.setItem(MT5_CONFIG_KEY, JSON.stringify(mt5Config));
+                    localStorage.setItem(MT5_CONFIG_KEY, JSON.stringify({ connected: true }));
                     localStorage.setItem(MT5_CREDENTIALS_KEY, JSON.stringify(credentials));
-
-                    startMT5Listener();
-
-                    return { success: true, account: data.account };
-                } else {
-                    throw new Error(data.error || 'Connection failed');
+                    updateMT5UI();
+                    return { success: true };
                 }
+                throw new Error(data.error || 'Connection failed');
             } catch (error) {
-                console.error('MT5 Connect Error:', error);
                 throw error;
             }
         }
 
         function disconnectMT5() {
-            fetch(`${MT5_API_URL}/disconnect`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            }).then(() => {
-                mt5IsConnected = false;
-                mt5Config.connected = false;
-                mt5Config.enabled = false;
-                localStorage.setItem(MT5_CONFIG_KEY, JSON.stringify(mt5Config));
-                if (mt5Listener) {
-                    clearInterval(mt5Listener);
-                    mt5Listener = null;
-                }
-                updateMT5UI();
-            }).catch(err => console.error('Disconnect error:', err));
-        }
-
-        function startMT5Listener() {
-            if (mt5Listener) clearInterval(mt5Listener);
-
-            mt5Listener = setInterval(async () => {
-                if (!mt5IsConnected) return;
-
-                try {
-                    const response = await fetch(`${MT5_API_URL}/positions`);
-                    const data = await response.json();
-
-                    if (data.positions && data.positions.length > 0) {
-                        data.positions.forEach(pos => {
-                            const exists = trades.some(t =>
-                                t.symbol === pos.symbol &&
-                                t.mt5 &&
-                                Math.abs(t.entry - pos.price_open) < 0.0001
-                            );
-
-                            if (!exists) {
-                                const trade = {
-                                    id: uid(),
-                                    date: new Date().toISOString().slice(0, 10),
-                                    symbol: pos.symbol,
-                                    direction: pos.type,
-                                    session: document.getElementById('f-session').value || 'New York',
-                                    entry: pos.price_open,
-                                    stop: pos.sl || 0,
-                                    exit: pos.price_current,
-                                    size: pos.volume,
-                                    risk: 1.0,
-                                    target: null,
-                                    notes: '◆ Live MT5 Position',
-                                    r: null,
-                                    pnl: pos.profit || 0,
-                                    mt5: true,
-                                    mt5Timestamp: new Date().toISOString()
-                                };
-
-                                trades.push(trade);
-                                trades.sort((a, b) => a.date.localeCompare(b.date));
-                                saveTrades();
-                                mt5TradesReceived++;
-                                render();
-                                showMT5Status(`● New position logged: ${pos.symbol} ${pos.type}`, 'success');
-                            }
-                        });
-                    }
-                } catch (error) {
-                    console.error('Error fetching positions:', error);
-                }
-            }, 3000);
+            mt5IsConnected = false;
+            localStorage.setItem(MT5_CONFIG_KEY, JSON.stringify({ connected: false }));
+            updateMT5UI();
         }
 
         async function syncMT5History(credentials) {
             try {
-                showMT5Status('● Syncing trade history...', 'info');
-
+                showMT5Status('● Syncing history...', 'info');
                 const response = await fetch(`${MT5_API_URL}/history`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ days: 7 })
                 });
-
                 const data = await response.json();
 
                 if (data.error) {
@@ -1853,10 +789,8 @@
                         const exists = trades.some(t =>
                             t.symbol === trade.symbol &&
                             Math.abs(t.entry - trade.entry) < 0.0001 &&
-                            Math.abs(t.exit - trade.exit) < 0.0001 &&
-                            t.mt5 === true
+                            Math.abs(t.exit - trade.exit) < 0.0001
                         );
-
                         if (!exists) {
                             const newTrade = {
                                 id: uid(),
@@ -1870,24 +804,20 @@
                                 size: trade.size || 0,
                                 risk: 1.0,
                                 target: null,
-                                notes: trade.notes + (data.simulation ? ' ○ SIM' : ' ◆ MT5'),
+                                notes: (trade.notes || '') + ' ◆ MT5',
                                 r: calcR(trade.direction, trade.entry, trade.stop || 0, trade.exit),
                                 pnl: trade.profit || 0,
-                                mt5: true,
-                                mt5Timestamp: new Date().toISOString()
+                                mt5: true
                             };
                             trades.push(newTrade);
                             newTrades++;
                         }
                     });
-
                     if (newTrades > 0) {
                         trades.sort((a, b) => a.date.localeCompare(b.date));
                         saveTrades();
-                        mt5TradesReceived += newTrades;
                         render();
-                        const mode = data.simulation ? 'SIMULATION' : 'MT5';
-                        showMT5Status(`● Imported ${newTrades} trades from ${mode}`, 'success');
+                        showMT5Status(`● Imported ${newTrades} trades`, 'success');
                     } else {
                         showMT5Status('○ No new trades found', 'info');
                     }
@@ -1895,8 +825,7 @@
                     showMT5Status('○ No trade history found', 'info');
                 }
             } catch (error) {
-                console.error('History sync error:', error);
-                showMT5Status('● Failed to sync history', 'error');
+                showMT5Status('● Sync failed: ' + error.message, 'error');
             }
         }
 
@@ -1905,7 +834,6 @@
                 alert('Please connect to MT5 first');
                 return;
             }
-
             const testTrade = {
                 symbol: 'EURUSD',
                 direction: 'Long',
@@ -1914,9 +842,8 @@
                 exit: 1.1285,
                 size: 10000,
                 session: document.getElementById('f-session').value || 'New York',
-                notes: '◆ Test trade from MT5'
+                notes: '◆ Test trade'
             };
-
             const trade = {
                 id: uid(),
                 date: new Date().toISOString().slice(0, 10),
@@ -1929,38 +856,32 @@
                 size: testTrade.size,
                 risk: 1.0,
                 target: null,
-                notes: testTrade.notes + ' ◆ Live MT5',
+                notes: testTrade.notes + ' ◆ MT5',
                 r: calcR(testTrade.direction, testTrade.entry, testTrade.stop, testTrade.exit),
                 pnl: calcPnl(testTrade.direction, testTrade.entry, testTrade.exit, testTrade.size),
-                mt5: true,
-                mt5Timestamp: new Date().toISOString()
+                mt5: true
             };
-
             trades.push(trade);
             trades.sort((a, b) => a.date.localeCompare(b.date));
             saveTrades();
-            mt5TradesReceived++;
             render();
-            showMT5Status('● Test trade logged successfully!', 'success');
+            showMT5Status('● Test trade logged!', 'success');
         }
 
         // ============================================================
-        // SPLASH
+        // UI EVENTS
         // ============================================================
+        // Splash
         const quoteText = todaysQuote();
         document.getElementById("splash-quote").textContent = quoteText;
         document.getElementById("bannerQuote").textContent = quoteText;
-        document.getElementById("splash-date").textContent = new Date().toLocaleDateString(undefined, { weekday: 'long',
-            year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById("splash-date").textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         document.getElementById("enterBtn").addEventListener("click", () => {
             document.getElementById("splash").classList.add("hidden");
         });
 
-        // ============================================================
-        // FORM
-        // ============================================================
+        // Form
         document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
-
         document.getElementById("toggleFormBtn").addEventListener("click", () => {
             const form = document.getElementById("entryForm");
             const btn = document.getElementById("toggleFormBtn");
@@ -1977,26 +898,21 @@
             const stop = document.getElementById("f-stop").value;
             const exit = document.getElementById("f-exit").value;
             if (!symbol || !entry || !stop || !exit) return;
-            const direction = document.getElementById("f-direction").value;
-            const size = document.getElementById("f-size").value;
-            const risk = parseFloat(document.getElementById("f-risk").value) || null;
-            const target = parseFloat(document.getElementById("f-target").value) || null;
-
             const trade = {
                 id: uid(),
                 date: document.getElementById("f-date").value,
                 symbol: symbol.toUpperCase(),
-                direction,
+                direction: document.getElementById("f-direction").value,
                 session: document.getElementById("f-session").value,
                 entry: entry,
                 stop: stop,
                 exit: exit,
-                size: size || "0",
-                risk: risk,
-                target: target,
+                size: document.getElementById("f-size").value || "0",
+                risk: parseFloat(document.getElementById("f-risk").value) || null,
+                target: parseFloat(document.getElementById("f-target").value) || null,
                 notes: document.getElementById("f-notes").value,
-                r: calcR(direction, entry, stop, exit),
-                pnl: calcPnl(direction, entry, exit, size),
+                r: calcR(document.getElementById("f-direction").value, entry, stop, exit),
+                pnl: calcPnl(document.getElementById("f-direction").value, entry, exit, document.getElementById("f-size").value),
                 mt5: false
             };
             trades.push(trade);
@@ -2006,17 +922,17 @@
             document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
             document.getElementById("f-risk").value = "1.0";
             document.getElementById("entryForm").style.display = "none";
-            const btn = document.getElementById("toggleFormBtn");
-            btn.textContent = "+ New";
-            btn.className = "btn-primary";
+            document.getElementById("toggleFormBtn").textContent = "+ New";
+            document.getElementById("toggleFormBtn").className = "btn-primary";
             render();
         });
 
+        // Tabs
         document.querySelectorAll(".tab").forEach(el => {
-            el.addEventListener("click", () => { currentTab = el.dataset.tab;
-                render(); });
+            el.addEventListener("click", () => { currentTab = el.dataset.tab; render(); });
         });
 
+        // Export/Import
         document.getElementById("exportBtn").addEventListener("click", () => {
             const blob = new Blob([JSON.stringify(trades, null, 2)], { type: "application/json" });
             const url = URL.createObjectURL(blob);
@@ -2027,9 +943,7 @@
             URL.revokeObjectURL(url);
         });
 
-        document.getElementById("importBtn").addEventListener("click", () => {
-            document.getElementById("importFile").click();
-        });
+        document.getElementById("importBtn").addEventListener("click", () => document.getElementById("importFile").click());
         document.getElementById("importFile").addEventListener("change", (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -2041,26 +955,25 @@
                         trades = parsed;
                         saveTrades();
                         render();
-                        alert(`● Imported ${trades.length} trades successfully!`);
-                    } else alert("File doesn't look like a valid trades export.");
-                } catch { alert("Couldn't parse that file as JSON."); }
+                        alert(`● Imported ${trades.length} trades`);
+                    }
+                } catch { alert("Invalid file"); }
             };
             reader.readAsText(file);
             e.target.value = "";
         });
 
-        // ============================================================
-        // GITHUB UI
-        // ============================================================
+        // GitHub
         document.getElementById("githubTokenBtn").addEventListener("click", () => {
             document.getElementById("tokenModal").classList.add("show");
             document.getElementById("tokenInput").value = githubToken;
         });
-
         document.getElementById("tokenCancelBtn").addEventListener("click", () => {
             document.getElementById("tokenModal").classList.remove("show");
         });
-
+        document.getElementById("tokenModal").addEventListener("click", (e) => {
+            if (e.target === e.currentTarget) document.getElementById("tokenModal").classList.remove("show");
+        });
         document.getElementById("tokenSaveBtn").addEventListener("click", () => {
             const token = document.getElementById("tokenInput").value.trim();
             if (token && token.length > 10) {
@@ -2068,95 +981,46 @@
                 localStorage.setItem(TOKEN_STORAGE_KEY, token);
                 document.getElementById("tokenModal").classList.remove("show");
                 document.getElementById("syncBtn").style.display = "inline-block";
-                updateGithubStatus('● Token saved!', 'success');
-                setTimeout(() => {
-                    loadFromGitHub();
-                    startAutoSync();
-                    if (trades.length > 0) {
-                        setTimeout(() => saveToGitHub(), 1000);
-                    }
-                }, 500);
-            } else {
-                alert('Please enter a valid GitHub token (starts with ghp_)');
+                updateGithubStatus('● Token saved', 'success');
+                loadFromGitHub();
             }
         });
-
         document.getElementById("syncBtn").addEventListener("click", () => {
-            if (trades.length > 0) {
-                saveToGitHub();
-            }
+            if (trades.length > 0) saveToGitHub();
             loadFromGitHub();
         });
 
-        document.getElementById("tokenModal").addEventListener("click", (e) => {
-            if (e.target === e.currentTarget) {
-                document.getElementById("tokenModal").classList.remove("show");
-            }
-        });
-
-        // ============================================================
-        // MT5 UI EVENTS
-        // ============================================================
-
-        function openMT5LoginModal() {
-            const modal = document.getElementById('mt5LoginModal');
-            modal.classList.add('show');
-            hideMT5Status();
-
-            if (mt5Credentials.login) {
-                document.getElementById('mt5Login').value = mt5Credentials.login || '';
-                document.getElementById('mt5Server').value = mt5Credentials.server || 'Exness-MT5Trial9';
-                document.getElementById('mt5Session').value = mt5Credentials.session || 'New York';
-            }
-        }
-
+        // MT5
         document.getElementById('mt5LoginBtn2').addEventListener('click', () => {
             if (mt5IsConnected) {
                 disconnectMT5();
             } else {
-                openMT5LoginModal();
+                document.getElementById('mt5LoginModal').classList.add('show');
             }
         });
-
         document.getElementById('mt5LoginCancel').addEventListener('click', () => {
             document.getElementById('mt5LoginModal').classList.remove('show');
-            hideMT5Status();
         });
-
         document.getElementById('mt5LoginModal').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) {
-                document.getElementById('mt5LoginModal').classList.remove('show');
-                hideMT5Status();
-            }
+            if (e.target === e.currentTarget) document.getElementById('mt5LoginModal').classList.remove('show');
         });
-
         document.getElementById('mt5Server').addEventListener('change', function() {
-            const customGroup = document.getElementById('customServerGroup');
-            if (this.value === 'Custom') {
-                customGroup.style.display = 'block';
-            } else {
-                customGroup.style.display = 'none';
-            }
+            document.getElementById('customServerGroup').style.display = this.value === 'Custom' ? 'block' : 'none';
         });
 
         document.getElementById('mt5LoginBtn').addEventListener('click', async () => {
             const login = document.getElementById('mt5Login').value.trim();
             const password = document.getElementById('mt5Password').value.trim();
-            const serverSelect = document.getElementById('mt5Server');
-            let server = serverSelect.value;
+            let server = document.getElementById('mt5Server').value;
+            if (server === 'Custom') server = document.getElementById('mt5CustomServer').value.trim();
             const session = document.getElementById('mt5Session').value;
-
-            if (server === 'Custom') {
-                server = document.getElementById('mt5CustomServer').value.trim();
-            }
 
             if (!login || !password || !server) {
                 showMT5Status('● Please fill in all fields', 'error');
                 return;
             }
 
-            showMT5Status('● Connecting to MT5...', 'info');
-
+            showMT5Status('● Connecting...', 'info');
             const credentials = { login, password, server, session };
 
             try {
@@ -2164,9 +1028,7 @@
                 if (result.success) {
                     document.getElementById('mt5LoginModal').classList.remove('show');
                     showMT5Status('● Connected successfully!', 'success');
-                    updateMT5UI();
                     document.getElementById('f-session').value = session;
-
                     setTimeout(() => syncMT5History(credentials), 1000);
                 }
             } catch (error) {
@@ -2181,35 +1043,24 @@
                 alert('Please connect to MT5 first');
                 return;
             }
-
             if (!mt5Credentials.login) {
-                alert('No MT5 credentials found. Please login again.');
+                alert('No MT5 credentials found');
                 return;
             }
-
             await syncMT5History(mt5Credentials);
         });
 
-        // ============================================================
-        // VOICE WELCOME
-        // ============================================================
+        // Voice
         function speakWelcome() {
             const audio = new Audio('welcome.mp3');
             audio.volume = 1.0;
             audio.onerror = function() { fallbackSpeech(); };
             audio.play().catch(function() { fallbackSpeech(); });
-
             function fallbackSpeech() {
                 if ('speechSynthesis' in window) {
-                    const msg = new SpeechSynthesisUtterance();
-                    msg.text = 'Welcome Sir Eyob';
+                    const msg = new SpeechSynthesisUtterance('Welcome Sir Eyob');
                     msg.lang = 'en-US';
                     msg.rate = 0.9;
-                    msg.pitch = 1.1;
-                    const voices = speechSynthesis.getVoices();
-                    const voice = voices.find(v => v.name.includes('Google UK') || v.name.includes('Samantha') || v.name
-                        .includes('Daniel') || v.lang.startsWith('en'));
-                    if (voice) msg.voice = voice;
                     window.speechSynthesis.speak(msg);
                 }
             }
@@ -2220,83 +1071,27 @@
         // ============================================================
         async function init() {
             trades = loadTrades();
-            mt5Config = JSON.parse(localStorage.getItem(MT5_CONFIG_KEY) || '{"enabled":false,"connected":false}');
-            mt5Credentials = JSON.parse(localStorage.getItem(MT5_CREDENTIALS_KEY) || '{}');
-
-            if (mt5Credentials.login && mt5Config.connected) {
-                setTimeout(async () => {
-                    try {
-                        const result = await connectToMT5(mt5Credentials);
-                        if (result.success) {
-                            updateMT5UI();
-                            console.log('◆ Auto-connected to MT5');
-                        }
-                    } catch (error) {
-                        console.log('Auto-connect failed:', error.message);
-                        mt5IsConnected = false;
-                        updateMT5UI();
-                    }
-                }, 1500);
+            
+            // Check for saved MT5 connection
+            if (localStorage.getItem(MT5_CONFIG_KEY)) {
+                const config = JSON.parse(localStorage.getItem(MT5_CONFIG_KEY));
+                if (config.connected) {
+                    mt5IsConnected = true;
+                    mt5AccountInfo = { login: 'Saved', server: 'MT5' };
+                    updateMT5UI();
+                }
             }
 
             if (githubToken && githubToken.length > 10) {
                 document.getElementById("syncBtn").style.display = "inline-block";
-                updateGithubStatus('● Loading from GitHub...', 'syncing');
-
-                const loaded = await loadFromGitHub();
-
-                if (!loaded && trades.length === 0) {
-                    updateGithubStatus('● No data found', 'error');
-                }
-
-                startAutoSync();
-
-                if (trades.length > 0 && !loaded) {
-                    setTimeout(() => saveToGitHub(), 1000);
-                }
-            } else {
-                if (trades.length > 0) {
-                    updateGithubStatus(`● Local: ${trades.length}`, 'success');
-                } else {
-                    updateGithubStatus('● Setup GitHub', '');
-                }
-                render();
+                await loadFromGitHub();
             }
-
-            updateMT5UI();
-
-            if (window.speechSynthesis) {
-                if (speechSynthesis.getVoices().length > 0) {
-                    speakWelcome();
-                } else {
-                    speechSynthesis.onvoiceschanged = () => { speakWelcome(); };
-                }
-            } else {
-                const audio = new Audio('welcome.mp3');
-                audio.play().catch(() => {});
-            }
-
-            window.mt5 = {
-                connect: connectToMT5,
-                disconnect: disconnectMT5,
-                processTrade: sendTestTrade,
-                syncHistory: syncMT5History,
-                config: mt5Config,
-                trades: () => trades,
-                status: () => ({ connected: mt5IsConnected, account: mt5AccountInfo })
-            };
-
-            console.log('◆ Sir Eyob Ledger initialized');
-            console.log(`● ${trades.length} trades loaded`);
-            console.log(`◆ MT5 ${mt5IsConnected ? 'connected' : 'disconnected'}`);
-            console.log('● Use window.mt5 for console commands');
+            
+            render();
+            
+            // Voice welcome
+            setTimeout(speakWelcome, 500);
         }
-
-        window.addEventListener('beforeunload', () => {
-            if (trades.length > 0) {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
-            }
-        });
 
         init();
     </script>

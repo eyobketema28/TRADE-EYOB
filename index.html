@@ -1552,22 +1552,39 @@
         });
 
         // ============================================================
-        // VOICE WELCOME - "Welcome Sir Eyob"
+        // VOICE WELCOME - with custom audio fallback
         // ============================================================
         function speakWelcome() {
-            if ('speechSynthesis' in window) {
-                const msg = new SpeechSynthesisUtterance();
-                msg.text = 'Welcome Sir Eyob';
-                msg.lang = 'en-US';
-                msg.rate = 0.9;
-                msg.pitch = 1.1;
-                // Use a voice that sounds clear
-                const voices = speechSynthesis.getVoices();
-                // choose a male or default voice if available
-                const voice = voices.find(v => v.name.includes('Google UK') || v.name.includes('Samantha') || v.name.includes(
-                    'Daniel') || v.lang.startsWith('en'));
-                if (voice) msg.voice = voice;
-                window.speechSynthesis.speak(msg);
+            // Try to play custom audio file first
+            const audio = new Audio('welcome.mp3'); // Place your audio file as 'welcome.mp3' in the same folder
+            audio.volume = 1.0;
+
+            // If the audio fails to load or play, fallback to speech synthesis
+            audio.onerror = function() {
+                console.log('Custom audio not found, using speech synthesis fallback.');
+                fallbackSpeech();
+            };
+
+            // Attempt to play the audio
+            audio.play().catch(function(err) {
+                console.log('Audio play failed, using speech synthesis fallback.');
+                fallbackSpeech();
+            });
+
+            // Fallback function using Speech Synthesis API
+            function fallbackSpeech() {
+                if ('speechSynthesis' in window) {
+                    const msg = new SpeechSynthesisUtterance();
+                    msg.text = 'Welcome Sir Eyob';
+                    msg.lang = 'en-US';
+                    msg.rate = 0.9;
+                    msg.pitch = 1.1;
+                    const voices = speechSynthesis.getVoices();
+                    const voice = voices.find(v => v.name.includes('Google UK') || v.name.includes('Samantha') || v.name
+                        .includes('Daniel') || v.lang.startsWith('en'));
+                    if (voice) msg.voice = voice;
+                    window.speechSynthesis.speak(msg);
+                }
             }
         }
 
@@ -1601,18 +1618,20 @@
                 render();
             }
 
-            // --- Voice welcome after splash is shown and voices are ready ---
-            // Wait a beat for voices to load, then speak
+            // --- Voice welcome using custom audio or fallback ---
+            // Wait a moment for voices to load if needed, then speak
             if (window.speechSynthesis) {
-                // If voices are already loaded, speak immediately
                 if (speechSynthesis.getVoices().length > 0) {
                     speakWelcome();
                 } else {
-                    // Otherwise wait for the 'voiceschanged' event
                     speechSynthesis.onvoiceschanged = () => {
                         speakWelcome();
                     };
                 }
+            } else {
+                // If speech synthesis is not supported, try audio only
+                const audio = new Audio('welcome.mp3');
+                audio.play().catch(() => {});
             }
         }
 

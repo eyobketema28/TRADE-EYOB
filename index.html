@@ -52,7 +52,6 @@
             padding: 28px 24px 40px;
         }
 
-        /* ---------- SPLASH ---------- */
         #splash {
             position: fixed;
             inset: 0;
@@ -184,7 +183,6 @@
             transform: scale(1.03);
         }
 
-        /* ---------- APP ---------- */
         .greeting-banner {
             display: flex;
             align-items: center;
@@ -648,7 +646,6 @@
             font-size: 14px;
         }
 
-        /* Setup modal */
         .setup-modal {
             display: none;
             position: fixed;
@@ -684,8 +681,7 @@
             font-size: 14px;
             line-height: 1.5;
         }
-        .setup-modal input,
-        .setup-modal select {
+        .setup-modal input {
             width: 100%;
             background: var(--surface-raised);
             border: 1px solid var(--hairline);
@@ -697,8 +693,7 @@
             outline: none;
             margin-bottom: 12px;
         }
-        .setup-modal input:focus,
-        .setup-modal select:focus {
+        .setup-modal input:focus {
             border-color: var(--gold-dim);
         }
         .setup-modal .btn-row {
@@ -709,13 +704,7 @@
         .setup-modal .btn-row button {
             padding: 10px 24px;
         }
-        .setup-modal .step {
-            color: var(--gold);
-            font-size: 12px;
-            margin-bottom: 8px;
-        }
 
-        /* responsive */
         @media (max-width: 700px) {
             .row {
                 grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px;
@@ -785,27 +774,22 @@
     <!-- SETUP MODAL -->
     <div class="setup-modal" id="setupModal">
         <div class="setup-modal-content">
-            <h2>🔐 Cloud Storage Setup</h2>
+            <h2>☁️ Cloud Storage Setup</h2>
             <p>Store your trades securely in the cloud using <strong style="color:var(--gold);">JSONBin.io</strong>.</p>
 
-            <div class="step">Step 1: Get your API Key</div>
             <p style="font-size:12px;color:var(--ink-dim);">
                 1. Go to <strong style="color:var(--gold);">jsonbin.io</strong> and sign up (free)<br>
-                2. Go to <strong style="color:var(--gold);">Dashboard → API Keys</strong><br>
-                3. Create a new key with <strong style="color:var(--green);">Read & Write</strong> access<br>
-                4. Copy the key
+                2. Get API Key: <strong style="color:var(--green);">Dashboard → API Keys → Create</strong><br>
+                3. Create Bin: <strong style="color:var(--green);">Dashboard → Bins → Create Bin</strong><br>
+                4. In the bin, paste: <strong style="color:var(--gold);">[]</strong> (empty array)<br>
+                5. Copy the Bin ID from the URL
             </p>
+
+            <label style="color:var(--ink-dim);font-size:12px;text-transform:uppercase;letter-spacing:1px;">API Key</label>
             <input type="password" id="apiKeyInput" placeholder="paste your API key here" />
 
-            <div class="step">Step 2: Create a Bin</div>
-            <p style="font-size:12px;color:var(--ink-dim);">
-                1. Go to <strong style="color:var(--gold);">jsonbin.io</strong> → <strong style="color:var(--green);">Create Bin</strong><br>
-                2. Name it: <strong style="color:var(--gold);">Trade Ledger</strong><br>
-                3. Paste: <strong style="color:var(--gold);">[]</strong> (empty array)<br>
-                4. Click <strong style="color:var(--green);">Create</strong><br>
-                5. Copy the Bin ID from the URL: <strong style="color:var(--gold);">jsonbin.io/b/BIN_ID</strong>
-            </p>
-            <input type="text" id="binIdInput" placeholder="paste your Bin ID here" />
+            <label style="color:var(--ink-dim);font-size:12px;text-transform:uppercase;letter-spacing:1px;">Bin ID</label>
+            <input type="text" id="binIdInput" placeholder="paste your Bin ID here (e.g., abc123def456)" />
 
             <div class="btn-row">
                 <button class="btn-cancel" id="setupCancelBtn">Cancel</button>
@@ -1019,7 +1003,7 @@
         function fmtR(r) { return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); }
 
         // ============================================================
-        // JSONBIN.IO STORAGE - SECURE & SIMPLE
+        // JSONBIN.IO STORAGE
         // ============================================================
         function updateStatus(text, type) {
             const el = document.getElementById('syncStatus');
@@ -1033,7 +1017,15 @@
         }
 
         async function saveToJSONBin() {
-            if (!apiKey || apiKey.length < 10 || !binId || binId.length < 3 || isSaving) return false;
+            if (!apiKey || apiKey.length < 10) {
+                updateStatus('⚠️ No API Key', 'error');
+                return false;
+            }
+            if (!binId || binId.length < 3) {
+                updateStatus('⚠️ No Bin ID', 'error');
+                return false;
+            }
+            if (isSaving) return false;
             if (trades.length === 0) return false;
 
             isSaving = true;
@@ -1057,8 +1049,10 @@
                     }, 3000);
                     return true;
                 } else {
-                    const err = await res.json();
-                    throw new Error(err.message || `Failed: ${res.status}`);
+                    const err = await res.text();
+                    console.error('Save error:', err);
+                    updateStatus(`❌ Save failed: ${res.status}`, 'error');
+                    return false;
                 }
             } catch (error) {
                 console.error('❌ Save error:', error);
@@ -1070,7 +1064,15 @@
         }
 
         async function loadFromJSONBin() {
-            if (!apiKey || apiKey.length < 10 || !binId || binId.length < 3 || isSyncing) return false;
+            if (!apiKey || apiKey.length < 10) {
+                updateStatus('⚠️ No API Key', 'error');
+                return false;
+            }
+            if (!binId || binId.length < 3) {
+                updateStatus('⚠️ No Bin ID', 'error');
+                return false;
+            }
+            if (isSyncing) return false;
 
             isSyncing = true;
             updateStatus('☁️ Syncing...', 'syncing');
@@ -1104,13 +1106,18 @@
                             updateStatus(`☁️ ${trades.length} trades`, 'success');
                             return true;
                         }
+                    } else {
+                        updateStatus('⚠️ Invalid data format', 'error');
+                        return false;
                     }
                 } else if (res.status === 404) {
-                    updateStatus('📁 Create bin first', 'error');
+                    updateStatus('📁 Bin not found', 'error');
                     return false;
                 } else {
-                    const err = await res.json();
-                    throw new Error(err.message || `Error: ${res.status}`);
+                    const err = await res.text();
+                    console.error('Load error:', err);
+                    updateStatus(`❌ Load failed: ${res.status}`, 'error');
+                    return false;
                 }
             } catch (error) {
                 console.error('❌ Load error:', error);
@@ -1519,25 +1526,30 @@
             const key = document.getElementById("apiKeyInput").value.trim();
             const bin = document.getElementById("binIdInput").value.trim();
 
-            if (key && key.length > 10 && bin && bin.length > 3) {
-                apiKey = key;
-                binId = bin;
-                localStorage.setItem(API_KEY_STORAGE_KEY, key);
-                localStorage.setItem(BIN_ID_STORAGE_KEY, bin);
-                document.getElementById("setupModal").classList.remove("show");
-                document.getElementById("syncBtn").style.display = "inline-block";
-                updateStatus('✅ Setup complete!', 'success');
-
-                setTimeout(() => {
-                    loadFromJSONBin();
-                    startAutoSync();
-                    if (trades.length > 0) {
-                        setTimeout(() => saveToJSONBin(), 1000);
-                    }
-                }, 500);
-            } else {
-                alert('Please enter both a valid API Key and Bin ID');
+            if (!key || key.length < 10) {
+                alert('Please enter a valid API Key');
+                return;
             }
+            if (!bin || bin.length < 3) {
+                alert('Please enter a valid Bin ID');
+                return;
+            }
+
+            apiKey = key;
+            binId = bin;
+            localStorage.setItem(API_KEY_STORAGE_KEY, key);
+            localStorage.setItem(BIN_ID_STORAGE_KEY, bin);
+            document.getElementById("setupModal").classList.remove("show");
+            document.getElementById("syncBtn").style.display = "inline-block";
+            updateStatus('✅ Setup complete!', 'success');
+
+            setTimeout(() => {
+                loadFromJSONBin();
+                startAutoSync();
+                if (trades.length > 0) {
+                    setTimeout(() => saveToJSONBin(), 1000);
+                }
+            }, 500);
         });
 
         document.getElementById("syncBtn").addEventListener("click", () => {
@@ -1567,7 +1579,7 @@
                 const loaded = await loadFromJSONBin();
 
                 if (!loaded && trades.length === 0) {
-                    updateStatus('📁 Create bin first', 'error');
+                    updateStatus('📁 Check Bin ID', 'error');
                 }
 
                 startAutoSync();

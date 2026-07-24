@@ -7,151 +7,939 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Sir Eyob Ledger" />
     <meta name="application-name" content="Sir Eyob Ledger" />
-    <meta name="theme-color" content="#050807" />
-    <meta name="msapplication-TileColor" content="#050807" />
-    <meta name="msapplication-TileImage" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23050807'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' fill='%23FFD700'>EY</text></svg>" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="msapplication-TileColor" content="#000000" />
+    <meta name="msapplication-TileImage" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000000'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' fill='%23FFFFFF'>EY</text></svg>" />
 
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23050807'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='50' cy='50' r='45' fill='none' stroke='%23FFD700' stroke-width='2'/></svg>" />
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23050807'/><text x='90' y='122' font-size='86' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='90' cy='90' r='80' fill='none' stroke='%23FFD700' stroke-width='3'/></svg>" />
-    <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='38' fill='%23050807'/><text x='96' y='130' font-size='92' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='96' cy='96' r='85' fill='none' stroke='%23FFD700' stroke-width='3'/></svg>" />
-    <link rel="icon" type="image/png" sizes="512x512" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23050807'/><text x='256' y='346' font-size='246' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='256' cy='256' r='226' fill='none' stroke='%23FFD700' stroke-width='4'/></svg>" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000000'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='50' cy='50' r='45' fill='none' stroke='%23FFFFFF' stroke-width='2'/></svg>" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23000000'/><text x='90' y='122' font-size='86' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='90' cy='90' r='80' fill='none' stroke='%23FFFFFF' stroke-width='3'/></svg>" />
+    <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='38' fill='%23000000'/><text x='96' y='130' font-size='92' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='96' cy='96' r='85' fill='none' stroke='%23FFFFFF' stroke-width='3'/></svg>" />
+    <link rel="icon" type="image/png" sizes="512x512" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23000000'/><text x='256' y='346' font-size='246' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='256' cy='256' r='226' fill='none' stroke='%23FFFFFF' stroke-width='4'/></svg>" />
 
-    <title>Welcome Sir Eyob · Trade Ledger</title>
+    <title>Sir Eyob · Trade Ledger</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-        * { box-sizing: border-box; margin: 0; }
-        :root { --bg: #050807; --surface: #0B100D; --surface-raised: #121A15; --hairline: #1E2B23; --ink: #F2F6F3; --ink-dim: #7C9488; --green: #39FF8C; --green-dim: #1C6B42; --red: #FF4D6A; --steel: #55665C; --gold: #FFD700; --gold-dim: #B8860B; --mt5-blue: #0088FF; }
-        body { background: var(--bg); color: var(--ink); font-family: 'Rajdhani', sans-serif; min-height: 100vh; background-image: linear-gradient(rgba(57,255,140,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(57,255,140,0.035) 1px, transparent 1px); background-size: 34px 34px; padding: 0 0 40px 0; -webkit-tap-highlight-color: transparent; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #000000;
+            --bg-card: #0A0A0A;
+            --bg-card-hover: #141414;
+            --bg-input: #111111;
+            --border: #1A1A1A;
+            --border-light: #2A2A2A;
+            --text: #FFFFFF;
+            --text-dim: #888888;
+            --text-muted: #555555;
+            --gold: #FFD700;
+            --gold-dim: #B8860B;
+            --green: #00FF88;
+            --green-dim: #008844;
+            --red: #FF3355;
+            --red-dim: #881122;
+            --mt5-blue: #0088FF;
+            --shadow: 0 8px 32px rgba(0,0,0,0.8);
+            --glow: 0 0 40px rgba(255,215,0,0.05);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.02) 0%, transparent 70%),
+                radial-gradient(ellipse at 80% 80%, rgba(255,215,0,0.01) 0%, transparent 50%);
+            padding: 0 0 40px 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-light);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-dim);
+        }
+
         .mono { font-family: 'JetBrains Mono', monospace; }
         .display { font-family: 'Orbitron', sans-serif; }
-        .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 24px 40px; }
-        #splash { position: fixed; inset: 0; z-index: 100; background: radial-gradient(circle at 50% 30%, rgba(57,255,140,0.12), var(--bg) 80%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; transition: opacity 0.7s ease, visibility 0.7s ease; backdrop-filter: blur(3px); }
-        #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        #splash-logo { width: 100px; height: 100px; object-fit: contain; margin-bottom: 24px; filter: drop-shadow(0 0 30px rgba(255,215,0,0.2)); animation: pulse-gold 2.5s ease-in-out infinite; }
-        #splash-logo.fallback { border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 32px; color: var(--gold); background: rgba(255,215,0,0.05); }
-        @keyframes pulse-gold { 0%,100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.1)); } 50% { filter: drop-shadow(0 0 50px rgba(255,215,0,0.25)); } }
-        #splash-title { font-size: 46px; font-weight: 900; letter-spacing: 6px; text-transform: uppercase; text-shadow: 0 0 30px rgba(57,255,140,0.2); }
-        #splash-title .gold { color: var(--gold); text-shadow: 0 0 40px rgba(255,215,0,0.3); }
-        #splash-title .green { color: var(--green); }
-        #splash-sub { color: var(--ink-dim); font-size: 16px; letter-spacing: 4px; text-transform: uppercase; margin-top: 6px; margin-bottom: 28px; }
-        #splash-sub .highlight { color: var(--gold); }
-        #splash-quote-box { max-width: 540px; border: 1px solid var(--hairline); border-radius: 16px; background: rgba(18,26,21,0.7); padding: 26px 30px; margin-bottom: 30px; backdrop-filter: blur(8px); border-left: 3px solid var(--gold); }
-        #splash-quote { font-size: 20px; font-weight: 500; line-height: 1.6; color: var(--ink); font-style: italic; }
-        #splash-quote::before { content: "“"; color: var(--gold); font-size: 26px; }
-        #splash-quote::after { content: "”"; color: var(--gold); font-size: 26px; }
-        #splash-date { margin-top: 14px; font-size: 12px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
-        #enterBtn { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); border-radius: 40px; padding: 14px 48px; font-family: 'Orbitron', sans-serif; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
-        #enterBtn:hover { background: var(--gold); color: #041008; box-shadow: 0 0 50px rgba(255,215,0,0.4); transform: scale(1.03); }
-        .greeting-banner { display: flex; align-items: center; gap: 14px; border: 1px solid var(--hairline); border-left: 4px solid var(--gold); background: var(--surface); border-radius: 10px; padding: 12px 20px; margin-bottom: 22px; font-size: 15px; color: var(--ink-dim); flex-wrap: wrap; }
-        .greeting-banner .greeting-name { color: var(--gold); font-weight: 700; font-size: 18px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; text-shadow: 0 0 20px rgba(255,215,0,0.2); }
-        .greeting-banner .greeting-quote { color: var(--ink-dim); font-style: italic; margin-left: auto; font-size: 13px; }
-        .greeting-banner .github-status { font-size: 11px; color: var(--green); background: rgba(57,255,140,0.1); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--green-dim); font-family: 'JetBrains Mono', monospace; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
-        .greeting-banner .github-status:hover { background: rgba(57,255,140,0.2); }
-        .greeting-banner .github-status.saving { color: var(--gold); border-color: var(--gold-dim); animation: pulse 1s ease-in-out infinite; }
-        .greeting-banner .github-status.error { color: var(--red); border-color: var(--red); }
-        .greeting-banner .github-status.success { color: var(--green); border-color: var(--green); }
-        .greeting-banner .github-status.syncing { color: var(--gold); border-color: var(--gold-dim); animation: pulse 0.5s ease-in-out infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px; }
-        .brand { display: flex; align-items: center; gap: 14px; }
-        #app-logo { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(255,215,0,0.15)); }
-        #app-logo.fallback { border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); font-family: 'Orbitron', sans-serif; font-size: 15px; background: rgba(255,215,0,0.04); }
-        .title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: 2px; text-transform: uppercase; }
-        .title .gold { color: var(--gold); }
-        .title .green { color: var(--green); }
-        .subtitle { color: var(--ink-dim); font-size: 13px; margin-top: 2px; letter-spacing: 0.5px; }
-        .subtitle .highlight { color: var(--gold); }
-        .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        button { font-family: 'Rajdhani', sans-serif; cursor: pointer; border: none; border-radius: 8px; font-weight: 600; font-size: 13px; padding: 9px 18px; letter-spacing: 0.5px; transition: all 0.2s ease; }
-        .btn-ghost { background: var(--surface-raised); color: var(--ink-dim); border: 1px solid var(--hairline); font-weight: 500; padding: 8px 14px; font-size: 12.5px; }
-        .btn-ghost:hover { border-color: var(--gold-dim); color: var(--gold); }
-        .btn-gold { background: var(--gold); color: #041008; text-transform: uppercase; letter-spacing: 1.2px; box-shadow: 0 0 20px rgba(255,215,0,0.15); font-weight: 700; }
-        .btn-gold:hover { box-shadow: 0 0 40px rgba(255,215,0,0.3); transform: scale(1.02); }
-        .btn-cancel { background: var(--surface-raised); color: var(--ink); border: 1px solid var(--hairline); }
-        .btn-mt5 { background: var(--mt5-blue); color: #fff; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; box-shadow: 0 0 20px rgba(0,136,255,0.2); }
-        .btn-mt5:hover { box-shadow: 0 0 40px rgba(0,136,255,0.4); transform: scale(1.02); }
-        .btn-mt5.active { background: var(--green); color: #041008; box-shadow: 0 0 30px rgba(57,255,140,0.3); }
-        .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--hairline); }
-        .tab { background: none; border: none; cursor: pointer; padding: 8px 6px 10px; margin-right: 28px; color: var(--ink-dim); border-bottom: 3px solid transparent; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; transition: all 0.2s ease; }
-        .tab.active { color: var(--gold); border-bottom: 3px solid var(--gold); }
-        .tab:hover { color: var(--gold); }
-        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 1px; background: var(--hairline); border-radius: 12px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--hairline); }
-        .stat-cell { background: var(--surface); padding: 14px 16px; }
-        .stat-label { font-size: 10px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px; }
-        .stat-value { font-size: 20px; font-weight: 600; }
-        .tone-green { color: var(--green); text-shadow: 0 0 12px rgba(57,255,140,0.3); }
+
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+        }
+
+        /* SPLASH */
+        #splash {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #splash.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #splash-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 60px rgba(255,215,0,0.15));
+            animation: pulse-gold 3s ease-in-out infinite;
+        }
+        #splash-logo.fallback {
+            border-radius: 50%;
+            border: 2px solid var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 40px;
+            color: var(--text);
+            background: rgba(255,255,255,0.03);
+        }
+        @keyframes pulse-gold {
+            0%, 100% { filter: drop-shadow(0 0 40px rgba(255,215,0,0.08)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 80px rgba(255,215,0,0.2)); transform: scale(1.02); }
+        }
+        #splash-title {
+            font-size: 52px;
+            font-weight: 900;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #FFFFFF 0%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        #splash-title .gold {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        #splash-title .green {
+            background: linear-gradient(135deg, #00FF88 0%, #00CC66 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        #splash-sub {
+            color: var(--text-dim);
+            font-size: 18px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: 8px;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        #splash-sub .highlight {
+            color: var(--gold);
+            -webkit-text-fill-color: var(--gold);
+        }
+        #splash-quote-box {
+            max-width: 540px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--bg-card);
+            padding: 28px 32px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(8px);
+        }
+        #splash-quote {
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--text);
+            font-style: italic;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        #splash-quote::before {
+            content: "“";
+            color: var(--gold);
+            font-size: 28px;
+            font-family: 'Georgia', serif;
+        }
+        #splash-quote::after {
+            content: "”";
+            color: var(--gold);
+            font-size: 28px;
+            font-family: 'Georgia', serif;
+        }
+        #splash-date {
+            margin-top: 12px;
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+        #enterBtn {
+            background: transparent;
+            color: var(--text);
+            border: 1.5px solid var(--text);
+            border-radius: 50px;
+            padding: 16px 56px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            background: rgba(255,255,255,0.03);
+        }
+        #enterBtn:hover {
+            background: var(--text);
+            color: var(--bg);
+            box-shadow: 0 0 60px rgba(255,255,255,0.1);
+            transform: scale(1.03);
+        }
+
+        /* GREETING BANNER */
+        .greeting-banner {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 14px 24px;
+            margin-bottom: 24px;
+            font-size: 15px;
+            color: var(--text-dim);
+            flex-wrap: wrap;
+        }
+        .greeting-banner .greeting-name {
+            color: var(--text);
+            font-weight: 700;
+            font-size: 18px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        .greeting-banner .greeting-quote {
+            color: var(--text-dim);
+            font-style: italic;
+            margin-left: auto;
+            font-size: 13px;
+        }
+        .greeting-banner .github-status {
+            font-size: 11px;
+            color: var(--green);
+            background: rgba(0,255,136,0.06);
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,255,136,0.15);
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .greeting-banner .github-status:hover {
+            background: rgba(0,255,136,0.12);
+        }
+        .greeting-banner .github-status.saving {
+            color: var(--gold);
+            border-color: rgba(255,215,0,0.3);
+            animation: pulse 1s ease-in-out infinite;
+        }
+        .greeting-banner .github-status.error {
+            color: var(--red);
+            border-color: rgba(255,51,85,0.3);
+        }
+        .greeting-banner .github-status.success {
+            color: var(--green);
+            border-color: rgba(0,255,136,0.3);
+        }
+        .greeting-banner .github-status.syncing {
+            color: var(--gold);
+            border-color: rgba(255,215,0,0.3);
+            animation: pulse 0.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        #app-logo {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.05));
+        }
+        #app-logo.fallback {
+            border-radius: 50%;
+            border: 1.5px solid var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            background: rgba(255,255,255,0.03);
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .title .gold {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title .green {
+            background: linear-gradient(135deg, #00FF88 0%, #00CC66 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 12px;
+            margin-top: 2px;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+        .subtitle .highlight {
+            color: var(--text);
+        }
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        button {
+            font-family: 'Rajdhani', sans-serif;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            padding: 8px 16px;
+            letter-spacing: 0.5px;
+            transition: all 0.25s ease;
+        }
+        .btn-ghost {
+            background: var(--bg-card);
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+            font-weight: 500;
+            padding: 7px 14px;
+            font-size: 12px;
+        }
+        .btn-ghost:hover {
+            border-color: var(--text-dim);
+            color: var(--text);
+            background: var(--bg-card-hover);
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, #FFD700 0%, #F0A500 100%);
+            color: #000000;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            box-shadow: 0 0 30px rgba(255,215,0,0.08);
+        }
+        .btn-gold:hover {
+            box-shadow: 0 0 50px rgba(255,215,0,0.2);
+            transform: scale(1.02);
+        }
+        .btn-cancel {
+            background: var(--bg-card);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-mt5 {
+            background: linear-gradient(135deg, #0088FF 0%, #0066CC 100%);
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            box-shadow: 0 0 30px rgba(0,136,255,0.08);
+        }
+        .btn-mt5:hover {
+            box-shadow: 0 0 50px rgba(0,136,255,0.2);
+            transform: scale(1.02);
+        }
+        .btn-mt5.active {
+            background: linear-gradient(135deg, #00FF88 0%, #00CC66 100%);
+            color: #000;
+            box-shadow: 0 0 30px rgba(0,255,136,0.15);
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+        .tab {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 12px 8px 12px;
+            margin-right: 32px;
+            color: var(--text-dim);
+            border-bottom: 2px solid transparent;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+        }
+        .tab.active {
+            color: var(--text);
+            border-bottom: 2px solid var(--text);
+        }
+        .tab:hover {
+            color: var(--text);
+        }
+
+        /* STATS */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        .stat-cell {
+            background: var(--bg-card);
+            padding: 16px 18px;
+        }
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        .stat-value {
+            font-size: 20px;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .tone-green { color: var(--green); }
         .tone-red { color: var(--red); }
-        .tone-gold { color: var(--gold); text-shadow: 0 0 12px rgba(255,215,0,0.3); }
-        form.entry-form { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
-        .field { display: flex; flex-direction: column; gap: 5px; font-size: 11px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.6px; }
-        .field input, .field select, .field textarea { background: var(--surface-raised); border: 1px solid var(--hairline); border-radius: 8px; padding: 8px 10px; color: var(--ink); font-size: 14px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.2s ease; }
-        .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold-dim); box-shadow: 0 0 0 2px rgba(255,215,0,0.1); }
-        .field textarea { font-family: 'Rajdhani', sans-serif; resize: vertical; }
+        .tone-gold { color: var(--gold); }
+
+        /* FORM */
+        form.entry-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 500;
+        }
+        .field input, .field select, .field textarea {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 9px 12px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            transition: border 0.25s ease;
+        }
+        .field input:focus, .field select:focus, .field textarea:focus {
+            border-color: var(--text-dim);
+        }
+        .field textarea {
+            font-family: 'Rajdhani', sans-serif;
+            resize: vertical;
+        }
         .form-full { grid-column: 1 / -1; }
-        .form-submit-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; }
-        .chart-box { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 12px 6px 6px; margin-bottom: 20px; height: 150px; }
-        .chart-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--ink-dim); font-size: 14px; }
-        .session-filters { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-        .chip { background: transparent; color: var(--ink-dim); border: 1px solid var(--hairline); border-radius: 30px; padding: 5px 16px; font-size: 12px; cursor: pointer; font-weight: 500; text-transform: uppercase; letter-spacing: 0.6px; transition: all 0.2s ease; }
-        .chip.active { background: var(--surface-raised); color: var(--gold); border-color: var(--gold-dim); }
-        .chip:hover { border-color: var(--gold-dim); color: var(--gold); }
-        .table-box { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; }
-        .row { display: grid; grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px; gap: 8px; padding: 10px 16px; align-items: center; border-bottom: 1px solid var(--hairline); font-size: 12.5px; transition: background 0.15s ease; }
-        .row:hover { background: rgba(255,215,0,0.03); }
-        .row-head { font-size: 10.5px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 1.2px; padding: 8px 16px; }
-        .row-empty { padding: 28px; text-align: center; color: var(--ink-dim); font-size: 14px; grid-column: 1 / -1; }
-        .stamp { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-        .stamp-win { background: var(--green); box-shadow: 0 0 10px rgba(57,255,140,0.6); }
-        .stamp-loss { border: 2px solid var(--red); background: transparent; }
-        .stamp-flat { width: 10px; height: 2px; border-radius: 2px; background: var(--steel); }
-        .del-btn { background: none; border: none; color: var(--ink-dim); cursor: pointer; padding: 4px; font-size: 16px; transition: color 0.2s ease; }
-        .del-btn:hover { color: var(--red); }
-        .notes-cell { color: var(--ink-dim); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .footnote { margin-top: 12px; font-size: 11px; color: var(--ink-dim); text-align: right; letter-spacing: 0.6px; }
+        .form-submit-row {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* CHART */
+        .chart-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 6px 6px;
+            margin-bottom: 20px;
+            height: 150px;
+        }
+        .chart-empty {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        /* FILTERS */
+        .session-filters {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .chip {
+            background: transparent;
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 5px 18px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            transition: all 0.25s ease;
+        }
+        .chip.active {
+            background: var(--bg-card);
+            color: var(--text);
+            border-color: var(--text);
+        }
+        .chip:hover {
+            border-color: var(--text-dim);
+            color: var(--text);
+        }
+
+        /* TABLE */
+        .table-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .row {
+            display: grid;
+            grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px;
+            gap: 8px;
+            padding: 10px 16px;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            font-size: 12.5px;
+            transition: background 0.2s ease;
+        }
+        .row:hover {
+            background: var(--bg-card-hover);
+        }
+        .row-head {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 8px 16px;
+            font-weight: 600;
+        }
+        .row-empty {
+            padding: 40px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 14px;
+            grid-column: 1 / -1;
+            font-weight: 300;
+        }
+        .stamp {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .stamp-win {
+            background: var(--green);
+            box-shadow: 0 0 12px rgba(0,255,136,0.3);
+        }
+        .stamp-loss {
+            border: 2px solid var(--red);
+            background: transparent;
+        }
+        .stamp-flat {
+            width: 10px;
+            height: 2px;
+            border-radius: 2px;
+            background: var(--text-dim);
+        }
+        .del-btn {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            padding: 4px;
+            font-size: 16px;
+            transition: color 0.2s ease;
+        }
+        .del-btn:hover {
+            color: var(--red);
+        }
+        .notes-cell {
+            color: var(--text-dim);
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .footnote {
+            margin-top: 12px;
+            font-size: 11px;
+            color: var(--text-dim);
+            text-align: right;
+            letter-spacing: 0.8px;
+            font-weight: 300;
+        }
+
+        /* ANALYTICS */
         .analytics-grid { display: grid; gap: 20px; }
-        .chart-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 14px 10px 10px; transition: border-color 0.2s ease; }
-        .chart-card:hover { border-color: var(--gold-dim); }
-        .chart-card-title { font-size: 12px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px; padding-left: 8px; }
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 12px 12px;
+            transition: border-color 0.25s ease;
+        }
+        .chart-card:hover {
+            border-color: var(--border-light);
+        }
+        .chart-card-title {
+            font-size: 11px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            padding-left: 8px;
+            font-weight: 500;
+        }
         .chart-card-body { height: 160px; }
-        .empty-analytics { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 48px; text-align: center; color: var(--ink-dim); font-size: 14px; }
-        .token-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
+        .empty-analytics {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 60px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        /* MODALS */
+        .token-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+        }
         .token-modal.show { display: flex; }
-        .token-modal-content { background: var(--surface); border: 1px solid var(--gold-dim); border-radius: 16px; padding: 30px; max-width: 500px; width: 90%; }
-        .token-modal h2 { color: var(--gold); font-family: 'Orbitron', sans-serif; font-size: 20px; margin-bottom: 12px; }
-        .token-modal p { color: var(--ink-dim); margin-bottom: 16px; font-size: 14px; line-height: 1.5; }
-        .token-modal input { width: 100%; background: var(--surface-raised); border: 1px solid var(--hairline); border-radius: 8px; padding: 10px 14px; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; margin-bottom: 12px; }
-        .token-modal input:focus { border-color: var(--gold-dim); }
-        .token-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
+        .token-modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 480px;
+            width: 90%;
+        }
+        .token-modal h2 {
+            color: var(--text);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        .token-modal p {
+            color: var(--text-dim);
+            margin-bottom: 16px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .token-modal input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .token-modal input:focus { border-color: var(--text-dim); }
+        .token-modal .btn-row {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
         .token-modal .btn-row button { padding: 10px 24px; }
-        .mt5-login-modal { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+
+        /* MT5 LOGIN MODAL */
+        .mt5-login-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(12px);
+            align-items: center;
+            justify-content: center;
+        }
         .mt5-login-modal.show { display: flex; }
-        .mt5-login-content { background: var(--surface); border: 1px solid var(--mt5-blue); border-radius: 20px; padding: 36px 32px; max-width: 460px; width: 92%; position: relative; }
-        .mt5-login-content .mt5-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .mt5-login-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 36px 32px;
+            max-width: 460px;
+            width: 92%;
+            position: relative;
+        }
+        .mt5-login-content .mt5-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
         .mt5-login-content .mt5-header .mt5-icon { font-size: 32px; }
-        .mt5-login-content .mt5-header h2 { color: var(--mt5-blue); font-family: 'Orbitron', sans-serif; font-size: 18px; letter-spacing: 1px; }
-        .mt5-login-content .mt5-header .mt5-badge { margin-left: auto; font-size: 11px; background: rgba(0,136,255,0.15); padding: 4px 12px; border-radius: 20px; color: var(--mt5-blue); border: 1px solid rgba(0,136,255,0.3); }
-        .mt5-login-content .field-group { margin-bottom: 14px; }
-        .mt5-login-content .field-group label { display: block; font-size: 11px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
-        .mt5-login-content .field-group input, .mt5-login-content .field-group select { width: 100%; background: var(--surface-raised); border: 1px solid var(--hairline); border-radius: 8px; padding: 10px 14px; color: var(--ink); font-size: 14px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.2s ease; }
-        .mt5-login-content .field-group input:focus, .mt5-login-content .field-group select:focus { border-color: var(--mt5-blue); box-shadow: 0 0 0 2px rgba(0,136,255,0.15); }
-        .mt5-login-content .field-group .helper { font-size: 11px; color: var(--ink-dim); margin-top: 4px; }
-        .mt5-login-content .btn-row { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+        .mt5-login-content .mt5-header h2 {
+            color: var(--text);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+        .mt5-login-content .mt5-header .mt5-badge {
+            margin-left: auto;
+            font-size: 10px;
+            background: rgba(255,255,255,0.05);
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+            letter-spacing: 0.5px;
+        }
+        .mt5-login-content .field-group { margin-bottom: 16px; }
+        .mt5-login-content .field-group label {
+            display: block;
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        .mt5-login-content .field-group input,
+        .mt5-login-content .field-group select {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            transition: border 0.25s ease;
+        }
+        .mt5-login-content .field-group input:focus,
+        .mt5-login-content .field-group select:focus {
+            border-color: var(--text-dim);
+        }
+        .mt5-login-content .field-group .helper {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+        .mt5-login-content .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
         .mt5-login-content .btn-row button { padding: 10px 28px; font-size: 13px; }
-        .mt5-login-content .status-msg { padding: 10px 14px; border-radius: 8px; margin-top: 12px; font-size: 13px; display: none; }
-        .mt5-login-content .status-msg.success { display: block; background: rgba(57,255,140,0.1); border: 1px solid var(--green-dim); color: var(--green); }
-        .mt5-login-content .status-msg.error { display: block; background: rgba(255,77,106,0.1); border: 1px solid var(--red); color: var(--red); }
-        .mt5-login-content .status-msg.info { display: block; background: rgba(0,136,255,0.1); border: 1px solid var(--mt5-blue); color: var(--mt5-blue); }
-        .mt5-banner { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-left: 4px solid var(--mt5-blue); transition: border-color 0.3s ease; }
+        .mt5-login-content .status-msg {
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 13px;
+            display: none;
+        }
+        .mt5-login-content .status-msg.success {
+            display: block;
+            background: rgba(0,255,136,0.06);
+            border: 1px solid rgba(0,255,136,0.15);
+            color: var(--green);
+        }
+        .mt5-login-content .status-msg.error {
+            display: block;
+            background: rgba(255,51,85,0.06);
+            border: 1px solid rgba(255,51,85,0.15);
+            color: var(--red);
+        }
+        .mt5-login-content .status-msg.info {
+            display: block;
+            background: rgba(0,136,255,0.06);
+            border: 1px solid rgba(0,136,255,0.15);
+            color: var(--mt5-blue);
+        }
+
+        /* MT5 BANNER */
+        .mt5-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-left: 3px solid var(--text-dim);
+            transition: border-color 0.3s ease;
+        }
         .mt5-banner.connected { border-left-color: var(--green); }
-        .mt5-banner .mt5-info { display: flex; align-items: center; gap: 14px; font-size: 14px; color: var(--ink-dim); flex-wrap: wrap; }
-        .mt5-banner .mt5-info .mt5-label { color: var(--mt5-blue); font-weight: 700; font-family: 'Orbitron', sans-serif; font-size: 12px; letter-spacing: 1px; }
-        .mt5-banner .mt5-info .mt5-status { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 3px 14px; border-radius: 20px; background: rgba(57,255,140,0.1); border: 1px solid var(--green-dim); color: var(--green); }
-        .mt5-banner .mt5-info .mt5-status.inactive { color: var(--ink-dim); border-color: var(--hairline); }
-        .mt5-banner .mt5-info .mt5-status.connected { color: var(--green); border-color: var(--green); background: rgba(57,255,140,0.15); }
-        .mt5-banner .mt5-info .mt5-account { font-size: 12px; color: var(--ink-dim); font-family: 'JetBrains Mono', monospace; }
-        .mt5-banner .mt5-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-        @media (max-width: 700px) { .row { grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px; gap: 4px; font-size: 11px; padding: 8px 10px; } .row-head { font-size: 9px; padding: 6px 10px; } .title { font-size: 18px; } #splash-title { font-size: 30px; } #splash-quote { font-size: 17px; } form.entry-form { grid-template-columns: 1fr 1fr; } .greeting-banner { flex-wrap: wrap; } .greeting-banner .greeting-quote { margin-left: 0; width: 100%; } .greeting-banner .github-status { font-size: 10px; padding: 3px 10px; } .mt5-banner { flex-direction: column; align-items: stretch; } .mt5-banner .mt5-actions { justify-content: stretch; } .mt5-banner .mt5-actions button { flex: 1; } .mt5-login-content { padding: 24px 18px; } }
-        @media (max-width: 480px) { .row { grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px; gap: 3px; font-size: 10px; padding: 6px 6px; } .row-head { font-size: 8px; padding: 4px 6px; } .stats-row { grid-template-columns: 1fr 1fr; } #splash-title { font-size: 24px; letter-spacing: 3px; } .header-actions .btn-ghost { padding: 6px 10px; font-size: 11px; } .header-actions .btn-gold { padding: 6px 12px; font-size: 11px; } }
+        .mt5-banner .mt5-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 14px;
+            color: var(--text-dim);
+            flex-wrap: wrap;
+        }
+        .mt5-banner .mt5-info .mt5-label {
+            color: var(--text);
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .mt5-banner .mt5-info .mt5-status {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 3px 14px;
+            border-radius: 20px;
+            background: rgba(0,255,136,0.06);
+            border: 1px solid rgba(0,255,136,0.15);
+            color: var(--green);
+        }
+        .mt5-banner .mt5-info .mt5-status.inactive {
+            color: var(--text-dim);
+            border-color: var(--border);
+            background: transparent;
+        }
+        .mt5-banner .mt5-info .mt5-status.connected {
+            color: var(--green);
+            border-color: rgba(0,255,136,0.3);
+            background: rgba(0,255,136,0.06);
+        }
+        .mt5-banner .mt5-info .mt5-account {
+            font-size: 12px;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .mt5-banner .mt5-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+            .row {
+                grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px;
+                gap: 4px;
+                font-size: 11px;
+                padding: 8px 10px;
+            }
+            .row-head { font-size: 9px; padding: 6px 10px; }
+            .title { font-size: 18px; }
+            #splash-title { font-size: 32px; letter-spacing: 4px; }
+            #splash-quote { font-size: 17px; }
+            form.entry-form { grid-template-columns: 1fr 1fr; }
+            .greeting-banner { flex-wrap: wrap; }
+            .greeting-banner .greeting-quote { margin-left: 0; width: 100%; }
+            .greeting-banner .github-status { font-size: 10px; padding: 3px 10px; }
+            .mt5-banner { flex-direction: column; align-items: stretch; }
+            .mt5-banner .mt5-actions { justify-content: stretch; }
+            .mt5-banner .mt5-actions button { flex: 1; }
+            .mt5-login-content { padding: 24px 18px; }
+        }
+        @media (max-width: 480px) {
+            .row {
+                grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px;
+                gap: 3px;
+                font-size: 10px;
+                padding: 6px 6px;
+            }
+            .row-head { font-size: 8px; padding: 4px 6px; }
+            .stats-row { grid-template-columns: 1fr 1fr; }
+            #splash-title { font-size: 24px; letter-spacing: 2px; }
+            .header-actions .btn-ghost { padding: 6px 10px; font-size: 11px; }
+            .header-actions .btn-gold { padding: 6px 12px; font-size: 11px; }
+        }
     </style>
 </head>
 <body>
@@ -159,16 +947,16 @@
     <!-- TOKEN MODAL -->
     <div class="token-modal" id="tokenModal">
         <div class="token-modal-content">
-            <h2>🔑 GitHub Token Required</h2>
-            <p>To auto-save your trades to GitHub, you need a Personal Access Token.</p>
-            <p style="font-size:12px;color:var(--ink-dim);">
-                Create one at: <strong style="color:var(--gold);">https://github.com/settings/tokens</strong><br>
+            <h2>🔑 GitHub Token</h2>
+            <p>Enter your GitHub Personal Access Token to enable cloud sync.</p>
+            <p style="font-size:12px;color:var(--text-dim);">
+                Create one at: <strong style="color:var(--text);">github.com/settings/tokens</strong><br>
                 Select <strong style="color:var(--green);">repo</strong> scope.
             </p>
             <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
             <div class="btn-row">
                 <button class="btn-cancel" id="tokenCancelBtn">Cancel</button>
-                <button class="btn-gold" id="tokenSaveBtn">Save Token</button>
+                <button class="btn-gold" id="tokenSaveBtn">Save</button>
             </div>
         </div>
     </div>
@@ -341,7 +1129,7 @@
                 <div>
                     <div class="title">
                         <span class="gold">SIR</span> <span class="green">EYOB</span>
-                        <span style="color:var(--ink-dim);font-size:14px;letter-spacing:1px;">· LEDGER</span>
+                        <span style="color:var(--text-dim);font-size:14px;letter-spacing:1px;">· LEDGER</span>
                     </div>
                     <div class="subtitle">a running record of every <span class="highlight">position</span></div>
                 </div>
@@ -351,7 +1139,7 @@
                 <button class="btn-ghost" id="importBtn">Import</button>
                 <input type="file" id="importFile" accept="application/json" style="display:none">
                 <button class="btn-ghost" id="githubTokenBtn">🔑 GitHub</button>
-                <button class="btn-ghost" id="syncBtn" style="display:none;">🔄 Sync Now</button>
+                <button class="btn-ghost" id="syncBtn" style="display:none;">🔄 Sync</button>
                 <button class="btn-gold" id="toggleFormBtn">+ New Entry</button>
             </div>
         </div>
@@ -364,9 +1152,9 @@
                 <span class="mt5-account" id="mt5AccountDisplay">Not logged in</span>
             </div>
             <div class="mt5-actions">
-                <button class="btn-mt5" id="mt5LoginBtn2">🔑 Login to MT5</button>
-                <button class="btn-ghost" id="mt5TestBtn">📤 Test Trade</button>
-                <button class="btn-ghost" id="mt5SyncBtn">🔄 Sync History</button>
+                <button class="btn-mt5" id="mt5LoginBtn2">🔑 Login</button>
+                <button class="btn-ghost" id="mt5TestBtn">📤 Test</button>
+                <button class="btn-ghost" id="mt5SyncBtn">🔄 History</button>
             </div>
         </div>
 
@@ -392,10 +1180,10 @@
             <label class="field">Stop<input type="number" step="any" id="f-stop" required></label>
             <label class="field">Exit<input type="number" step="any" id="f-exit" required></label>
             <label class="field">Size (optional)<input type="number" step="any" id="f-size" placeholder="units"></label>
-            <label class="field">Risk % <span style="font-weight:400;font-size:10px;color:var(--ink-dim);">(per trade)</span>
+            <label class="field">Risk % <span style="font-weight:400;font-size:10px;color:var(--text-dim);">(per trade)</span>
                 <input type="number" step="0.1" id="f-risk" placeholder="1.0" value="1.0">
             </label>
-            <label class="field">Target R:R <span style="font-weight:400;font-size:10px;color:var(--ink-dim);">(optional)</span>
+            <label class="field">Target R:R <span style="font-weight:400;font-size:10px;color:var(--text-dim);">(optional)</span>
                 <input type="number" step="0.1" id="f-target" placeholder="2.0">
             </label>
             <label class="field form-full">Notes<textarea id="f-notes" rows="2" placeholder="Setup quality, emotions, lessons learned..."></textarea></label>
@@ -433,7 +1221,7 @@
         const SYNC_INTERVAL = 15000;
         const MT5_API_URL = 'http://localhost:5000/api/mt5';
 
-        const COLORS = { green: "#39FF8C", red: "#FF4D6A", steel: "#55665C", hairline: "#1E2B23", inkDim: "#7C9488", gold: "#FFD700" };
+        const COLORS = { green: "#00FF88", red: "#FF3355", steel: "#555555", hairline: "#1A1A1A", inkDim: "#888888", gold: "#FFD700" };
 
         const QUOTES = [
             "What you focus on expands. Trade the setup in front of you, not the one in your head.",
@@ -765,12 +1553,13 @@
                 const first = x(0),
                     last = x(data.length - 1);
                 fillPath =
-                    `<polygon points="${first},${zeroY} ${points} ${last},${zeroY}" fill="${opts.fill}" opacity="0.15"/>`;
+                    `<polygon points="${first},${zeroY} ${points} ${last},${zeroY}" fill="${opts.fill}" opacity="0.08"/>`;
             }
+            const strokeColor = opts.stroke || '#FFFFFF';
             return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" preserveAspectRatio="none">
-            <line x1="${pad}" y1="${zeroY}" x2="${w - pad}" y2="${zeroY}" stroke="${COLORS.hairline}" stroke-dasharray="4,4"/>
+            <line x1="${pad}" y1="${zeroY}" x2="${w - pad}" y2="${zeroY}" stroke="#2A2A2A" stroke-dasharray="4,4"/>
             ${fillPath}
-            <polyline points="${points}" fill="none" stroke="${opts.stroke}" stroke-width="2.5" vector-effect="non-scaling-stroke" style="filter: drop-shadow(0 0 8px ${opts.stroke}66)"/>
+            <polyline points="${points}" fill="none" stroke="${strokeColor}" stroke-width="2" vector-effect="non-scaling-stroke" style="filter: drop-shadow(0 0 12px ${strokeColor}33)"/>
           </svg>`;
         }
 
@@ -793,13 +1582,13 @@
                 const by = h - 24 - ((d.value - min) / range) * (h - 24 - pad);
                 const barTop = Math.min(by, zeroY);
                 const barH = Math.abs(by - zeroY);
-                const color = d.value >= 0 ? COLORS.green : COLORS.red;
-                bars += `<rect x="${bx}" y="${barTop}" width="${barW}" height="${Math.max(barH, 1)}" fill="${color}" rx="3"/>`;
+                const color = d.value >= 0 ? '#00FF88' : '#FF3355';
+                bars += `<rect x="${bx}" y="${barTop}" width="${barW}" height="${Math.max(barH, 1)}" fill="${color}" rx="3" opacity="0.8"/>`;
                 labels +=
-                    `<text x="${bx + barW / 2}" y="${h - 6}" font-size="9" fill="${COLORS.inkDim}" text-anchor="middle" font-family="Rajdhani, sans-serif">${d.label}</text>`;
+                    `<text x="${bx + barW / 2}" y="${h - 6}" font-size="9" fill="#888888" text-anchor="middle" font-family="Rajdhani, sans-serif">${d.label}</text>`;
             });
             return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" preserveAspectRatio="none">
-            <line x1="${pad}" y1="${zeroY}" x2="${w - pad}" y2="${zeroY}" stroke="${COLORS.hairline}"/>
+            <line x1="${pad}" y1="${zeroY}" x2="${w - pad}" y2="${zeroY}" stroke="#2A2A2A"/>
             ${bars}${labels}
           </svg>`;
         }
@@ -853,8 +1642,7 @@
             const s = computeStats();
             const el = document.getElementById("equityChart");
             if (s.curve.length > 1) {
-                el.innerHTML = svgLineChart(s.curve.map(c => ({ value: c.cum })), { stroke: COLORS.gold, fill: COLORS
-                        .gold });
+                el.innerHTML = svgLineChart(s.curve.map(c => ({ value: c.cum })), { stroke: '#FFD700', fill: '#FFD700' });
             } else {
                 el.innerHTML = `<div class="chart-empty">Log a couple of trades to see your equity curve</div>`;
             }
@@ -887,13 +1675,13 @@
                 const dirColor = t.direction === "Long" ? "tone-green" : "tone-red";
                 const targetHit = t.target && t.r !== null && t.r >= t.target;
                 const targetBadge = targetHit ? '🎯' : '';
-                const mt5Tag = t.mt5 ? '🔵' : '';
+                const mt5Tag = t.mt5 ? '⚡' : '';
                 return `<div class="row mono">
               <span class="stamp ${stampClass}"></span>
-              <span style="color:var(--ink-dim)">${t.date}</span>
-              <span style="font-weight:600">${t.symbol}</span>
+              <span style="color:var(--text-dim)">${t.date}</span>
+              <span style="font-weight:600;color:var(--text)">${t.symbol}</span>
               <span class="${dirColor}">${t.direction}</span>
-              <span style="color:var(--ink-dim);font-family:Rajdhani,sans-serif">${t.session}</span>
+              <span style="color:var(--text-dim);font-family:Rajdhani,sans-serif">${t.session}</span>
               <span>${t.entry}</span><span>${t.stop}</span><span>${t.exit}</span>
               <span class="${tone}">${fmtR(t.r)} ${targetBadge}</span>
               <span class="${tone}">${t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—"}</span>
@@ -923,7 +1711,7 @@
               <div class="chart-card-body">${svg}</div>
             </div>`;
             el.innerHTML = `<div class="analytics-grid">
-            ${card("Drawdown (R)", svgLineChart(s.curve.map(c => ({ value: c.drawdown })), { stroke: COLORS.red, fill: COLORS.red }))}
+            ${card("Drawdown (R)", svgLineChart(s.curve.map(c => ({ value: c.drawdown })), { stroke: '#FF3355', fill: '#FF3355' }))}
             ${card("Performance by Session", svgBarChart(s.bySession))}
             ${card("Monthly R", svgBarChart(s.byMonth))}
             ${card("R-Multiple Distribution", svgBarChart(s.histogram))}
@@ -951,7 +1739,7 @@
                 statusEl.className = 'mt5-status inactive';
                 accountEl.textContent = 'Not logged in';
                 bannerEl.className = 'mt5-banner';
-                loginBtn2.textContent = '🔑 Login to MT5';
+                loginBtn2.textContent = '🔑 Login';
                 loginBtn2.className = 'btn-mt5';
             }
         }
@@ -1075,10 +1863,9 @@
             }, 3000);
         }
 
-        // UPDATED: Fixed Sync History function
         async function syncMT5History(credentials) {
             try {
-                showMT5Status('🔄 Syncing trade history from MT5...', 'info');
+                showMT5Status('🔄 Syncing trade history...', 'info');
 
                 const response = await fetch(`${MT5_API_URL}/history`, {
                     method: 'POST',
@@ -1096,7 +1883,6 @@
                 if (data.trades && data.trades.length > 0) {
                     let newTrades = 0;
                     data.trades.forEach(trade => {
-                        // Check if trade already exists
                         const exists = trades.some(t =>
                             t.symbol === trade.symbol &&
                             Math.abs(t.entry - trade.entry) < 0.0001 &&
@@ -1134,16 +1920,16 @@
                         mt5TradesReceived += newTrades;
                         render();
                         const mode = data.simulation ? 'SIMULATION' : 'MT5';
-                        showMT5Status(`✅ Imported ${newTrades} trades from ${mode} history`, 'success');
+                        showMT5Status(`✅ Imported ${newTrades} trades from ${mode}`, 'success');
                     } else {
-                        showMT5Status('ℹ️ No new trades found in history', 'info');
+                        showMT5Status('ℹ️ No new trades found', 'info');
                     }
                 } else {
                     showMT5Status('ℹ️ No trade history found', 'info');
                 }
             } catch (error) {
                 console.error('History sync error:', error);
-                showMT5Status('❌ Failed to sync history: ' + error.message, 'error');
+                showMT5Status('❌ Failed to sync history', 'error');
             }
         }
 
@@ -1414,7 +2200,6 @@
                     updateMT5UI();
                     document.getElementById('f-session').value = session;
 
-                    // Auto-sync history after connection
                     setTimeout(() => syncMT5History(credentials), 1000);
                 }
             } catch (error) {

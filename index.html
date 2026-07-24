@@ -11,8 +11,13 @@
     <meta name="msapplication-TileColor" content="#050807" />
     <meta name="msapplication-TileImage" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23050807'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' fill='%23FFD700'>EY</text></svg>" />
 
+    <!-- Primary Icon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23050807'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='50' cy='50' r='45' fill='none' stroke='%23FFD700' stroke-width='2'/></svg>" />
+
+    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23050807'/><text x='90' y='122' font-size='86' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='90' cy='90' r='80' fill='none' stroke='%23FFD700' stroke-width='3'/></svg>" />
+
+    <!-- Android Chrome icons -->
     <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='38' fill='%23050807'/><text x='96' y='130' font-size='92' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='96' cy='96' r='85' fill='none' stroke='%23FFD700' stroke-width='3'/></svg>" />
     <link rel="icon" type="image/png" sizes="512x512" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23050807'/><text x='256' y='346' font-size='246' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='256' cy='256' r='226' fill='none' stroke='%23FFD700' stroke-width='4'/></svg>" />
 
@@ -107,13 +112,8 @@
             background: rgba(255, 215, 0, 0.05);
         }
         @keyframes pulse-gold {
-            0%,
-            100% {
-                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.1));
-            }
-            50% {
-                filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.25));
-            }
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.1)); }
+            50% { filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.25)); }
         }
         #splash-title {
             font-size: 46px;
@@ -122,13 +122,8 @@
             text-transform: uppercase;
             text-shadow: 0 0 30px rgba(57, 255, 140, 0.2);
         }
-        #splash-title .gold {
-            color: var(--gold);
-            text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
-        }
-        #splash-title .green {
-            color: var(--green);
-        }
+        #splash-title .gold { color: var(--gold); text-shadow: 0 0 40px rgba(255, 215, 0, 0.3); }
+        #splash-title .green { color: var(--green); }
         #splash-sub {
             color: var(--ink-dim);
             font-size: 16px;
@@ -137,9 +132,7 @@
             margin-top: 6px;
             margin-bottom: 28px;
         }
-        #splash-sub .highlight {
-            color: var(--gold);
-        }
+        #splash-sub .highlight { color: var(--gold); }
         #splash-quote-box {
             max-width: 540px;
             border: 1px solid var(--hairline);
@@ -157,16 +150,8 @@
             color: var(--ink);
             font-style: italic;
         }
-        #splash-quote::before {
-            content: "“";
-            color: var(--gold);
-            font-size: 26px;
-        }
-        #splash-quote::after {
-            content: "”";
-            color: var(--gold);
-            font-size: 26px;
-        }
+        #splash-quote::before { content: "“"; color: var(--gold); font-size: 26px; }
+        #splash-quote::after { content: "”"; color: var(--gold); font-size: 26px; }
         #splash-date {
             margin-top: 14px;
             font-size: 12px;
@@ -235,9 +220,7 @@
             transition: all 0.2s ease;
             white-space: nowrap;
         }
-        .greeting-banner .github-status:hover {
-            background: rgba(57, 255, 140, 0.2);
-        }
+        .greeting-banner .github-status:hover { background: rgba(57, 255, 140, 0.2); }
         .greeting-banner .github-status.saving {
             color: var(--gold);
             border-color: var(--gold-dim);
@@ -257,13 +240,8 @@
             animation: pulse 0.5s ease-in-out infinite;
         }
         @keyframes pulse {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         /* HEADER */
@@ -304,21 +282,15 @@
             letter-spacing: 2px;
             text-transform: uppercase;
         }
-        .title .gold {
-            color: var(--gold);
-        }
-        .title .green {
-            color: var(--green);
-        }
+        .title .gold { color: var(--gold); }
+        .title .green { color: var(--green); }
         .subtitle {
             color: var(--ink-dim);
             font-size: 13px;
             margin-top: 2px;
             letter-spacing: 0.5px;
         }
-        .subtitle .highlight {
-            color: var(--gold);
-        }
+        .subtitle .highlight { color: var(--gold); }
         .header-actions {
             display: flex;
             gap: 10px;
@@ -408,9 +380,7 @@
             color: var(--gold);
             border-bottom: 3px solid var(--gold);
         }
-        .tab:hover {
-            color: var(--gold);
-        }
+        .tab:hover { color: var(--gold); }
 
         /* STATS */
         .stats-row {
@@ -438,17 +408,9 @@
             font-size: 20px;
             font-weight: 600;
         }
-        .tone-green {
-            color: var(--green);
-            text-shadow: 0 0 12px rgba(57, 255, 140, 0.3);
-        }
-        .tone-red {
-            color: var(--red);
-        }
-        .tone-gold {
-            color: var(--gold);
-            text-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
-        }
+        .tone-green { color: var(--green); text-shadow: 0 0 12px rgba(57, 255, 140, 0.3); }
+        .tone-red { color: var(--red); }
+        .tone-gold { color: var(--gold); text-shadow: 0 0 12px rgba(255, 215, 0, 0.3); }
 
         /* FORM */
         form.entry-form {
@@ -470,9 +432,7 @@
             text-transform: uppercase;
             letter-spacing: 0.6px;
         }
-        .field input,
-        .field select,
-        .field textarea {
+        .field input, .field select, .field textarea {
             background: var(--surface-raised);
             border: 1px solid var(--hairline);
             border-radius: 8px;
@@ -483,9 +443,7 @@
             outline: none;
             transition: border 0.2s ease;
         }
-        .field input:focus,
-        .field select:focus,
-        .field textarea:focus {
+        .field input:focus, .field select:focus, .field textarea:focus {
             border-color: var(--gold-dim);
             box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
         }
@@ -493,9 +451,7 @@
             font-family: 'Rajdhani', sans-serif;
             resize: vertical;
         }
-        .form-full {
-            grid-column: 1 / -1;
-        }
+        .form-full { grid-column: 1 / -1; }
         .form-submit-row {
             grid-column: 1 / -1;
             display: flex;
@@ -567,9 +523,7 @@
             font-size: 12.5px;
             transition: background 0.15s ease;
         }
-        .row:hover {
-            background: rgba(255, 215, 0, 0.03);
-        }
+        .row:hover { background: rgba(255, 215, 0, 0.03); }
         .row-head {
             font-size: 10.5px;
             color: var(--ink-dim);
@@ -614,9 +568,7 @@
             font-size: 16px;
             transition: color 0.2s ease;
         }
-        .del-btn:hover {
-            color: var(--red);
-        }
+        .del-btn:hover { color: var(--red); }
         .notes-cell {
             color: var(--ink-dim);
             font-size: 12px;
@@ -633,10 +585,7 @@
         }
 
         /* ANALYTICS */
-        .analytics-grid {
-            display: grid;
-            gap: 20px;
-        }
+        .analytics-grid { display: grid; gap: 20px; }
         .chart-card {
             background: var(--surface);
             border: 1px solid var(--hairline);
@@ -644,9 +593,7 @@
             padding: 14px 10px 10px;
             transition: border-color 0.2s ease;
         }
-        .chart-card:hover {
-            border-color: var(--gold-dim);
-        }
+        .chart-card:hover { border-color: var(--gold-dim); }
         .chart-card-title {
             font-size: 12px;
             color: var(--ink-dim);
@@ -655,9 +602,7 @@
             margin-bottom: 8px;
             padding-left: 8px;
         }
-        .chart-card-body {
-            height: 160px;
-        }
+        .chart-card-body { height: 160px; }
         .empty-analytics {
             background: var(--surface);
             border: 1px solid var(--hairline);
@@ -679,9 +624,7 @@
             align-items: center;
             justify-content: center;
         }
-        .token-modal.show {
-            display: flex;
-        }
+        .token-modal.show { display: flex; }
         .token-modal-content {
             background: var(--surface);
             border: 1px solid var(--gold-dim);
@@ -714,17 +657,13 @@
             outline: none;
             margin-bottom: 12px;
         }
-        .token-modal input:focus {
-            border-color: var(--gold-dim);
-        }
+        .token-modal input:focus { border-color: var(--gold-dim); }
         .token-modal .btn-row {
             display: flex;
             gap: 10px;
             justify-content: flex-end;
         }
-        .token-modal .btn-row button {
-            padding: 10px 24px;
-        }
+        .token-modal .btn-row button { padding: 10px 24px; }
 
         /* MT5 LOGIN MODAL */
         .mt5-login-modal {
@@ -737,9 +676,7 @@
             align-items: center;
             justify-content: center;
         }
-        .mt5-login-modal.show {
-            display: flex;
-        }
+        .mt5-login-modal.show { display: flex; }
         .mt5-login-content {
             background: var(--surface);
             border: 1px solid var(--mt5-blue);
@@ -755,9 +692,7 @@
             gap: 12px;
             margin-bottom: 20px;
         }
-        .mt5-login-content .mt5-header .mt5-icon {
-            font-size: 32px;
-        }
+        .mt5-login-content .mt5-header .mt5-icon { font-size: 32px; }
         .mt5-login-content .mt5-header h2 {
             color: var(--mt5-blue);
             font-family: 'Orbitron', sans-serif;
@@ -773,9 +708,7 @@
             color: var(--mt5-blue);
             border: 1px solid rgba(0, 136, 255, 0.3);
         }
-        .mt5-login-content .field-group {
-            margin-bottom: 14px;
-        }
+        .mt5-login-content .field-group { margin-bottom: 14px; }
         .mt5-login-content .field-group label {
             display: block;
             font-size: 11px;
@@ -813,10 +746,7 @@
             margin-top: 20px;
             justify-content: flex-end;
         }
-        .mt5-login-content .btn-row button {
-            padding: 10px 28px;
-            font-size: 13px;
-        }
+        .mt5-login-content .btn-row button { padding: 10px 28px; font-size: 13px; }
         .mt5-login-content .status-msg {
             padding: 10px 14px;
             border-radius: 8px;
@@ -858,9 +788,7 @@
             border-left: 4px solid var(--mt5-blue);
             transition: border-color 0.3s ease;
         }
-        .mt5-banner.connected {
-            border-left-color: var(--green);
-        }
+        .mt5-banner.connected { border-left-color: var(--green); }
         .mt5-banner .mt5-info {
             display: flex;
             align-items: center;
@@ -913,46 +841,18 @@
                 font-size: 11px;
                 padding: 8px 10px;
             }
-            .row-head {
-                font-size: 9px;
-                padding: 6px 10px;
-            }
-            .title {
-                font-size: 18px;
-            }
-            #splash-title {
-                font-size: 30px;
-            }
-            #splash-quote {
-                font-size: 17px;
-            }
-            form.entry-form {
-                grid-template-columns: 1fr 1fr;
-            }
-            .greeting-banner {
-                flex-wrap: wrap;
-            }
-            .greeting-banner .greeting-quote {
-                margin-left: 0;
-                width: 100%;
-            }
-            .greeting-banner .github-status {
-                font-size: 10px;
-                padding: 3px 10px;
-            }
-            .mt5-banner {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .mt5-banner .mt5-actions {
-                justify-content: stretch;
-            }
-            .mt5-banner .mt5-actions button {
-                flex: 1;
-            }
-            .mt5-login-content {
-                padding: 24px 18px;
-            }
+            .row-head { font-size: 9px; padding: 6px 10px; }
+            .title { font-size: 18px; }
+            #splash-title { font-size: 30px; }
+            #splash-quote { font-size: 17px; }
+            form.entry-form { grid-template-columns: 1fr 1fr; }
+            .greeting-banner { flex-wrap: wrap; }
+            .greeting-banner .greeting-quote { margin-left: 0; width: 100%; }
+            .greeting-banner .github-status { font-size: 10px; padding: 3px 10px; }
+            .mt5-banner { flex-direction: column; align-items: stretch; }
+            .mt5-banner .mt5-actions { justify-content: stretch; }
+            .mt5-banner .mt5-actions button { flex: 1; }
+            .mt5-login-content { padding: 24px 18px; }
         }
         @media (max-width: 480px) {
             .row {
@@ -961,25 +861,11 @@
                 font-size: 10px;
                 padding: 6px 6px;
             }
-            .row-head {
-                font-size: 8px;
-                padding: 4px 6px;
-            }
-            .stats-row {
-                grid-template-columns: 1fr 1fr;
-            }
-            #splash-title {
-                font-size: 24px;
-                letter-spacing: 3px;
-            }
-            .header-actions .btn-ghost {
-                padding: 6px 10px;
-                font-size: 11px;
-            }
-            .header-actions .btn-gold {
-                padding: 6px 12px;
-                font-size: 11px;
-            }
+            .row-head { font-size: 8px; padding: 4px 6px; }
+            .stats-row { grid-template-columns: 1fr 1fr; }
+            #splash-title { font-size: 24px; letter-spacing: 3px; }
+            .header-actions .btn-ghost { padding: 6px 10px; font-size: 11px; }
+            .header-actions .btn-gold { padding: 6px 12px; font-size: 11px; }
         }
     </style>
 </head>
@@ -1183,6 +1069,7 @@
         const MT5_CONFIG_KEY = "trade-ledger:mt5-config";
         const MT5_CREDENTIALS_KEY = "trade-ledger:mt5-credentials";
         const SYNC_INTERVAL = 15000;
+        const MT5_API_URL = 'http://localhost:5000/api/mt5';
 
         const COLORS = { green: "#39FF8C", red: "#FF4D6A", steel: "#55665C", hairline: "#1E2B23", inkDim: "#7C9488", gold: "#FFD700" };
 
@@ -1237,6 +1124,7 @@
         let mt5IsConnected = false;
         let mt5TradesReceived = 0;
         let mt5AccountInfo = { login: '', server: '', name: '' };
+        let mt5Listener = null;
 
         function todaysQuote() {
             const start = new Date(new Date().getFullYear(), 0, 0);
@@ -1737,174 +1625,223 @@
             el.className = 'status-msg';
         }
 
-        // Simulate MT5 connection - In production this would connect to the MT5 API
-        function connectToMT5(credentials) {
-            return new Promise((resolve, reject) => {
-                // Simulate connection delay
-                setTimeout(() => {
-                    // Validate credentials (simulated)
-                    if (!credentials.login || !credentials.password || !credentials.server) {
-                        reject(new Error('Missing required fields'));
-                        return;
-                    }
-
-                    if (credentials.login.length < 4) {
-                        reject(new Error('Invalid login ID'));
-                        return;
-                    }
-
-                    if (credentials.password.length < 4) {
-                        reject(new Error('Invalid password'));
-                        return;
-                    }
-
-                    // Simulate successful connection
-                    mt5AccountInfo = {
+        // ============================================================
+        // REAL MT5 CONNECTION - via Python Backend
+        // ============================================================
+        async function connectToMT5(credentials) {
+            try {
+                const response = await fetch(`${MT5_API_URL}/connect`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
                         login: credentials.login,
-                        server: credentials.server,
-                        name: 'Sir Eyob Trading Account'
-                    };
+                        password: credentials.password,
+                        server: credentials.server
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
                     mt5IsConnected = true;
+                    mt5AccountInfo = data.account;
                     mt5Config.connected = true;
                     mt5Config.enabled = true;
                     localStorage.setItem(MT5_CONFIG_KEY, JSON.stringify(mt5Config));
                     localStorage.setItem(MT5_CREDENTIALS_KEY, JSON.stringify(credentials));
 
-                    // Simulate fetching recent trades
-                    setTimeout(() => {
-                        fetchRecentMT5Trades(credentials);
-                    }, 500);
+                    // Start listening for new trades
+                    startMT5Listener();
 
-                    resolve({ success: true, account: mt5AccountInfo });
-                }, 2000);
-            });
+                    return { success: true, account: data.account };
+                } else {
+                    throw new Error(data.error || 'Connection failed');
+                }
+            } catch (error) {
+                console.error('MT5 Connect Error:', error);
+                throw error;
+            }
         }
 
         function disconnectMT5() {
-            mt5IsConnected = false;
-            mt5Config.connected = false;
-            mt5Config.enabled = false;
-            localStorage.setItem(MT5_CONFIG_KEY, JSON.stringify(mt5Config));
-            updateMT5UI();
-            showMT5Status('Disconnected from MT5', 'info');
-        }
-
-        // Simulate fetching recent trades from MT5
-        function fetchRecentMT5Trades(credentials) {
-            // Simulated trade data from MT5
-            const symbols = ['EURUSD', 'GBPUSD', 'USDJPY', 'XAUUSD', 'BTCUSD'];
-            const directions = ['Long', 'Short'];
-            const sessions = ['New York', 'London', 'Daily'];
-
-            // Generate 2-5 simulated trades
-            const numTrades = Math.floor(Math.random() * 4) + 2;
-            let newTrades = 0;
-
-            for (let i = 0; i < numTrades; i++) {
-                const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-                const direction = directions[Math.floor(Math.random() * directions.length)];
-                const session = sessions[Math.floor(Math.random() * sessions.length)];
-                const entry = (Math.random() * 100 + 50).toFixed(4);
-                const stop = direction === 'Long' ?
-                    (parseFloat(entry) - (Math.random() * 0.5 + 0.1)).toFixed(4) :
-                    (parseFloat(entry) + (Math.random() * 0.5 + 0.1)).toFixed(4);
-                const exit = direction === 'Long' ?
-                    (parseFloat(entry) + (Math.random() * 0.8 + 0.2)).toFixed(4) :
-                    (parseFloat(entry) - (Math.random() * 0.8 + 0.2)).toFixed(4);
-                const size = Math.floor(Math.random() * 50000 + 5000);
-
-                const trade = {
-                    id: uid(),
-                    date: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
-                    symbol: symbol,
-                    direction: direction,
-                    session: session,
-                    entry: parseFloat(entry),
-                    stop: parseFloat(stop),
-                    exit: parseFloat(exit),
-                    size: size,
-                    risk: 1.0,
-                    target: null,
-                    notes: `📊 Imported from MT5 (${credentials.login})`,
-                    r: calcR(direction, entry, stop, exit),
-                    pnl: calcPnl(direction, entry, exit, size),
-                    mt5: true,
-                    mt5Timestamp: new Date().toISOString()
-                };
-
-                // Check if trade already exists (avoid duplicates)
-                const exists = trades.some(t =>
-                    t.symbol === trade.symbol &&
-                    t.date === trade.date &&
-                    Math.abs(t.entry - trade.entry) < 0.0001 &&
-                    Math.abs(t.exit - trade.exit) < 0.0001
-                );
-
-                if (!exists) {
-                    trades.push(trade);
-                    newTrades++;
+            fetch(`${MT5_API_URL}/disconnect`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(() => {
+                mt5IsConnected = false;
+                mt5Config.connected = false;
+                mt5Config.enabled = false;
+                localStorage.setItem(MT5_CONFIG_KEY, JSON.stringify(mt5Config));
+                if (mt5Listener) {
+                    clearInterval(mt5Listener);
+                    mt5Listener = null;
                 }
-            }
-
-            if (newTrades > 0) {
-                trades.sort((a, b) => a.date.localeCompare(b.date));
-                saveTrades();
-                mt5TradesReceived += newTrades;
-                render();
-                showMT5Status(`✅ Imported ${newTrades} trades from MT5 history`, 'success');
-            } else {
-                showMT5Status('ℹ️ No new trades found in MT5 history', 'info');
-            }
+                updateMT5UI();
+            }).catch(err => console.error('Disconnect error:', err));
         }
 
-        // Process a live trade from MT5 (called by webhook or manual)
-        function processMT5Trade(data) {
+        function startMT5Listener() {
+            if (mt5Listener) clearInterval(mt5Listener);
+            
+            mt5Listener = setInterval(async () => {
+                if (!mt5IsConnected) return;
+
+                try {
+                    const response = await fetch(`${MT5_API_URL}/positions`);
+                    const data = await response.json();
+                    
+                    if (data.positions && data.positions.length > 0) {
+                        data.positions.forEach(pos => {
+                            // Check if we already logged this position
+                            const exists = trades.some(t => 
+                                t.symbol === pos.symbol && 
+                                t.mt5 && 
+                                Math.abs(t.entry - pos.price_open) < 0.0001
+                            );
+                            
+                            if (!exists) {
+                                const trade = {
+                                    id: uid(),
+                                    date: new Date().toISOString().slice(0, 10),
+                                    symbol: pos.symbol,
+                                    direction: pos.type,
+                                    session: document.getElementById('f-session').value || 'New York',
+                                    entry: pos.price_open,
+                                    stop: pos.sl || 0,
+                                    exit: pos.price_current,
+                                    size: pos.volume,
+                                    risk: 1.0,
+                                    target: null,
+                                    notes: '📊 Live MT5 Position',
+                                    r: null,
+                                    pnl: pos.profit || 0,
+                                    mt5: true,
+                                    mt5Timestamp: new Date().toISOString()
+                                };
+                                
+                                trades.push(trade);
+                                trades.sort((a, b) => a.date.localeCompare(b.date));
+                                saveTrades();
+                                mt5TradesReceived++;
+                                render();
+                                showMT5Status(`✅ New position logged: ${pos.symbol} ${pos.type}`, 'success');
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error fetching positions:', error);
+                }
+            }, 3000);
+        }
+
+        // History sync
+        async function syncMT5History(credentials) {
             try {
-                const direction = data.direction || 'Long';
-                const entry = parseFloat(data.entry);
-                const stop = parseFloat(data.stop);
-                const exit = parseFloat(data.exit);
-                const size = parseFloat(data.size) || 0;
-                const symbol = data.symbol || 'UNKNOWN';
-                const session = data.session || 'Daily';
-                const notes = data.notes || 'Live trade from MT5';
+                showMT5Status('🔄 Syncing trade history from MT5...', 'info');
+                
+                const response = await fetch(`${MT5_API_URL}/history`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ days: 7 })
+                });
 
-                if (isNaN(entry) || isNaN(stop) || isNaN(exit)) {
-                    console.error('Invalid MT5 trade data:', data);
-                    return false;
+                const data = await response.json();
+
+                if (data.trades && data.trades.length > 0) {
+                    let newTrades = 0;
+                    data.trades.forEach(trade => {
+                        const exists = trades.some(t =>
+                            t.symbol === trade.symbol &&
+                            Math.abs(t.entry - trade.entry) < 0.0001 &&
+                            Math.abs(t.exit - trade.exit) < 0.0001 &&
+                            t.mt5 === true
+                        );
+
+                        if (!exists) {
+                            const newTrade = {
+                                id: uid(),
+                                date: new Date(trade.time).toISOString().slice(0, 10),
+                                symbol: trade.symbol,
+                                direction: trade.direction,
+                                session: credentials.session || 'New York',
+                                entry: trade.entry,
+                                stop: trade.stop || 0,
+                                exit: trade.exit,
+                                size: trade.size || 0,
+                                risk: 1.0,
+                                target: null,
+                                notes: `📊 MT5 History - ${trade.notes || ''}`,
+                                r: calcR(trade.direction, trade.entry, trade.stop || 0, trade.exit),
+                                pnl: trade.profit || 0,
+                                mt5: true,
+                                mt5Timestamp: new Date().toISOString()
+                            };
+                            trades.push(newTrade);
+                            newTrades++;
+                        }
+                    });
+
+                    if (newTrades > 0) {
+                        trades.sort((a, b) => a.date.localeCompare(b.date));
+                        saveTrades();
+                        mt5TradesReceived += newTrades;
+                        render();
+                        showMT5Status(`✅ Imported ${newTrades} trades from MT5 history`, 'success');
+                    } else {
+                        showMT5Status('ℹ️ No new trades found in MT5 history', 'info');
+                    }
+                } else {
+                    showMT5Status('ℹ️ No trade history found', 'info');
                 }
-
-                const trade = {
-                    id: uid(),
-                    date: new Date().toISOString().slice(0, 10),
-                    symbol: symbol.toUpperCase(),
-                    direction: direction,
-                    session: session,
-                    entry: entry,
-                    stop: stop,
-                    exit: exit,
-                    size: size || '0',
-                    risk: 1.0,
-                    target: null,
-                    notes: notes + ' 📈 Live MT5',
-                    r: calcR(direction, entry, stop, exit),
-                    pnl: calcPnl(direction, entry, exit, size),
-                    mt5: true,
-                    mt5Timestamp: new Date().toISOString()
-                };
-
-                trades.push(trade);
-                trades.sort((a, b) => a.date.localeCompare(b.date));
-                saveTrades();
-                mt5TradesReceived++;
-                render();
-
-                showMT5Status(`✅ Trade logged: ${symbol} ${direction} @ ${entry}`, 'success');
-                return true;
             } catch (error) {
-                console.error('Error processing MT5 trade:', error);
-                return false;
+                console.error('History sync error:', error);
+                showMT5Status('❌ Failed to sync history: ' + error.message, 'error');
             }
+        }
+
+        // Test trade
+        function sendTestTrade() {
+            if (!mt5IsConnected) {
+                alert('Please connect to MT5 first');
+                return;
+            }
+
+            const testTrade = {
+                symbol: 'EURUSD',
+                direction: 'Long',
+                entry: 1.1234,
+                stop: 1.1200,
+                exit: 1.1285,
+                size: 10000,
+                session: document.getElementById('f-session').value || 'New York',
+                notes: '🧪 Test trade from MT5'
+            };
+
+            const trade = {
+                id: uid(),
+                date: new Date().toISOString().slice(0, 10),
+                symbol: testTrade.symbol,
+                direction: testTrade.direction,
+                session: testTrade.session,
+                entry: testTrade.entry,
+                stop: testTrade.stop,
+                exit: testTrade.exit,
+                size: testTrade.size,
+                risk: 1.0,
+                target: null,
+                notes: testTrade.notes + ' 📈 Live MT5',
+                r: calcR(testTrade.direction, testTrade.entry, testTrade.stop, testTrade.exit),
+                pnl: calcPnl(testTrade.direction, testTrade.entry, testTrade.exit, testTrade.size),
+                mt5: true,
+                mt5Timestamp: new Date().toISOString()
+            };
+
+            trades.push(trade);
+            trades.sort((a, b) => a.date.localeCompare(b.date));
+            saveTrades();
+            mt5TradesReceived++;
+            render();
+            showMT5Status('✅ Test trade logged successfully!', 'success');
         }
 
         // ============================================================
@@ -2067,7 +2004,6 @@
             modal.classList.add('show');
             hideMT5Status();
 
-            // Pre-fill saved credentials
             if (mt5Credentials.login) {
                 document.getElementById('mt5Login').value = mt5Credentials.login || '';
                 document.getElementById('mt5Server').value = mt5Credentials.server || 'ICMarkets-Demo';
@@ -2132,9 +2068,9 @@
                     document.getElementById('mt5LoginModal').classList.remove('show');
                     showMT5Status('✅ Connected successfully!', 'success');
                     updateMT5UI();
-
-                    // Update session dropdown in main form
                     document.getElementById('f-session').value = session;
+                    
+                    setTimeout(() => syncMT5History(credentials), 1000);
                 }
             } catch (error) {
                 showMT5Status('❌ ' + error.message, 'error');
@@ -2142,35 +2078,12 @@
         });
 
         // Test trade button
-        document.getElementById('mt5TestBtn').addEventListener('click', () => {
-            if (!mt5IsConnected) {
-                alert('Please connect to MT5 first using the "Login to MT5" button.');
-                return;
-            }
-
-            const testTrade = {
-                symbol: 'EURUSD',
-                direction: 'Long',
-                entry: 1.1234,
-                stop: 1.1200,
-                exit: 1.1285,
-                size: 10000,
-                session: document.getElementById('f-session').value || 'New York',
-                notes: '🧪 Test trade from MT5'
-            };
-
-            const success = processMT5Trade(testTrade);
-            if (success) {
-                alert('✅ Test trade logged successfully!\nCheck your journal.');
-            } else {
-                alert('❌ Failed to log test trade.');
-            }
-        });
+        document.getElementById('mt5TestBtn').addEventListener('click', sendTestTrade);
 
         // Sync History button
-        document.getElementById('mt5SyncBtn').addEventListener('click', () => {
+        document.getElementById('mt5SyncBtn').addEventListener('click', async () => {
             if (!mt5IsConnected) {
-                alert('Please connect to MT5 first using the "Login to MT5" button.');
+                alert('Please connect to MT5 first');
                 return;
             }
 
@@ -2179,8 +2092,7 @@
                 return;
             }
 
-            showMT5Status('🔄 Syncing trade history from MT5...', 'info');
-            fetchRecentMT5Trades(mt5Credentials);
+            await syncMT5History(mt5Credentials);
         });
 
         // ============================================================
@@ -2216,9 +2128,7 @@
             mt5Config = JSON.parse(localStorage.getItem(MT5_CONFIG_KEY) || '{"enabled":false,"connected":false}');
             mt5Credentials = JSON.parse(localStorage.getItem(MT5_CREDENTIALS_KEY) || '{}');
 
-            // Check if we have saved credentials and auto-connect
             if (mt5Credentials.login && mt5Config.connected) {
-                // Auto-connect in background
                 setTimeout(async () => {
                     try {
                         const result = await connectToMT5(mt5Credentials);
@@ -2258,7 +2168,6 @@
                 render();
             }
 
-            // Initialize MT5 UI
             updateMT5UI();
 
             // Voice welcome
@@ -2273,11 +2182,12 @@
                 audio.play().catch(() => {});
             }
 
-            // Expose MT5 functions globally for console testing
+            // Expose MT5 functions globally
             window.mt5 = {
                 connect: connectToMT5,
                 disconnect: disconnectMT5,
-                processTrade: processMT5Trade,
+                processTrade: sendTestTrade,
+                syncHistory: syncMT5History,
                 config: mt5Config,
                 trades: () => trades,
                 status: () => ({ connected: mt5IsConnected, account: mt5AccountInfo })
@@ -2289,7 +2199,6 @@
             console.log('💡 Use window.mt5 for console commands');
         }
 
-        // Handle beforeunload to save
         window.addEventListener('beforeunload', () => {
             if (trades.length > 0) {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));

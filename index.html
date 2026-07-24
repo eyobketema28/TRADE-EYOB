@@ -2,7 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Sir Eyob Ledger" />
+    <meta name="application-name" content="Sir Eyob Ledger" />
+    <meta name="theme-color" content="#050807" />
+    <meta name="msapplication-TileColor" content="#050807" />
+    <meta name="msapplication-TileImage" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23050807'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' fill='%23FFD700'>EY</text></svg>" />
+
+    <!-- Primary Icon (SVG inline for immediate display) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23050807'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='50' cy='50' r='45' fill='none' stroke='%23FFD700' stroke-width='2'/></svg>" />
+
+    <!-- Apple Touch Icon (for iOS home screen) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23050807'/><text x='90' y='122' font-size='86' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='90' cy='90' r='80' fill='none' stroke='%23FFD700' stroke-width='3'/></svg>" />
+
+    <!-- Android Chrome icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='38' fill='%23050807'/><text x='96' y='130' font-size='92' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='96' cy='96' r='85' fill='none' stroke='%23FFD700' stroke-width='3'/></svg>" />
+    <link rel="icon" type="image/png" sizes="512x512" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23050807'/><text x='256' y='346' font-size='246' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='256' cy='256' r='226' fill='none' stroke='%23FFD700' stroke-width='4'/></svg>" />
+
     <title>Welcome Sir Eyob · Trade Ledger</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -37,6 +55,8 @@
                 linear-gradient(90deg, rgba(57, 255, 140, 0.035) 1px, transparent 1px);
             background-size: 34px 34px;
             padding: 0 0 40px 0;
+            /* Prevent text selection on tap for better mobile feel */
+            -webkit-tap-highlight-color: transparent;
         }
 
         .mono {
@@ -1556,7 +1576,7 @@
         // ============================================================
         function speakWelcome() {
             // Try to play custom audio file first
-            const audio = new Audio('welcome.mp3'); // Place your audio file as 'welcome.mp3' in the same folder
+            const audio = new Audio('welcome.mp3');
             audio.volume = 1.0;
 
             // If the audio fails to load or play, fallback to speech synthesis
@@ -1619,7 +1639,6 @@
             }
 
             // --- Voice welcome using custom audio or fallback ---
-            // Wait a moment for voices to load if needed, then speak
             if (window.speechSynthesis) {
                 if (speechSynthesis.getVoices().length > 0) {
                     speakWelcome();
@@ -1629,7 +1648,6 @@
                     };
                 }
             } else {
-                // If speech synthesis is not supported, try audio only
                 const audio = new Audio('welcome.mp3');
                 audio.play().catch(() => {});
             }

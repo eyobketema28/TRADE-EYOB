@@ -173,7 +173,7 @@
         </div>
     </div>
 
-    <!-- MT5 LOGIN MODAL - WITH ACTUAL SERVERS -->
+    <!-- MT5 LOGIN MODAL -->
     <div class="mt5-login-modal" id="mt5LoginModal">
         <div class="mt5-login-content">
             <div class="mt5-header">
@@ -185,7 +185,6 @@
             <div class="field-group">
                 <label>Broker Server</label>
                 <select id="mt5Server">
-                    <!-- Exness - Actual MT5 Server Names -->
                     <optgroup label="Exness">
                         <option value="Exness-MT5Trial9">Exness-MT5Trial9</option>
                         <option value="Exness-MT5Trial10">Exness-MT5Trial10</option>
@@ -195,8 +194,6 @@
                         <option value="Exness-MT5Live6">Exness-MT5Live6</option>
                         <option value="Exness-MT5Real">Exness-MT5Real</option>
                     </optgroup>
-
-                    <!-- IC Markets - Actual MT5 Server Names -->
                     <optgroup label="IC Markets">
                         <option value="ICMarkets-Demo">ICMarkets-Demo</option>
                         <option value="ICMarkets-Live">ICMarkets-Live</option>
@@ -207,104 +204,72 @@
                         <option value="ICMarkets-Live5">ICMarkets-Live5</option>
                         <option value="ICMarkets-Live6">ICMarkets-Live6</option>
                     </optgroup>
-
-                    <!-- XM - Actual MT5 Server Names -->
                     <optgroup label="XM">
                         <option value="XM-Demo">XM-Demo</option>
                         <option value="XM-Live">XM-Live</option>
                         <option value="XMGlobal-Demo">XMGlobal-Demo</option>
                         <option value="XMGlobal-Live">XMGlobal-Live</option>
                     </optgroup>
-
-                    <!-- Pepperstone - Actual MT5 Server Names -->
                     <optgroup label="Pepperstone">
                         <option value="Pepperstone-Demo">Pepperstone-Demo</option>
                         <option value="Pepperstone-Live">Pepperstone-Live</option>
                         <option value="Pepperstone-Demo2">Pepperstone-Demo2</option>
                         <option value="Pepperstone-Live2">Pepperstone-Live2</option>
                     </optgroup>
-
-                    <!-- FxPro - Actual MT5 Server Names -->
                     <optgroup label="FxPro">
                         <option value="FxPro-Demo">FxPro-Demo</option>
                         <option value="FxPro-Live">FxPro-Live</option>
                         <option value="FxPro-Demo2">FxPro-Demo2</option>
                         <option value="FxPro-Live2">FxPro-Live2</option>
                     </optgroup>
-
-                    <!-- Admiral Markets -->
                     <optgroup label="Admiral Markets">
                         <option value="Admiral-Demo">Admiral-Demo</option>
                         <option value="Admiral-Live">Admiral-Live</option>
                     </optgroup>
-
-                    <!-- AvaTrade -->
                     <optgroup label="AvaTrade">
                         <option value="AvaTrade-Demo">AvaTrade-Demo</option>
                         <option value="AvaTrade-Live">AvaTrade-Live</option>
                     </optgroup>
-
-                    <!-- FXCM -->
                     <optgroup label="FXCM">
                         <option value="FXCM-Demo">FXCM-Demo</option>
                         <option value="FXCM-Live">FXCM-Live</option>
                     </optgroup>
-
-                    <!-- OANDA -->
                     <optgroup label="OANDA">
                         <option value="OANDA-Demo">OANDA-Demo</option>
                         <option value="OANDA-Live">OANDA-Live</option>
                     </optgroup>
-
-                    <!-- ThinkMarkets -->
                     <optgroup label="ThinkMarkets">
                         <option value="ThinkMarkets-Demo">ThinkMarkets-Demo</option>
                         <option value="ThinkMarkets-Live">ThinkMarkets-Live</option>
                     </optgroup>
-
-                    <!-- Vantage -->
                     <optgroup label="Vantage">
                         <option value="Vantage-Demo">Vantage-Demo</option>
                         <option value="Vantage-Live">Vantage-Live</option>
                     </optgroup>
-
-                    <!-- RoboForex -->
                     <optgroup label="RoboForex">
                         <option value="RoboForex-Demo">RoboForex-Demo</option>
                         <option value="RoboForex-Live">RoboForex-Live</option>
                     </optgroup>
-
-                    <!-- OctaFX -->
                     <optgroup label="OctaFX">
                         <option value="OctaFX-Demo">OctaFX-Demo</option>
                         <option value="OctaFX-Live">OctaFX-Live</option>
                     </optgroup>
-
-                    <!-- FBS -->
                     <optgroup label="FBS">
                         <option value="FBS-Demo">FBS-Demo</option>
                         <option value="FBS-Live">FBS-Live</option>
                     </optgroup>
-
-                    <!-- HotForex -->
                     <optgroup label="HotForex">
                         <option value="HotForex-Demo">HotForex-Demo</option>
                         <option value="HotForex-Live">HotForex-Live</option>
                     </optgroup>
-
-                    <!-- XTB -->
                     <optgroup label="XTB">
                         <option value="XTB-Demo">XTB-Demo</option>
                         <option value="XTB-Live">XTB-Live</option>
                     </optgroup>
-
-                    <!-- Tickmill -->
                     <optgroup label="Tickmill">
                         <option value="Tickmill-Demo">Tickmill-Demo</option>
                         <option value="Tickmill-Live">Tickmill-Live</option>
                     </optgroup>
-
-                    <!-- Custom -->
                     <optgroup label="Custom">
                         <option value="Custom">✏️ Enter Custom Server</option>
                     </optgroup>
@@ -1022,7 +987,7 @@
 
                 if (data.success) {
                     mt5IsConnected = true;
-                    mt5AccountInfo = data.account;
+                    mt5AccountInfo = data.account || { login: credentials.login, server: credentials.server };
                     mt5Config.connected = true;
                     mt5Config.enabled = true;
                     localStorage.setItem(MT5_CONFIG_KEY, JSON.stringify(mt5Config));
@@ -1110,6 +1075,7 @@
             }, 3000);
         }
 
+        // UPDATED: Fixed Sync History function
         async function syncMT5History(credentials) {
             try {
                 showMT5Status('🔄 Syncing trade history from MT5...', 'info');
@@ -1122,9 +1088,15 @@
 
                 const data = await response.json();
 
+                if (data.error) {
+                    showMT5Status('❌ ' + data.error, 'error');
+                    return;
+                }
+
                 if (data.trades && data.trades.length > 0) {
                     let newTrades = 0;
                     data.trades.forEach(trade => {
+                        // Check if trade already exists
                         const exists = trades.some(t =>
                             t.symbol === trade.symbol &&
                             Math.abs(t.entry - trade.entry) < 0.0001 &&
@@ -1145,7 +1117,7 @@
                                 size: trade.size || 0,
                                 risk: 1.0,
                                 target: null,
-                                notes: `📊 MT5 History - ${trade.notes || ''}`,
+                                notes: trade.notes + (data.simulation ? ' 📊 SIM' : ' 📊 MT5'),
                                 r: calcR(trade.direction, trade.entry, trade.stop || 0, trade.exit),
                                 pnl: trade.profit || 0,
                                 mt5: true,
@@ -1161,9 +1133,10 @@
                         saveTrades();
                         mt5TradesReceived += newTrades;
                         render();
-                        showMT5Status(`✅ Imported ${newTrades} trades from MT5 history`, 'success');
+                        const mode = data.simulation ? 'SIMULATION' : 'MT5';
+                        showMT5Status(`✅ Imported ${newTrades} trades from ${mode} history`, 'success');
                     } else {
-                        showMT5Status('ℹ️ No new trades found in MT5 history', 'info');
+                        showMT5Status('ℹ️ No new trades found in history', 'info');
                     }
                 } else {
                     showMT5Status('ℹ️ No trade history found', 'info');
@@ -1441,6 +1414,7 @@
                     updateMT5UI();
                     document.getElementById('f-session').value = session;
 
+                    // Auto-sync history after connection
                     setTimeout(() => syncMT5History(credentials), 1000);
                 }
             } catch (error) {

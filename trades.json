@@ -1582,5 +1582,21 @@
     "notes": "Deposit 3.00",
     "r": null,
     "pnl": 3
+  },
+  {
+    "id": "mrys5c9tnbu4x",
+    "date": "2026-07-24",
+    "symbol": "XAU",
+    "direction": "Long",
+    "session": "New York",
+    "entry": "2",
+    "stop": "1",
+    "exit": "100",
+    "size": "0.02",
+    "risk": 1,
+    "target": null,
+    "notes": "",
+    "r": 98,
+    "pnl": 1.96
   }
 ]

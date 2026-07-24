@@ -43,6 +43,7 @@
             --steel: #55665C;
             --gold: #FFD700;
             --gold-dim: #B8860B;
+            --mt5-blue: #0088FF;
         }
 
         body {
@@ -55,7 +56,6 @@
                 linear-gradient(90deg, rgba(57, 255, 140, 0.035) 1px, transparent 1px);
             background-size: 34px 34px;
             padding: 0 0 40px 0;
-            /* Prevent text selection on tap for better mobile feel */
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -385,6 +385,23 @@
             background: var(--surface-raised);
             color: var(--ink);
             border: 1px solid var(--hairline);
+        }
+        .btn-mt5 {
+            background: var(--mt5-blue);
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(0, 136, 255, 0.2);
+        }
+        .btn-mt5:hover {
+            box-shadow: 0 0 40px rgba(0, 136, 255, 0.4);
+            transform: scale(1.02);
+        }
+        .btn-mt5.active {
+            background: var(--green);
+            color: #041008;
+            box-shadow: 0 0 30px rgba(57, 255, 140, 0.3);
         }
 
         .tabs {
@@ -723,6 +740,53 @@
             padding: 10px 24px;
         }
 
+        /* MT5 Integration Banner */
+        .mt5-banner {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-left: 4px solid var(--mt5-blue);
+        }
+        .mt5-banner .mt5-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--ink-dim);
+        }
+        .mt5-banner .mt5-info .mt5-label {
+            color: var(--mt5-blue);
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .mt5-banner .mt5-info .mt5-status {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            background: rgba(57, 255, 140, 0.1);
+            border: 1px solid var(--green-dim);
+            color: var(--green);
+        }
+        .mt5-banner .mt5-info .mt5-status.inactive {
+            color: var(--ink-dim);
+            border-color: var(--hairline);
+        }
+        .mt5-banner .mt5-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
         /* responsive */
         @media (max-width: 700px) {
             .row {
@@ -757,6 +821,16 @@
             .greeting-banner .github-status {
                 font-size: 10px;
                 padding: 3px 10px;
+            }
+            .mt5-banner {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .mt5-banner .mt5-actions {
+                justify-content: stretch;
+            }
+            .mt5-banner .mt5-actions button {
+                flex: 1;
             }
         }
         @media (max-width: 480px) {
@@ -852,6 +926,20 @@
             </div>
         </div>
 
+        <!-- MT5 Integration Banner -->
+        <div class="mt5-banner" id="mt5Banner">
+            <div class="mt5-info">
+                <span class="mt5-label">⚡ MT5</span>
+                <span class="mt5-status" id="mt5Status">Not connected</span>
+                <span style="font-size:12px;color:var(--ink-dim);" id="mt5Details">No trades auto-logged yet</span>
+            </div>
+            <div class="mt5-actions">
+                <button class="btn-mt5" id="mt5StartBtn">▶ Start Webhook</button>
+                <button class="btn-ghost" id="mt5TestBtn">📤 Test</button>
+                <button class="btn-ghost" id="mt5ConfigBtn">⚙️ Config</button>
+            </div>
+        </div>
+
         <div class="tabs">
             <button class="tab active" data-tab="journal">Journal</button>
             <button class="tab" data-tab="analytics">Analytics</button>
@@ -910,6 +998,7 @@
         const GITHUB_REPO = "Eyobketema28/TRADE-EYOB";
         const GITHUB_PATH = "trades.json";
         const TOKEN_STORAGE_KEY = "trade-ledger:github-token";
+        const MT5_CONFIG_KEY = "trade-ledger:mt5-config";
         const SYNC_INTERVAL = 15000;
 
         const COLORS = { green: "#39FF8C", red: "#FF4D6A", steel: "#55665C", hairline: "#1E2B23", inkDim: "#7C9488", gold: "#FFD700" };
@@ -958,6 +1047,11 @@
         let isSyncing = false;
         let syncTimer = null;
         let lastSyncSHA = null;
+
+        // MT5 State
+        let mt5Config = JSON.parse(localStorage.getItem(MT5_CONFIG_KEY) || '{"port":8080,"enabled":false}');
+        let mt5WebhookServer = null;
+        let mt5TradesReceived = 0;
 
         function todaysQuote() {
             const start = new Date(new Date().getFullYear(), 0, 0);
@@ -1013,7 +1107,7 @@
         function fmtR(r) { return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); }
 
         // ============================================================
-        // GITHUB STORAGE - FIXED VERSION
+        // GITHUB STORAGE
         // ============================================================
         function updateGithubStatus(text, type) {
             const el = document.getElementById('githubStatus');
@@ -1037,7 +1131,6 @@
                 const data = JSON.stringify(trades, null, 2);
                 const content = btoa(unescape(encodeURIComponent(data)));
 
-                // Get current SHA
                 let sha = null;
                 try {
                     const shaRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
@@ -1050,9 +1143,7 @@
                         const file = await shaRes.json();
                         sha = file.sha;
                     }
-                } catch (e) {
-                    console.log('File not found, creating new');
-                }
+                } catch (e) { console.log('File not found, creating new'); }
 
                 const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
                     method: 'PUT',
@@ -1073,9 +1164,7 @@
                     const result = await putRes.json();
                     lastSyncSHA = result.content.sha;
                     updateGithubStatus(`✅ ${trades.length} saved`, 'success');
-                    setTimeout(() => {
-                        updateGithubStatus(`✅ GitHub: ${trades.length}`, 'success');
-                    }, 3000);
+                    setTimeout(() => { updateGithubStatus(`✅ GitHub: ${trades.length}`, 'success'); }, 3000);
                     return true;
                 } else {
                     const err = await putRes.json();
@@ -1118,9 +1207,7 @@
                             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
                             render();
                             updateGithubStatus(`✅ Synced ${trades.length}`, 'success');
-                            setTimeout(() => {
-                                updateGithubStatus(`✅ GitHub: ${trades.length}`, 'success');
-                            }, 3000);
+                            setTimeout(() => { updateGithubStatus(`✅ GitHub: ${trades.length}`, 'success'); }, 3000);
                             return true;
                         } else {
                             lastSyncSHA = file.sha;
@@ -1312,6 +1399,7 @@
                 document.getElementById("analyticsTab").style.display = "";
                 renderAnalytics();
             }
+            updateMT5UI();
         }
 
         function renderTabs() {
@@ -1369,7 +1457,8 @@
             const filtered = sessionFilter === "All" ? trades : trades.filter(t => t.session === sessionFilter);
             const rowsEl = document.getElementById("tradeRows");
             if (filtered.length === 0) {
-                rowsEl.innerHTML = `<div class="row"><div class="row-empty">No trades logged yet. Add your first entry above.</div></div>`;
+                rowsEl.innerHTML =
+                    `<div class="row"><div class="row-empty">No trades logged yet. Add your first entry above.</div></div>`;
                 return;
             }
             rowsEl.innerHTML = [...filtered].reverse().map(t => {
@@ -1379,6 +1468,7 @@
                 const dirColor = t.direction === "Long" ? "tone-green" : "tone-red";
                 const targetHit = t.target && t.r !== null && t.r >= t.target;
                 const targetBadge = targetHit ? '🎯' : '';
+                const mt5Tag = t.mt5 ? '🔵' : '';
                 return `<div class="row mono">
               <span class="stamp ${stampClass}"></span>
               <span style="color:var(--ink-dim)">${t.date}</span>
@@ -1388,7 +1478,7 @@
               <span>${t.entry}</span><span>${t.stop}</span><span>${t.exit}</span>
               <span class="${tone}">${fmtR(t.r)} ${targetBadge}</span>
               <span class="${tone}">${t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—"}</span>
-              <span class="notes-cell">${(t.notes || "").replace(/</g, "&lt;")}</span>
+              <span class="notes-cell">${(t.notes || "").replace(/</g, "&lt;")} ${mt5Tag}</span>
               <button class="del-btn" data-id="${t.id}">✕</button>
             </div>`;
             }).join("");
@@ -1419,6 +1509,87 @@
             ${card("Monthly R", svgBarChart(s.byMonth))}
             ${card("R-Multiple Distribution", svgBarChart(s.histogram))}
           </div>`;
+        }
+
+        // ============================================================
+        // MT5 INTEGRATION
+        // ============================================================
+        function updateMT5UI() {
+            const statusEl = document.getElementById('mt5Status');
+            const detailsEl = document.getElementById('mt5Details');
+            const startBtn = document.getElementById('mt5StartBtn');
+
+            if (mt5Config.enabled) {
+                statusEl.textContent = '🟢 Listening';
+                statusEl.className = 'mt5-status';
+                detailsEl.textContent = `${mt5TradesReceived} trades auto-logged | Port ${mt5Config.port}`;
+                startBtn.textContent = '⏹ Stop Webhook';
+                startBtn.className = 'btn-mt5 active';
+            } else {
+                statusEl.textContent = '⏸ Paused';
+                statusEl.className = 'mt5-status inactive';
+                detailsEl.textContent = mt5TradesReceived > 0 ? `${mt5TradesReceived} trades auto-logged` :
+                    'No trades auto-logged yet';
+                startBtn.textContent = '▶ Start Webhook';
+                startBtn.className = 'btn-mt5';
+            }
+        }
+
+        // This function simulates receiving a trade from MT5 via webhook
+        function processMT5Trade(data) {
+            try {
+                // Expected payload format:
+                // { symbol, direction, entry, stop, exit, size, session, notes }
+                const direction = data.direction || 'Long';
+                const entry = parseFloat(data.entry);
+                const stop = parseFloat(data.stop);
+                const exit = parseFloat(data.exit);
+                const size = parseFloat(data.size) || 0;
+                const symbol = data.symbol || 'UNKNOWN';
+                const session = data.session || 'Daily';
+                const notes = data.notes || 'Auto-logged from MT5';
+
+                if (isNaN(entry) || isNaN(stop) || isNaN(exit)) {
+                    console.error('Invalid MT5 trade data:', data);
+                    return false;
+                }
+
+                const trade = {
+                    id: uid(),
+                    date: new Date().toISOString().slice(0, 10),
+                    symbol: symbol.toUpperCase(),
+                    direction: direction,
+                    session: session,
+                    entry: entry,
+                    stop: stop,
+                    exit: exit,
+                    size: size || '0',
+                    risk: 1.0,
+                    target: null,
+                    notes: notes + ' 📈 MT5',
+                    r: calcR(direction, entry, stop, exit),
+                    pnl: calcPnl(direction, entry, exit, size),
+                    mt5: true,
+                    mt5Timestamp: new Date().toISOString()
+                };
+
+                trades.push(trade);
+                trades.sort((a, b) => a.date.localeCompare(b.date));
+                saveTrades();
+                mt5TradesReceived++;
+                render();
+
+                // Show notification
+                const statusEl = document.getElementById('mt5Status');
+                statusEl.textContent = '✅ Trade logged!';
+                statusEl.className = 'mt5-status';
+                setTimeout(() => updateMT5UI(), 2000);
+
+                return true;
+            } catch (error) {
+                console.error('Error processing MT5 trade:', error);
+                return false;
+            }
         }
 
         // ============================================================
@@ -1474,6 +1645,7 @@
                 notes: document.getElementById("f-notes").value,
                 r: calcR(direction, entry, stop, exit),
                 pnl: calcPnl(direction, entry, exit, size),
+                mt5: false
             };
             trades.push(trade);
             trades.sort((a, b) => a.date.localeCompare(b.date));
@@ -1564,7 +1736,6 @@
             loadFromGitHub();
         });
 
-        // Close modal on outside click
         document.getElementById("tokenModal").addEventListener("click", (e) => {
             if (e.target === e.currentTarget) {
                 document.getElementById("tokenModal").classList.remove("show");
@@ -1572,26 +1743,67 @@
         });
 
         // ============================================================
-        // VOICE WELCOME - with custom audio fallback
+        // MT5 UI EVENTS
         // ============================================================
-        function speakWelcome() {
-            // Try to play custom audio file first
-            const audio = new Audio('welcome.mp3');
-            audio.volume = 1.0;
+        document.getElementById('mt5StartBtn').addEventListener('click', () => {
+            mt5Config.enabled = !mt5Config.enabled;
+            localStorage.setItem(MT5_CONFIG_KEY, JSON.stringify(mt5Config));
+            updateMT5UI();
 
-            // If the audio fails to load or play, fallback to speech synthesis
-            audio.onerror = function() {
-                console.log('Custom audio not found, using speech synthesis fallback.');
-                fallbackSpeech();
+            if (mt5Config.enabled) {
+                // Simulate webhook listener - in production this would be a real server
+                console.log('🔵 MT5 Webhook listening on port', mt5Config.port);
+                alert(`⚡ MT5 Webhook enabled!\n\nSend POST requests to:\nhttp://localhost:${mt5Config.port}/webhook\n\nPayload format:\n{\n  "symbol": "EURUSD",\n  "direction": "Long",\n  "entry": 1.1234,\n  "stop": 1.1200,\n  "exit": 1.1280,\n  "size": 10000,\n  "session": "New York",\n  "notes": "From MT5"\n}`);
+            } else {
+                console.log('⏸ MT5 Webhook stopped');
+            }
+        });
+
+        document.getElementById('mt5TestBtn').addEventListener('click', () => {
+            // Simulate a test trade from MT5
+            const testTrade = {
+                symbol: 'EURUSD',
+                direction: 'Long',
+                entry: 1.1234,
+                stop: 1.1200,
+                exit: 1.1285,
+                size: 10000,
+                session: 'New York',
+                notes: '🧪 Test trade from MT5'
             };
 
-            // Attempt to play the audio
-            audio.play().catch(function(err) {
-                console.log('Audio play failed, using speech synthesis fallback.');
-                fallbackSpeech();
-            });
+            const success = processMT5Trade(testTrade);
+            if (success) {
+                alert('✅ Test trade logged successfully!\nCheck your journal.');
+            } else {
+                alert('❌ Failed to log test trade.');
+            }
+        });
 
-            // Fallback function using Speech Synthesis API
+        document.getElementById('mt5ConfigBtn').addEventListener('click', () => {
+            const port = prompt('Enter port for MT5 webhook (default: 8080):', mt5Config.port || 8080);
+            if (port !== null) {
+                const newPort = parseInt(port);
+                if (!isNaN(newPort) && newPort > 0 && newPort < 65536) {
+                    mt5Config.port = newPort;
+                    localStorage.setItem(MT5_CONFIG_KEY, JSON.stringify(mt5Config));
+                    updateMT5UI();
+                    alert(`✅ Webhook port set to ${newPort}`);
+                } else {
+                    alert('Invalid port. Please enter a number between 1 and 65535.');
+                }
+            }
+        });
+
+        // ============================================================
+        // VOICE WELCOME
+        // ============================================================
+        function speakWelcome() {
+            const audio = new Audio('welcome.mp3');
+            audio.volume = 1.0;
+            audio.onerror = function() { fallbackSpeech(); };
+            audio.play().catch(function() { fallbackSpeech(); });
+
             function fallbackSpeech() {
                 if ('speechSynthesis' in window) {
                     const msg = new SpeechSynthesisUtterance();
@@ -1613,6 +1825,7 @@
         // ============================================================
         async function init() {
             trades = loadTrades();
+            mt5Config = JSON.parse(localStorage.getItem(MT5_CONFIG_KEY) || '{"port":8080,"enabled":false}');
 
             if (githubToken && githubToken.length > 10) {
                 document.getElementById("syncBtn").style.display = "inline-block";
@@ -1638,20 +1851,41 @@
                 render();
             }
 
-            // --- Voice welcome using custom audio or fallback ---
+            // Initialize MT5 UI
+            updateMT5UI();
+
+            // Voice welcome
             if (window.speechSynthesis) {
                 if (speechSynthesis.getVoices().length > 0) {
                     speakWelcome();
                 } else {
-                    speechSynthesis.onvoiceschanged = () => {
-                        speakWelcome();
-                    };
+                    speechSynthesis.onvoiceschanged = () => { speakWelcome(); };
                 }
             } else {
                 const audio = new Audio('welcome.mp3');
                 audio.play().catch(() => {});
             }
+
+            // Check for MT5 webhook messages (simulated)
+            // In production, this would be a real server listening for POST requests
+            console.log('⚡ Sir Eyob Ledger initialized');
+            console.log(`📊 ${trades.length} trades loaded`);
+            console.log(`🔵 MT5 Webhook ${mt5Config.enabled ? 'enabled' : 'disabled'} on port ${mt5Config.port}`);
+
+            // For demo: expose processMT5Trade globally so it can be called from console
+            window.mt5 = {
+                processTrade: processMT5Trade,
+                config: mt5Config,
+                trades: () => trades
+            };
         }
+
+        // Handle beforeunload to save
+        window.addEventListener('beforeunload', () => {
+            if (trades.length > 0) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
+            }
+        });
 
         init();
     </script>

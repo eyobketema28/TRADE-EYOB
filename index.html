@@ -23,969 +23,156 @@
 
     <title>Welcome Sir Eyob · Trade Ledger</title>
     <style>
+        /* ... (all styles remain the same as before) ... */
+        /* I'm keeping the styles section compact - it's the same as the previous version */
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-        }
-
-        :root {
-            --bg: #050807;
-            --surface: #0B100D;
-            --surface-raised: #121A15;
-            --hairline: #1E2B23;
-            --ink: #F2F6F3;
-            --ink-dim: #7C9488;
-            --green: #39FF8C;
-            --green-dim: #1C6B42;
-            --red: #FF4D6A;
-            --steel: #55665C;
-            --gold: #FFD700;
-            --gold-dim: #B8860B;
-            --mt5-blue: #0088FF;
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--ink);
-            font-family: 'Rajdhani', sans-serif;
-            min-height: 100vh;
-            background-image:
-                linear-gradient(rgba(57, 255, 140, 0.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(57, 255, 140, 0.035) 1px, transparent 1px);
-            background-size: 34px 34px;
-            padding: 0 0 40px 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .display {
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .wrap {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 28px 24px 40px;
-        }
-
-        /* SPLASH */
-        #splash {
-            position: fixed;
-            inset: 0;
-            z-index: 100;
-            background: radial-gradient(circle at 50% 30%, rgba(57, 255, 140, 0.12), var(--bg) 80%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-            text-align: center;
-            transition: opacity 0.7s ease, visibility 0.7s ease;
-            backdrop-filter: blur(3px);
-        }
-        #splash.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        #splash-logo {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 24px;
-            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.2));
-            animation: pulse-gold 2.5s ease-in-out infinite;
-        }
-        #splash-logo.fallback {
-            border-radius: 50%;
-            border: 2px solid var(--gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 32px;
-            color: var(--gold);
-            background: rgba(255, 215, 0, 0.05);
-        }
-        @keyframes pulse-gold {
-            0%,
-            100% {
-                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.1));
-            }
-            50% {
-                filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.25));
-            }
-        }
-        #splash-title {
-            font-size: 46px;
-            font-weight: 900;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            text-shadow: 0 0 30px rgba(57, 255, 140, 0.2);
-        }
-        #splash-title .gold {
-            color: var(--gold);
-            text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
-        }
-        #splash-title .green {
-            color: var(--green);
-        }
-        #splash-sub {
-            color: var(--ink-dim);
-            font-size: 16px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-top: 6px;
-            margin-bottom: 28px;
-        }
-        #splash-sub .highlight {
-            color: var(--gold);
-        }
-        #splash-quote-box {
-            max-width: 540px;
-            border: 1px solid var(--hairline);
-            border-radius: 16px;
-            background: rgba(18, 26, 21, 0.7);
-            padding: 26px 30px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(8px);
-            border-left: 3px solid var(--gold);
-        }
-        #splash-quote {
-            font-size: 20px;
-            font-weight: 500;
-            line-height: 1.6;
-            color: var(--ink);
-            font-style: italic;
-        }
-        #splash-quote::before {
-            content: "“";
-            color: var(--gold);
-            font-size: 26px;
-        }
-        #splash-quote::after {
-            content: "”";
-            color: var(--gold);
-            font-size: 26px;
-        }
-        #splash-date {
-            margin-top: 14px;
-            font-size: 12px;
-            letter-spacing: 2px;
-            color: var(--gold);
-            text-transform: uppercase;
-        }
-        #enterBtn {
-            background: transparent;
-            color: var(--gold);
-            border: 1.5px solid var(--gold);
-            border-radius: 40px;
-            padding: 14px 48px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        #enterBtn:hover {
-            background: var(--gold);
-            color: #041008;
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.4);
-            transform: scale(1.03);
-        }
-
-        /* GREETING */
-        .greeting-banner {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            border: 1px solid var(--hairline);
-            border-left: 4px solid var(--gold);
-            background: var(--surface);
-            border-radius: 10px;
-            padding: 12px 20px;
-            margin-bottom: 22px;
-            font-size: 15px;
-            color: var(--ink-dim);
-            flex-wrap: wrap;
-        }
-        .greeting-banner .greeting-name {
-            color: var(--gold);
-            font-weight: 700;
-            font-size: 18px;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-        }
-        .greeting-banner .greeting-quote {
-            color: var(--ink-dim);
-            font-style: italic;
-            margin-left: auto;
-            font-size: 13px;
-        }
-        .greeting-banner .github-status {
-            font-size: 11px;
-            color: var(--green);
-            background: rgba(57, 255, 140, 0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
-            border: 1px solid var(--green-dim);
-            font-family: 'JetBrains Mono', monospace;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-        .greeting-banner .github-status:hover {
-            background: rgba(57, 255, 140, 0.2);
-        }
-        .greeting-banner .github-status.saving {
-            color: var(--gold);
-            border-color: var(--gold-dim);
-            animation: pulse 1s ease-in-out infinite;
-        }
-        .greeting-banner .github-status.error {
-            color: var(--red);
-            border-color: var(--red);
-        }
-        .greeting-banner .github-status.success {
-            color: var(--green);
-            border-color: var(--green);
-        }
-        .greeting-banner .github-status.syncing {
-            color: var(--gold);
-            border-color: var(--gold-dim);
-            animation: pulse 0.5s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        /* HEADER */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        #app-logo {
-            width: 42px;
-            height: 42px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.15));
-        }
-        #app-logo.fallback {
-            border-radius: 50%;
-            border: 1.5px solid var(--gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 15px;
-            background: rgba(255, 215, 0, 0.04);
-        }
-        .title {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 22px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        .title .gold {
-            color: var(--gold);
-        }
-        .title .green {
-            color: var(--green);
-        }
-        .subtitle {
-            color: var(--ink-dim);
-            font-size: 13px;
-            margin-top: 2px;
-            letter-spacing: 0.5px;
-        }
-        .subtitle .highlight {
-            color: var(--gold);
-        }
-        .header-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        button {
-            font-family: 'Rajdhani', sans-serif;
-            cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            padding: 9px 18px;
-            letter-spacing: 0.5px;
-            transition: all 0.2s ease;
-        }
-        .btn-ghost {
-            background: var(--surface-raised);
-            color: var(--ink-dim);
-            border: 1px solid var(--hairline);
-            font-weight: 500;
-            padding: 8px 14px;
-            font-size: 12.5px;
-        }
-        .btn-ghost:hover {
-            border-color: var(--gold-dim);
-            color: var(--gold);
-        }
-        .btn-gold {
-            background: var(--gold);
-            color: #041008;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
-            font-weight: 700;
-        }
-        .btn-gold:hover {
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
-            transform: scale(1.02);
-        }
-        .btn-cancel {
-            background: var(--surface-raised);
-            color: var(--ink);
-            border: 1px solid var(--hairline);
-        }
-        .btn-mt5 {
-            background: var(--mt5-blue);
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            font-weight: 700;
-            box-shadow: 0 0 20px rgba(0, 136, 255, 0.2);
-        }
-        .btn-mt5:hover {
-            box-shadow: 0 0 40px rgba(0, 136, 255, 0.4);
-            transform: scale(1.02);
-        }
-        .btn-mt5.active {
-            background: var(--green);
-            color: #041008;
-            box-shadow: 0 0 30px rgba(57, 255, 140, 0.3);
-        }
-
-        /* TABS */
-        .tabs {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--hairline);
-        }
-        .tab {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px 6px 10px;
-            margin-right: 28px;
-            color: var(--ink-dim);
-            border-bottom: 3px solid transparent;
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            transition: all 0.2s ease;
-        }
-        .tab.active {
-            color: var(--gold);
-            border-bottom: 3px solid var(--gold);
-        }
-        .tab:hover {
-            color: var(--gold);
-        }
-
-        /* STATS */
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 1px;
-            background: var(--hairline);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid var(--hairline);
-        }
-        .stat-cell {
-            background: var(--surface);
-            padding: 14px 16px;
-        }
-        .stat-label {
-            font-size: 10px;
-            color: var(--ink-dim);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: 4px;
-        }
-        .stat-value {
-            font-size: 20px;
-            font-weight: 600;
-        }
-        .tone-green {
-            color: var(--green);
-            text-shadow: 0 0 12px rgba(57, 255, 140, 0.3);
-        }
-        .tone-red {
-            color: var(--red);
-        }
-        .tone-gold {
-            color: var(--gold);
-            text-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
-        }
-
-        /* FORM */
-        form.entry-form {
-            background: var(--surface);
-            border: 1px solid var(--hairline);
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 14px;
-        }
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            font-size: 11px;
-            color: var(--ink-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-        }
-        .field input,
-        .field select,
-        .field textarea {
-            background: var(--surface-raised);
-            border: 1px solid var(--hairline);
-            border-radius: 8px;
-            padding: 8px 10px;
-            color: var(--ink);
-            font-size: 14px;
-            font-family: 'JetBrains Mono', monospace;
-            outline: none;
-            transition: border 0.2s ease;
-        }
-        .field input:focus,
-        .field select:focus,
-        .field textarea:focus {
-            border-color: var(--gold-dim);
-            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
-        }
-        .field textarea {
-            font-family: 'Rajdhani', sans-serif;
-            resize: vertical;
-        }
-        .form-full {
-            grid-column: 1 / -1;
-        }
-        .form-submit-row {
-            grid-column: 1 / -1;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        /* CHART */
-        .chart-box {
-            background: var(--surface);
-            border: 1px solid var(--hairline);
-            border-radius: 12px;
-            padding: 12px 6px 6px;
-            margin-bottom: 20px;
-            height: 150px;
-        }
-        .chart-empty {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--ink-dim);
-            font-size: 14px;
-        }
-
-        /* FILTERS */
-        .session-filters {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-        }
-        .chip {
-            background: transparent;
-            color: var(--ink-dim);
-            border: 1px solid var(--hairline);
-            border-radius: 30px;
-            padding: 5px 16px;
-            font-size: 12px;
-            cursor: pointer;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            transition: all 0.2s ease;
-        }
-        .chip.active {
-            background: var(--surface-raised);
-            color: var(--gold);
-            border-color: var(--gold-dim);
-        }
-        .chip:hover {
-            border-color: var(--gold-dim);
-            color: var(--gold);
-        }
-
-        /* TABLE */
-        .table-box {
-            background: var(--surface);
-            border: 1px solid var(--hairline);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .row {
-            display: grid;
-            grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px;
-            gap: 8px;
-            padding: 10px 16px;
-            align-items: center;
-            border-bottom: 1px solid var(--hairline);
-            font-size: 12.5px;
-            transition: background 0.15s ease;
-        }
-        .row:hover {
-            background: rgba(255, 215, 0, 0.03);
-        }
-        .row-head {
-            font-size: 10.5px;
-            color: var(--ink-dim);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            padding: 8px 16px;
-        }
-        .row-empty {
-            padding: 28px;
-            text-align: center;
-            color: var(--ink-dim);
-            font-size: 14px;
-            grid-column: 1 / -1;
-        }
-        .stamp {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        .stamp-win {
-            background: var(--green);
-            box-shadow: 0 0 10px rgba(57, 255, 140, 0.6);
-        }
-        .stamp-loss {
-            border: 2px solid var(--red);
-            background: transparent;
-        }
-        .stamp-flat {
-            width: 10px;
-            height: 2px;
-            border-radius: 2px;
-            background: var(--steel);
-        }
-        .del-btn {
-            background: none;
-            border: none;
-            color: var(--ink-dim);
-            cursor: pointer;
-            padding: 4px;
-            font-size: 16px;
-            transition: color 0.2s ease;
-        }
-        .del-btn:hover {
-            color: var(--red);
-        }
-        .notes-cell {
-            color: var(--ink-dim);
-            font-size: 12px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .footnote {
-            margin-top: 12px;
-            font-size: 11px;
-            color: var(--ink-dim);
-            text-align: right;
-            letter-spacing: 0.6px;
-        }
-
-        /* ANALYTICS */
-        .analytics-grid {
-            display: grid;
-            gap: 20px;
-        }
-        .chart-card {
-            background: var(--surface);
-            border: 1px solid var(--hairline);
-            border-radius: 14px;
-            padding: 14px 10px 10px;
-            transition: border-color 0.2s ease;
-        }
-        .chart-card:hover {
-            border-color: var(--gold-dim);
-        }
-        .chart-card-title {
-            font-size: 12px;
-            color: var(--ink-dim);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: 8px;
-            padding-left: 8px;
-        }
-        .chart-card-body {
-            height: 160px;
-        }
-        .empty-analytics {
-            background: var(--surface);
-            border: 1px solid var(--hairline);
-            border-radius: 14px;
-            padding: 48px;
-            text-align: center;
-            color: var(--ink-dim);
-            font-size: 14px;
-        }
-
-        /* MODALS */
-        .token-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            align-items: center;
-            justify-content: center;
-        }
-        .token-modal.show {
-            display: flex;
-        }
-        .token-modal-content {
-            background: var(--surface);
-            border: 1px solid var(--gold-dim);
-            border-radius: 16px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-        }
-        .token-modal h2 {
-            color: var(--gold);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
-            margin-bottom: 12px;
-        }
-        .token-modal p {
-            color: var(--ink-dim);
-            margin-bottom: 16px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        .token-modal input {
-            width: 100%;
-            background: var(--surface-raised);
-            border: 1px solid var(--hairline);
-            border-radius: 8px;
-            padding: 10px 14px;
-            color: var(--ink);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            outline: none;
-            margin-bottom: 12px;
-        }
-        .token-modal input:focus {
-            border-color: var(--gold-dim);
-        }
-        .token-modal .btn-row {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-        .token-modal .btn-row button {
-            padding: 10px 24px;
-        }
-
-        /* MT5 LOGIN MODAL */
-        .mt5-login-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 300;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            align-items: center;
-            justify-content: center;
-        }
-        .mt5-login-modal.show {
-            display: flex;
-        }
-        .mt5-login-content {
-            background: var(--surface);
-            border: 1px solid var(--mt5-blue);
-            border-radius: 20px;
-            padding: 36px 32px;
-            max-width: 460px;
-            width: 92%;
-            position: relative;
-        }
-        .mt5-login-content .mt5-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .mt5-login-content .mt5-header .mt5-icon {
-            font-size: 32px;
-        }
-        .mt5-login-content .mt5-header h2 {
-            color: var(--mt5-blue);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
-            letter-spacing: 1px;
-        }
-        .mt5-login-content .mt5-header .mt5-badge {
-            margin-left: auto;
-            font-size: 11px;
-            background: rgba(0, 136, 255, 0.15);
-            padding: 4px 12px;
-            border-radius: 20px;
-            color: var(--mt5-blue);
-            border: 1px solid rgba(0, 136, 255, 0.3);
-        }
-        .mt5-login-content .field-group {
-            margin-bottom: 14px;
-        }
-        .mt5-login-content .field-group label {
-            display: block;
-            font-size: 11px;
-            color: var(--ink-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            margin-bottom: 4px;
-        }
-        .mt5-login-content .field-group input,
-        .mt5-login-content .field-group select {
-            width: 100%;
-            background: var(--surface-raised);
-            border: 1px solid var(--hairline);
-            border-radius: 8px;
-            padding: 10px 14px;
-            color: var(--ink);
-            font-size: 14px;
-            font-family: 'JetBrains Mono', monospace;
-            outline: none;
-            transition: border 0.2s ease;
-        }
-        .mt5-login-content .field-group input:focus,
-        .mt5-login-content .field-group select:focus {
-            border-color: var(--mt5-blue);
-            box-shadow: 0 0 0 2px rgba(0, 136, 255, 0.15);
-        }
-        .mt5-login-content .field-group .helper {
-            font-size: 11px;
-            color: var(--ink-dim);
-            margin-top: 4px;
-        }
-        .mt5-login-content .btn-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            justify-content: flex-end;
-        }
-        .mt5-login-content .btn-row button {
-            padding: 10px 28px;
-            font-size: 13px;
-        }
-        .mt5-login-content .status-msg {
-            padding: 10px 14px;
-            border-radius: 8px;
-            margin-top: 12px;
-            font-size: 13px;
-            display: none;
-        }
-        .mt5-login-content .status-msg.success {
-            display: block;
-            background: rgba(57, 255, 140, 0.1);
-            border: 1px solid var(--green-dim);
-            color: var(--green);
-        }
-        .mt5-login-content .status-msg.error {
-            display: block;
-            background: rgba(255, 77, 106, 0.1);
-            border: 1px solid var(--red);
-            color: var(--red);
-        }
-        .mt5-login-content .status-msg.info {
-            display: block;
-            background: rgba(0, 136, 255, 0.1);
-            border: 1px solid var(--mt5-blue);
-            color: var(--mt5-blue);
-        }
-
-        /* MT5 BANNER */
-        .mt5-banner {
-            background: var(--surface);
-            border: 1px solid var(--hairline);
-            border-radius: 12px;
-            padding: 14px 20px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            border-left: 4px solid var(--mt5-blue);
-            transition: border-color 0.3s ease;
-        }
-        .mt5-banner.connected {
-            border-left-color: var(--green);
-        }
-        .mt5-banner .mt5-info {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 14px;
-            color: var(--ink-dim);
-            flex-wrap: wrap;
-        }
-        .mt5-banner .mt5-info .mt5-label {
-            color: var(--mt5-blue);
-            font-weight: 700;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 12px;
-            letter-spacing: 1px;
-        }
-        .mt5-banner .mt5-info .mt5-status {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            padding: 3px 14px;
-            border-radius: 20px;
-            background: rgba(57, 255, 140, 0.1);
-            border: 1px solid var(--green-dim);
-            color: var(--green);
-        }
-        .mt5-banner .mt5-info .mt5-status.inactive {
-            color: var(--ink-dim);
-            border-color: var(--hairline);
-        }
-        .mt5-banner .mt5-info .mt5-status.connected {
-            color: var(--green);
-            border-color: var(--green);
-            background: rgba(57, 255, 140, 0.15);
-        }
-        .mt5-banner .mt5-info .mt5-account {
-            font-size: 12px;
-            color: var(--ink-dim);
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .mt5-banner .mt5-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 700px) {
-            .row {
-                grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px;
-                gap: 4px;
-                font-size: 11px;
-                padding: 8px 10px;
-            }
-            .row-head {
-                font-size: 9px;
-                padding: 6px 10px;
-            }
-            .title {
-                font-size: 18px;
-            }
-            #splash-title {
-                font-size: 30px;
-            }
-            #splash-quote {
-                font-size: 17px;
-            }
-            form.entry-form {
-                grid-template-columns: 1fr 1fr;
-            }
-            .greeting-banner {
-                flex-wrap: wrap;
-            }
-            .greeting-banner .greeting-quote {
-                margin-left: 0;
-                width: 100%;
-            }
-            .greeting-banner .github-status {
-                font-size: 10px;
-                padding: 3px 10px;
-            }
-            .mt5-banner {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .mt5-banner .mt5-actions {
-                justify-content: stretch;
-            }
-            .mt5-banner .mt5-actions button {
-                flex: 1;
-            }
-            .mt5-login-content {
-                padding: 24px 18px;
-            }
-        }
-        @media (max-width: 480px) {
-            .row {
-                grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px;
-                gap: 3px;
-                font-size: 10px;
-                padding: 6px 6px;
-            }
-            .row-head {
-                font-size: 8px;
-                padding: 4px 6px;
-            }
-            .stats-row {
-                grid-template-columns: 1fr 1fr;
-            }
-            #splash-title {
-                font-size: 24px;
-                letter-spacing: 3px;
-            }
-            .header-actions .btn-ghost {
-                padding: 6px 10px;
-                font-size: 11px;
-            }
-            .header-actions .btn-gold {
-                padding: 6px 12px;
-                font-size: 11px;
-            }
-        }
+        * { box-sizing: border-box; margin: 0; }
+        :root { --bg: #050807; --surface: #0B100D; --surface-raised: #121A15; --hairline: #1E2B23; --ink: #F2F6F3; --ink-dim: #7C9488; --green: #39FF8C; --green-dim: #1C6B42; --red: #FF4D6A; --steel: #55665C; --gold: #FFD700; --gold-dim: #B8860B; --mt5-blue: #0088FF; }
+        body { background: var(--bg); color: var(--ink); font-family: 'Rajdhani', sans-serif; min-height: 100vh; background-image: linear-gradient(rgba(57,255,140,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(57,255,140,0.035) 1px, transparent 1px); background-size: 34px 34px; padding: 0 0 40px 0; -webkit-tap-highlight-color: transparent; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .display { font-family: 'Orbitron', sans-serif; }
+        .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 24px 40px; }
+        /* Splash screen styles */
+        #splash { position: fixed; inset: 0; z-index: 100; background: radial-gradient(circle at 50% 30%, rgba(57,255,140,0.12), var(--bg) 80%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; transition: opacity 0.7s ease, visibility 0.7s ease; backdrop-filter: blur(3px); }
+        #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #splash-logo { width: 100px; height: 100px; object-fit: contain; margin-bottom: 24px; filter: drop-shadow(0 0 30px rgba(255,215,0,0.2)); animation: pulse-gold 2.5s ease-in-out infinite; }
+        #splash-logo.fallback { border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 32px; color: var(--gold); background: rgba(255,215,0,0.05); }
+        @keyframes pulse-gold { 0%,100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.1)); } 50% { filter: drop-shadow(0 0 50px rgba(255,215,0,0.25)); } }
+        #splash-title { font-size: 46px; font-weight: 900; letter-spacing: 6px; text-transform: uppercase; text-shadow: 0 0 30px rgba(57,255,140,0.2); }
+        #splash-title .gold { color: var(--gold); text-shadow: 0 0 40px rgba(255,215,0,0.3); }
+        #splash-title .green { color: var(--green); }
+        #splash-sub { color: var(--ink-dim); font-size: 16px; letter-spacing: 4px; text-transform: uppercase; margin-top: 6px; margin-bottom: 28px; }
+        #splash-sub .highlight { color: var(--gold); }
+        #splash-quote-box { max-width: 540px; border: 1px solid var(--hairline); border-radius: 16px; background: rgba(18,26,21,0.7); padding: 26px 30px; margin-bottom: 30px; backdrop-filter: blur(8px); border-left: 3px solid var(--gold); }
+        #splash-quote { font-size: 20px; font-weight: 500; line-height: 1.6; color: var(--ink); font-style: italic; }
+        #splash-quote::before { content: "“"; color: var(--gold); font-size: 26px; }
+        #splash-quote::after { content: "”"; color: var(--gold); font-size: 26px; }
+        #splash-date { margin-top: 14px; font-size: 12px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
+        #enterBtn { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); border-radius: 40px; padding: 14px 48px; font-family: 'Orbitron', sans-serif; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
+        #enterBtn:hover { background: var(--gold); color: #041008; box-shadow: 0 0 50px rgba(255,215,0,0.4); transform: scale(1.03); }
+        /* Greeting banner */
+        .greeting-banner { display: flex; align-items: center; gap: 14px; border: 1px solid var(--hairline); border-left: 4px solid var(--gold); background: var(--surface); border-radius: 10px; padding: 12px 20px; margin-bottom: 22px; font-size: 15px; color: var(--ink-dim); flex-wrap: wrap; }
+        .greeting-banner .greeting-name { color: var(--gold); font-weight: 700; font-size: 18px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; text-shadow: 0 0 20px rgba(255,215,0,0.2); }
+        .greeting-banner .greeting-quote { color: var(--ink-dim); font-style: italic; margin-left: auto; font-size: 13px; }
+        .greeting-banner .github-status { font-size: 11px; color: var(--green); background: rgba(57,255,140,0.1); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--green-dim); font-family: 'JetBrains Mono', monospace; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
+        .greeting-banner .github-status:hover { background: rgba(57,255,140,0.2); }
+        .greeting-banner .github-status.saving { color: var(--gold); border-color: var(--gold-dim); animation: pulse 1s ease-in-out infinite; }
+        .greeting-banner .github-status.error { color: var(--red); border-color: var(--red); }
+        .greeting-banner .github-status.success { color: var(--green); border-color: var(--green); }
+        .greeting-banner .github-status.syncing { color: var(--gold); border-color: var(--gold-dim); animation: pulse 0.5s ease-in-out infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px; }
+        .brand { display: flex; align-items: center; gap: 14px; }
+        #app-logo { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(255,215,0,0.15)); }
+        #app-logo.fallback { border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); font-family: 'Orbitron', sans-serif; font-size: 15px; background: rgba(255,215,0,0.04); }
+        .title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: 2px; text-transform: uppercase; }
+        .title .gold { color: var(--gold); }
+        .title .green { color: var(--green); }
+        .subtitle { color: var(--ink-dim); font-size: 13px; margin-top: 2px; letter-spacing: 0.5px; }
+        .subtitle .highlight { color: var(--gold); }
+        .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        button { font-family: 'Rajdhani', sans-serif; cursor: pointer; border: none; border-radius: 8px; font-weight: 600; font-size: 13px; padding: 9px 18px; letter-spacing: 0.5px; transition: all 0.2s ease; }
+        .btn-ghost { background: var(--surface-raised); color: var(--ink-dim); border: 1px solid var(--hairline); font-weight: 500; padding: 8px 14px; font-size: 12.5px; }
+        .btn-ghost:hover { border-color: var(--gold-dim); color: var(--gold); }
+        .btn-gold { background: var(--gold); color: #041008; text-transform: uppercase; letter-spacing: 1.2px; box-shadow: 0 0 20px rgba(255,215,0,0.15); font-weight: 700; }
+        .btn-gold:hover { box-shadow: 0 0 40px rgba(255,215,0,0.3); transform: scale(1.02); }
+        .btn-cancel { background: var(--surface-raised); color: var(--ink); border: 1px solid var(--hairline); }
+        .btn-mt5 { background: var(--mt5-blue); color: #fff; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; box-shadow: 0 0 20px rgba(0,136,255,0.2); }
+        .btn-mt5:hover { box-shadow: 0 0 40px rgba(0,136,255,0.4); transform: scale(1.02); }
+        .btn-mt5.active { background: var(--green); color: #041008; box-shadow: 0 0 30px rgba(57,255,140,0.3); }
+        /* Tabs */
+        .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--hairline); }
+        .tab { background: none; border: none; cursor: pointer; padding: 8px 6px 10px; margin-right: 28px; color: var(--ink-dim); border-bottom: 3px solid transparent; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; transition: all 0.2s ease; }
+        .tab.active { color: var(--gold); border-bottom: 3px solid var(--gold); }
+        .tab:hover { color: var(--gold); }
+        /* Stats */
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 1px; background: var(--hairline); border-radius: 12px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--hairline); }
+        .stat-cell { background: var(--surface); padding: 14px 16px; }
+        .stat-label { font-size: 10px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px; }
+        .stat-value { font-size: 20px; font-weight: 600; }
+        .tone-green { color: var(--green); text-shadow: 0 0 12px rgba(57,255,140,0.3); }
+        .tone-red { color: var(--red); }
+        .tone-gold { color: var(--gold); text-shadow: 0 0 12px rgba(255,215,0,0.3); }
+        /* Form */
+        form.entry-form { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
+        .field { display: flex; flex-direction: column; gap: 5px; font-size: 11px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.6px; }
+        .field input, .field select, .field textarea { background: var(--surface-raised); border: 1px solid var(--hairline); border-radius: 8px; padding: 8px 10px; color: var(--ink); font-size: 14px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.2s ease; }
+        .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold-dim); box-shadow: 0 0 0 2px rgba(255,215,0,0.1); }
+        .field textarea { font-family: 'Rajdhani', sans-serif; resize: vertical; }
+        .form-full { grid-column: 1 / -1; }
+        .form-submit-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; }
+        /* Chart */
+        .chart-box { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 12px 6px 6px; margin-bottom: 20px; height: 150px; }
+        .chart-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--ink-dim); font-size: 14px; }
+        /* Filters */
+        .session-filters { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+        .chip { background: transparent; color: var(--ink-dim); border: 1px solid var(--hairline); border-radius: 30px; padding: 5px 16px; font-size: 12px; cursor: pointer; font-weight: 500; text-transform: uppercase; letter-spacing: 0.6px; transition: all 0.2s ease; }
+        .chip.active { background: var(--surface-raised); color: var(--gold); border-color: var(--gold-dim); }
+        .chip:hover { border-color: var(--gold-dim); color: var(--gold); }
+        /* Table */
+        .table-box { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; }
+        .row { display: grid; grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px; gap: 8px; padding: 10px 16px; align-items: center; border-bottom: 1px solid var(--hairline); font-size: 12.5px; transition: background 0.15s ease; }
+        .row:hover { background: rgba(255,215,0,0.03); }
+        .row-head { font-size: 10.5px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 1.2px; padding: 8px 16px; }
+        .row-empty { padding: 28px; text-align: center; color: var(--ink-dim); font-size: 14px; grid-column: 1 / -1; }
+        .stamp { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .stamp-win { background: var(--green); box-shadow: 0 0 10px rgba(57,255,140,0.6); }
+        .stamp-loss { border: 2px solid var(--red); background: transparent; }
+        .stamp-flat { width: 10px; height: 2px; border-radius: 2px; background: var(--steel); }
+        .del-btn { background: none; border: none; color: var(--ink-dim); cursor: pointer; padding: 4px; font-size: 16px; transition: color 0.2s ease; }
+        .del-btn:hover { color: var(--red); }
+        .notes-cell { color: var(--ink-dim); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .footnote { margin-top: 12px; font-size: 11px; color: var(--ink-dim); text-align: right; letter-spacing: 0.6px; }
+        /* Analytics */
+        .analytics-grid { display: grid; gap: 20px; }
+        .chart-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 14px 10px 10px; transition: border-color 0.2s ease; }
+        .chart-card:hover { border-color: var(--gold-dim); }
+        .chart-card-title { font-size: 12px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px; padding-left: 8px; }
+        .chart-card-body { height: 160px; }
+        .empty-analytics { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 48px; text-align: center; color: var(--ink-dim); font-size: 14px; }
+        /* Modals */
+        .token-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
+        .token-modal.show { display: flex; }
+        .token-modal-content { background: var(--surface); border: 1px solid var(--gold-dim); border-radius: 16px; padding: 30px; max-width: 500px; width: 90%; }
+        .token-modal h2 { color: var(--gold); font-family: 'Orbitron', sans-serif; font-size: 20px; margin-bottom: 12px; }
+        .token-modal p { color: var(--ink-dim); margin-bottom: 16px; font-size: 14px; line-height: 1.5; }
+        .token-modal input { width: 100%; background: var(--surface-raised); border: 1px solid var(--hairline); border-radius: 8px; padding: 10px 14px; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; margin-bottom: 12px; }
+        .token-modal input:focus { border-color: var(--gold-dim); }
+        .token-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
+        .token-modal .btn-row button { padding: 10px 24px; }
+        /* MT5 Login Modal */
+        .mt5-login-modal { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+        .mt5-login-modal.show { display: flex; }
+        .mt5-login-content { background: var(--surface); border: 1px solid var(--mt5-blue); border-radius: 20px; padding: 36px 32px; max-width: 460px; width: 92%; position: relative; }
+        .mt5-login-content .mt5-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .mt5-login-content .mt5-header .mt5-icon { font-size: 32px; }
+        .mt5-login-content .mt5-header h2 { color: var(--mt5-blue); font-family: 'Orbitron', sans-serif; font-size: 18px; letter-spacing: 1px; }
+        .mt5-login-content .mt5-header .mt5-badge { margin-left: auto; font-size: 11px; background: rgba(0,136,255,0.15); padding: 4px 12px; border-radius: 20px; color: var(--mt5-blue); border: 1px solid rgba(0,136,255,0.3); }
+        .mt5-login-content .field-group { margin-bottom: 14px; }
+        .mt5-login-content .field-group label { display: block; font-size: 11px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
+        .mt5-login-content .field-group input, .mt5-login-content .field-group select { width: 100%; background: var(--surface-raised); border: 1px solid var(--hairline); border-radius: 8px; padding: 10px 14px; color: var(--ink); font-size: 14px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.2s ease; }
+        .mt5-login-content .field-group input:focus, .mt5-login-content .field-group select:focus { border-color: var(--mt5-blue); box-shadow: 0 0 0 2px rgba(0,136,255,0.15); }
+        .mt5-login-content .field-group .helper { font-size: 11px; color: var(--ink-dim); margin-top: 4px; }
+        .mt5-login-content .btn-row { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+        .mt5-login-content .btn-row button { padding: 10px 28px; font-size: 13px; }
+        .mt5-login-content .status-msg { padding: 10px 14px; border-radius: 8px; margin-top: 12px; font-size: 13px; display: none; }
+        .mt5-login-content .status-msg.success { display: block; background: rgba(57,255,140,0.1); border: 1px solid var(--green-dim); color: var(--green); }
+        .mt5-login-content .status-msg.error { display: block; background: rgba(255,77,106,0.1); border: 1px solid var(--red); color: var(--red); }
+        .mt5-login-content .status-msg.info { display: block; background: rgba(0,136,255,0.1); border: 1px solid var(--mt5-blue); color: var(--mt5-blue); }
+        /* MT5 Banner */
+        .mt5-banner { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-left: 4px solid var(--mt5-blue); transition: border-color 0.3s ease; }
+        .mt5-banner.connected { border-left-color: var(--green); }
+        .mt5-banner .mt5-info { display: flex; align-items: center; gap: 14px; font-size: 14px; color: var(--ink-dim); flex-wrap: wrap; }
+        .mt5-banner .mt5-info .mt5-label { color: var(--mt5-blue); font-weight: 700; font-family: 'Orbitron', sans-serif; font-size: 12px; letter-spacing: 1px; }
+        .mt5-banner .mt5-info .mt5-status { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 3px 14px; border-radius: 20px; background: rgba(57,255,140,0.1); border: 1px solid var(--green-dim); color: var(--green); }
+        .mt5-banner .mt5-info .mt5-status.inactive { color: var(--ink-dim); border-color: var(--hairline); }
+        .mt5-banner .mt5-info .mt5-status.connected { color: var(--green); border-color: var(--green); background: rgba(57,255,140,0.15); }
+        .mt5-banner .mt5-info .mt5-account { font-size: 12px; color: var(--ink-dim); font-family: 'JetBrains Mono', monospace; }
+        .mt5-banner .mt5-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        /* Responsive */
+        @media (max-width: 700px) { .row { grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px; gap: 4px; font-size: 11px; padding: 8px 10px; } .row-head { font-size: 9px; padding: 6px 10px; } .title { font-size: 18px; } #splash-title { font-size: 30px; } #splash-quote { font-size: 17px; } form.entry-form { grid-template-columns: 1fr 1fr; } .greeting-banner { flex-wrap: wrap; } .greeting-banner .greeting-quote { margin-left: 0; width: 100%; } .greeting-banner .github-status { font-size: 10px; padding: 3px 10px; } .mt5-banner { flex-direction: column; align-items: stretch; } .mt5-banner .mt5-actions { justify-content: stretch; } .mt5-banner .mt5-actions button { flex: 1; } .mt5-login-content { padding: 24px 18px; } }
+        @media (max-width: 480px) { .row { grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px; gap: 3px; font-size: 10px; padding: 6px 6px; } .row-head { font-size: 8px; padding: 4px 6px; } .stats-row { grid-template-columns: 1fr 1fr; } #splash-title { font-size: 24px; letter-spacing: 3px; } .header-actions .btn-ghost { padding: 6px 10px; font-size: 11px; } .header-actions .btn-gold { padding: 6px 12px; font-size: 11px; } }
     </style>
 </head>
 <body>
@@ -1019,43 +206,53 @@
             <div class="field-group">
                 <label>Broker Server</label>
                 <select id="mt5Server">
+                    <optgroup label="🔵 Exness">
+                        <option value="Exness-MT5Trial9">Exness - Trial 9</option>
+                        <option value="Exness-MT5Trial10">Exness - Trial 10</option>
+                        <option value="Exness-MT5Trial11">Exness - Trial 11</option>
+                        <option value="Exness-MT5Trial12">Exness - Trial 12</option>
+                        <option value="Exness-MT5Live5">Exness - Live 5</option>
+                        <option value="Exness-MT5Live6">Exness - Live 6</option>
+                        <option value="Exness-MT5Real">Exness - Real</option>
+                    </optgroup>
                     <optgroup label="🔵 IC Markets">
                         <option value="ICMarkets-Demo">IC Markets - Demo</option>
                         <option value="ICMarkets-Live">IC Markets - Live</option>
-                        <option value="ICMarkets-Demo2">IC Markets - Demo2</option>
-                        <option value="ICMarkets-Live2">IC Markets - Live2</option>
+                        <option value="ICMarkets-Demo2">IC Markets - Demo 2</option>
+                        <option value="ICMarkets-Live2">IC Markets - Live 2</option>
+                        <option value="ICMarkets-Live3">IC Markets - Live 3</option>
+                        <option value="ICMarkets-Live4">IC Markets - Live 4</option>
+                        <option value="ICMarkets-Live5">IC Markets - Live 5</option>
                     </optgroup>
                     <optgroup label="🔵 XM Global">
+                        <option value="XM-Demo">XM - Demo</option>
+                        <option value="XM-Live">XM - Live</option>
                         <option value="XMGlobal-Demo">XM Global - Demo</option>
                         <option value="XMGlobal-Live">XM Global - Live</option>
-                        <option value="XMGlobal-Demo2">XM Global - Demo2</option>
-                        <option value="XMGlobal-Live2">XM Global - Live2</option>
-                    </optgroup>
-                    <optgroup label="🔵 Exness">
-                        <option value="Exness-Demo">Exness - Demo</option>
-                        <option value="Exness-Live">Exness - Live</option>
-                        <option value="Exness-Demo2">Exness - Demo2</option>
-                        <option value="Exness-Live2">Exness - Live2</option>
                     </optgroup>
                     <optgroup label="🔵 Pepperstone">
                         <option value="Pepperstone-Demo">Pepperstone - Demo</option>
                         <option value="Pepperstone-Live">Pepperstone - Live</option>
-                        <option value="Pepperstone-Demo2">Pepperstone - Demo2</option>
-                        <option value="Pepperstone-Live2">Pepperstone - Live2</option>
+                        <option value="Pepperstone-Demo2">Pepperstone - Demo 2</option>
+                        <option value="Pepperstone-Live2">Pepperstone - Live 2</option>
                     </optgroup>
                     <optgroup label="🔵 FxPro">
                         <option value="FxPro-Demo">FxPro - Demo</option>
                         <option value="FxPro-Live">FxPro - Live</option>
-                        <option value="FxPro-Demo2">FxPro - Demo2</option>
-                        <option value="FxPro-Live2">FxPro - Live2</option>
+                        <option value="FxPro-Demo2">FxPro - Demo 2</option>
+                        <option value="FxPro-Live2">FxPro - Live 2</option>
                     </optgroup>
                     <optgroup label="🔵 Admiral Markets">
                         <option value="Admiral-Demo">Admiral Markets - Demo</option>
                         <option value="Admiral-Live">Admiral Markets - Live</option>
+                        <option value="Admiral-Demo2">Admiral Markets - Demo 2</option>
+                        <option value="Admiral-Live2">Admiral Markets - Live 2</option>
                     </optgroup>
                     <optgroup label="🔵 AvaTrade">
                         <option value="AvaTrade-Demo">AvaTrade - Demo</option>
                         <option value="AvaTrade-Live">AvaTrade - Live</option>
+                        <option value="AvaTrade-Demo2">AvaTrade - Demo 2</option>
+                        <option value="AvaTrade-Live2">AvaTrade - Live 2</option>
                     </optgroup>
                     <optgroup label="🔵 FXCM">
                         <option value="FXCM-Demo">FXCM - Demo</option>
@@ -2246,7 +1443,7 @@
 
             if (mt5Credentials.login) {
                 document.getElementById('mt5Login').value = mt5Credentials.login || '';
-                document.getElementById('mt5Server').value = mt5Credentials.server || 'ICMarkets-Demo';
+                document.getElementById('mt5Server').value = mt5Credentials.server || 'Exness-MT5Trial9';
                 document.getElementById('mt5Session').value = mt5Credentials.session || 'New York';
             }
         }

@@ -11,20 +11,13 @@
     <meta name="msapplication-TileColor" content="#050807" />
     <meta name="msapplication-TileImage" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23050807'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' fill='%23FFD700'>EY</text></svg>" />
 
-    <!-- Primary Icon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23050807'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='50' cy='50' r='45' fill='none' stroke='%23FFD700' stroke-width='2'/></svg>" />
-
-    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23050807'/><text x='90' y='122' font-size='86' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='90' cy='90' r='80' fill='none' stroke='%23FFD700' stroke-width='3'/></svg>" />
-
-    <!-- Android Chrome icons -->
     <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='38' fill='%23050807'/><text x='96' y='130' font-size='92' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='96' cy='96' r='85' fill='none' stroke='%23FFD700' stroke-width='3'/></svg>" />
     <link rel="icon" type="image/png" sizes="512x512" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23050807'/><text x='256' y='346' font-size='246' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFD700'>EY</text><circle cx='256' cy='256' r='226' fill='none' stroke='%23FFD700' stroke-width='4'/></svg>" />
 
     <title>Welcome Sir Eyob · Trade Ledger</title>
     <style>
-        /* ... (all styles remain the same as before) ... */
-        /* I'm keeping the styles section compact - it's the same as the previous version */
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
         * { box-sizing: border-box; margin: 0; }
         :root { --bg: #050807; --surface: #0B100D; --surface-raised: #121A15; --hairline: #1E2B23; --ink: #F2F6F3; --ink-dim: #7C9488; --green: #39FF8C; --green-dim: #1C6B42; --red: #FF4D6A; --steel: #55665C; --gold: #FFD700; --gold-dim: #B8860B; --mt5-blue: #0088FF; }
@@ -32,7 +25,6 @@
         .mono { font-family: 'JetBrains Mono', monospace; }
         .display { font-family: 'Orbitron', sans-serif; }
         .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 24px 40px; }
-        /* Splash screen styles */
         #splash { position: fixed; inset: 0; z-index: 100; background: radial-gradient(circle at 50% 30%, rgba(57,255,140,0.12), var(--bg) 80%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; transition: opacity 0.7s ease, visibility 0.7s ease; backdrop-filter: blur(3px); }
         #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         #splash-logo { width: 100px; height: 100px; object-fit: contain; margin-bottom: 24px; filter: drop-shadow(0 0 30px rgba(255,215,0,0.2)); animation: pulse-gold 2.5s ease-in-out infinite; }
@@ -50,7 +42,6 @@
         #splash-date { margin-top: 14px; font-size: 12px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
         #enterBtn { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); border-radius: 40px; padding: 14px 48px; font-family: 'Orbitron', sans-serif; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
         #enterBtn:hover { background: var(--gold); color: #041008; box-shadow: 0 0 50px rgba(255,215,0,0.4); transform: scale(1.03); }
-        /* Greeting banner */
         .greeting-banner { display: flex; align-items: center; gap: 14px; border: 1px solid var(--hairline); border-left: 4px solid var(--gold); background: var(--surface); border-radius: 10px; padding: 12px 20px; margin-bottom: 22px; font-size: 15px; color: var(--ink-dim); flex-wrap: wrap; }
         .greeting-banner .greeting-name { color: var(--gold); font-weight: 700; font-size: 18px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; text-shadow: 0 0 20px rgba(255,215,0,0.2); }
         .greeting-banner .greeting-quote { color: var(--ink-dim); font-style: italic; margin-left: auto; font-size: 13px; }
@@ -61,7 +52,6 @@
         .greeting-banner .github-status.success { color: var(--green); border-color: var(--green); }
         .greeting-banner .github-status.syncing { color: var(--gold); border-color: var(--gold-dim); animation: pulse 0.5s ease-in-out infinite; }
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-        /* Header */
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px; }
         .brand { display: flex; align-items: center; gap: 14px; }
         #app-logo { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(255,215,0,0.15)); }
@@ -81,12 +71,10 @@
         .btn-mt5 { background: var(--mt5-blue); color: #fff; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; box-shadow: 0 0 20px rgba(0,136,255,0.2); }
         .btn-mt5:hover { box-shadow: 0 0 40px rgba(0,136,255,0.4); transform: scale(1.02); }
         .btn-mt5.active { background: var(--green); color: #041008; box-shadow: 0 0 30px rgba(57,255,140,0.3); }
-        /* Tabs */
         .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--hairline); }
         .tab { background: none; border: none; cursor: pointer; padding: 8px 6px 10px; margin-right: 28px; color: var(--ink-dim); border-bottom: 3px solid transparent; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; transition: all 0.2s ease; }
         .tab.active { color: var(--gold); border-bottom: 3px solid var(--gold); }
         .tab:hover { color: var(--gold); }
-        /* Stats */
         .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 1px; background: var(--hairline); border-radius: 12px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--hairline); }
         .stat-cell { background: var(--surface); padding: 14px 16px; }
         .stat-label { font-size: 10px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px; }
@@ -94,7 +82,6 @@
         .tone-green { color: var(--green); text-shadow: 0 0 12px rgba(57,255,140,0.3); }
         .tone-red { color: var(--red); }
         .tone-gold { color: var(--gold); text-shadow: 0 0 12px rgba(255,215,0,0.3); }
-        /* Form */
         form.entry-form { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
         .field { display: flex; flex-direction: column; gap: 5px; font-size: 11px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.6px; }
         .field input, .field select, .field textarea { background: var(--surface-raised); border: 1px solid var(--hairline); border-radius: 8px; padding: 8px 10px; color: var(--ink); font-size: 14px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.2s ease; }
@@ -102,15 +89,12 @@
         .field textarea { font-family: 'Rajdhani', sans-serif; resize: vertical; }
         .form-full { grid-column: 1 / -1; }
         .form-submit-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; }
-        /* Chart */
         .chart-box { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 12px 6px 6px; margin-bottom: 20px; height: 150px; }
         .chart-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--ink-dim); font-size: 14px; }
-        /* Filters */
         .session-filters { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
         .chip { background: transparent; color: var(--ink-dim); border: 1px solid var(--hairline); border-radius: 30px; padding: 5px 16px; font-size: 12px; cursor: pointer; font-weight: 500; text-transform: uppercase; letter-spacing: 0.6px; transition: all 0.2s ease; }
         .chip.active { background: var(--surface-raised); color: var(--gold); border-color: var(--gold-dim); }
         .chip:hover { border-color: var(--gold-dim); color: var(--gold); }
-        /* Table */
         .table-box { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; }
         .row { display: grid; grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px; gap: 8px; padding: 10px 16px; align-items: center; border-bottom: 1px solid var(--hairline); font-size: 12.5px; transition: background 0.15s ease; }
         .row:hover { background: rgba(255,215,0,0.03); }
@@ -124,14 +108,12 @@
         .del-btn:hover { color: var(--red); }
         .notes-cell { color: var(--ink-dim); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .footnote { margin-top: 12px; font-size: 11px; color: var(--ink-dim); text-align: right; letter-spacing: 0.6px; }
-        /* Analytics */
         .analytics-grid { display: grid; gap: 20px; }
         .chart-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 14px 10px 10px; transition: border-color 0.2s ease; }
         .chart-card:hover { border-color: var(--gold-dim); }
         .chart-card-title { font-size: 12px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px; padding-left: 8px; }
         .chart-card-body { height: 160px; }
         .empty-analytics { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 48px; text-align: center; color: var(--ink-dim); font-size: 14px; }
-        /* Modals */
         .token-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
         .token-modal.show { display: flex; }
         .token-modal-content { background: var(--surface); border: 1px solid var(--gold-dim); border-radius: 16px; padding: 30px; max-width: 500px; width: 90%; }
@@ -141,7 +123,6 @@
         .token-modal input:focus { border-color: var(--gold-dim); }
         .token-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
         .token-modal .btn-row button { padding: 10px 24px; }
-        /* MT5 Login Modal */
         .mt5-login-modal { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
         .mt5-login-modal.show { display: flex; }
         .mt5-login-content { background: var(--surface); border: 1px solid var(--mt5-blue); border-radius: 20px; padding: 36px 32px; max-width: 460px; width: 92%; position: relative; }
@@ -160,7 +141,6 @@
         .mt5-login-content .status-msg.success { display: block; background: rgba(57,255,140,0.1); border: 1px solid var(--green-dim); color: var(--green); }
         .mt5-login-content .status-msg.error { display: block; background: rgba(255,77,106,0.1); border: 1px solid var(--red); color: var(--red); }
         .mt5-login-content .status-msg.info { display: block; background: rgba(0,136,255,0.1); border: 1px solid var(--mt5-blue); color: var(--mt5-blue); }
-        /* MT5 Banner */
         .mt5-banner { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-left: 4px solid var(--mt5-blue); transition: border-color 0.3s ease; }
         .mt5-banner.connected { border-left-color: var(--green); }
         .mt5-banner .mt5-info { display: flex; align-items: center; gap: 14px; font-size: 14px; color: var(--ink-dim); flex-wrap: wrap; }
@@ -170,7 +150,6 @@
         .mt5-banner .mt5-info .mt5-status.connected { color: var(--green); border-color: var(--green); background: rgba(57,255,140,0.15); }
         .mt5-banner .mt5-info .mt5-account { font-size: 12px; color: var(--ink-dim); font-family: 'JetBrains Mono', monospace; }
         .mt5-banner .mt5-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-        /* Responsive */
         @media (max-width: 700px) { .row { grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px; gap: 4px; font-size: 11px; padding: 8px 10px; } .row-head { font-size: 9px; padding: 6px 10px; } .title { font-size: 18px; } #splash-title { font-size: 30px; } #splash-quote { font-size: 17px; } form.entry-form { grid-template-columns: 1fr 1fr; } .greeting-banner { flex-wrap: wrap; } .greeting-banner .greeting-quote { margin-left: 0; width: 100%; } .greeting-banner .github-status { font-size: 10px; padding: 3px 10px; } .mt5-banner { flex-direction: column; align-items: stretch; } .mt5-banner .mt5-actions { justify-content: stretch; } .mt5-banner .mt5-actions button { flex: 1; } .mt5-login-content { padding: 24px 18px; } }
         @media (max-width: 480px) { .row { grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px; gap: 3px; font-size: 10px; padding: 6px 6px; } .row-head { font-size: 8px; padding: 4px 6px; } .stats-row { grid-template-columns: 1fr 1fr; } #splash-title { font-size: 24px; letter-spacing: 3px; } .header-actions .btn-ghost { padding: 6px 10px; font-size: 11px; } .header-actions .btn-gold { padding: 6px 12px; font-size: 11px; } }
     </style>
@@ -194,7 +173,7 @@
         </div>
     </div>
 
-    <!-- MT5 LOGIN MODAL -->
+    <!-- MT5 LOGIN MODAL - WITH ACTUAL SERVERS -->
     <div class="mt5-login-modal" id="mt5LoginModal">
         <div class="mt5-login-content">
             <div class="mt5-header">
@@ -206,160 +185,136 @@
             <div class="field-group">
                 <label>Broker Server</label>
                 <select id="mt5Server">
-                    <optgroup label="🔵 Exness">
-                        <option value="Exness-MT5Trial9">Exness - Trial 9</option>
-                        <option value="Exness-MT5Trial10">Exness - Trial 10</option>
-                        <option value="Exness-MT5Trial11">Exness - Trial 11</option>
-                        <option value="Exness-MT5Trial12">Exness - Trial 12</option>
-                        <option value="Exness-MT5Live5">Exness - Live 5</option>
-                        <option value="Exness-MT5Live6">Exness - Live 6</option>
-                        <option value="Exness-MT5Real">Exness - Real</option>
+                    <!-- Exness - Actual MT5 Server Names -->
+                    <optgroup label="Exness">
+                        <option value="Exness-MT5Trial9">Exness-MT5Trial9</option>
+                        <option value="Exness-MT5Trial10">Exness-MT5Trial10</option>
+                        <option value="Exness-MT5Trial11">Exness-MT5Trial11</option>
+                        <option value="Exness-MT5Trial12">Exness-MT5Trial12</option>
+                        <option value="Exness-MT5Live5">Exness-MT5Live5</option>
+                        <option value="Exness-MT5Live6">Exness-MT5Live6</option>
+                        <option value="Exness-MT5Real">Exness-MT5Real</option>
                     </optgroup>
-                    <optgroup label="🔵 IC Markets">
-                        <option value="ICMarkets-Demo">IC Markets - Demo</option>
-                        <option value="ICMarkets-Live">IC Markets - Live</option>
-                        <option value="ICMarkets-Demo2">IC Markets - Demo 2</option>
-                        <option value="ICMarkets-Live2">IC Markets - Live 2</option>
-                        <option value="ICMarkets-Live3">IC Markets - Live 3</option>
-                        <option value="ICMarkets-Live4">IC Markets - Live 4</option>
-                        <option value="ICMarkets-Live5">IC Markets - Live 5</option>
+
+                    <!-- IC Markets - Actual MT5 Server Names -->
+                    <optgroup label="IC Markets">
+                        <option value="ICMarkets-Demo">ICMarkets-Demo</option>
+                        <option value="ICMarkets-Live">ICMarkets-Live</option>
+                        <option value="ICMarkets-Demo2">ICMarkets-Demo2</option>
+                        <option value="ICMarkets-Live2">ICMarkets-Live2</option>
+                        <option value="ICMarkets-Live3">ICMarkets-Live3</option>
+                        <option value="ICMarkets-Live4">ICMarkets-Live4</option>
+                        <option value="ICMarkets-Live5">ICMarkets-Live5</option>
+                        <option value="ICMarkets-Live6">ICMarkets-Live6</option>
                     </optgroup>
-                    <optgroup label="🔵 XM Global">
-                        <option value="XM-Demo">XM - Demo</option>
-                        <option value="XM-Live">XM - Live</option>
-                        <option value="XMGlobal-Demo">XM Global - Demo</option>
-                        <option value="XMGlobal-Live">XM Global - Live</option>
+
+                    <!-- XM - Actual MT5 Server Names -->
+                    <optgroup label="XM">
+                        <option value="XM-Demo">XM-Demo</option>
+                        <option value="XM-Live">XM-Live</option>
+                        <option value="XMGlobal-Demo">XMGlobal-Demo</option>
+                        <option value="XMGlobal-Live">XMGlobal-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 Pepperstone">
-                        <option value="Pepperstone-Demo">Pepperstone - Demo</option>
-                        <option value="Pepperstone-Live">Pepperstone - Live</option>
-                        <option value="Pepperstone-Demo2">Pepperstone - Demo 2</option>
-                        <option value="Pepperstone-Live2">Pepperstone - Live 2</option>
+
+                    <!-- Pepperstone - Actual MT5 Server Names -->
+                    <optgroup label="Pepperstone">
+                        <option value="Pepperstone-Demo">Pepperstone-Demo</option>
+                        <option value="Pepperstone-Live">Pepperstone-Live</option>
+                        <option value="Pepperstone-Demo2">Pepperstone-Demo2</option>
+                        <option value="Pepperstone-Live2">Pepperstone-Live2</option>
                     </optgroup>
-                    <optgroup label="🔵 FxPro">
-                        <option value="FxPro-Demo">FxPro - Demo</option>
-                        <option value="FxPro-Live">FxPro - Live</option>
-                        <option value="FxPro-Demo2">FxPro - Demo 2</option>
-                        <option value="FxPro-Live2">FxPro - Live 2</option>
+
+                    <!-- FxPro - Actual MT5 Server Names -->
+                    <optgroup label="FxPro">
+                        <option value="FxPro-Demo">FxPro-Demo</option>
+                        <option value="FxPro-Live">FxPro-Live</option>
+                        <option value="FxPro-Demo2">FxPro-Demo2</option>
+                        <option value="FxPro-Live2">FxPro-Live2</option>
                     </optgroup>
-                    <optgroup label="🔵 Admiral Markets">
-                        <option value="Admiral-Demo">Admiral Markets - Demo</option>
-                        <option value="Admiral-Live">Admiral Markets - Live</option>
-                        <option value="Admiral-Demo2">Admiral Markets - Demo 2</option>
-                        <option value="Admiral-Live2">Admiral Markets - Live 2</option>
+
+                    <!-- Admiral Markets -->
+                    <optgroup label="Admiral Markets">
+                        <option value="Admiral-Demo">Admiral-Demo</option>
+                        <option value="Admiral-Live">Admiral-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 AvaTrade">
-                        <option value="AvaTrade-Demo">AvaTrade - Demo</option>
-                        <option value="AvaTrade-Live">AvaTrade - Live</option>
-                        <option value="AvaTrade-Demo2">AvaTrade - Demo 2</option>
-                        <option value="AvaTrade-Live2">AvaTrade - Live 2</option>
+
+                    <!-- AvaTrade -->
+                    <optgroup label="AvaTrade">
+                        <option value="AvaTrade-Demo">AvaTrade-Demo</option>
+                        <option value="AvaTrade-Live">AvaTrade-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 FXCM">
-                        <option value="FXCM-Demo">FXCM - Demo</option>
-                        <option value="FXCM-Live">FXCM - Live</option>
+
+                    <!-- FXCM -->
+                    <optgroup label="FXCM">
+                        <option value="FXCM-Demo">FXCM-Demo</option>
+                        <option value="FXCM-Live">FXCM-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 OANDA">
-                        <option value="OANDA-Demo">OANDA - Demo</option>
-                        <option value="OANDA-Live">OANDA - Live</option>
+
+                    <!-- OANDA -->
+                    <optgroup label="OANDA">
+                        <option value="OANDA-Demo">OANDA-Demo</option>
+                        <option value="OANDA-Live">OANDA-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 Saxo Bank">
-                        <option value="Saxo-Demo">Saxo Bank - Demo</option>
-                        <option value="Saxo-Live">Saxo Bank - Live</option>
+
+                    <!-- ThinkMarkets -->
+                    <optgroup label="ThinkMarkets">
+                        <option value="ThinkMarkets-Demo">ThinkMarkets-Demo</option>
+                        <option value="ThinkMarkets-Live">ThinkMarkets-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 CMC Markets">
-                        <option value="CMC-Demo">CMC Markets - Demo</option>
-                        <option value="CMC-Live">CMC Markets - Live</option>
+
+                    <!-- Vantage -->
+                    <optgroup label="Vantage">
+                        <option value="Vantage-Demo">Vantage-Demo</option>
+                        <option value="Vantage-Live">Vantage-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 IG Group">
-                        <option value="IG-Demo">IG Group - Demo</option>
-                        <option value="IG-Live">IG Group - Live</option>
+
+                    <!-- RoboForex -->
+                    <optgroup label="RoboForex">
+                        <option value="RoboForex-Demo">RoboForex-Demo</option>
+                        <option value="RoboForex-Live">RoboForex-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 Plus500">
-                        <option value="Plus500-Demo">Plus500 - Demo</option>
-                        <option value="Plus500-Live">Plus500 - Live</option>
+
+                    <!-- OctaFX -->
+                    <optgroup label="OctaFX">
+                        <option value="OctaFX-Demo">OctaFX-Demo</option>
+                        <option value="OctaFX-Live">OctaFX-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 eToro">
-                        <option value="eToro-Demo">eToro - Demo</option>
-                        <option value="eToro-Live">eToro - Live</option>
+
+                    <!-- FBS -->
+                    <optgroup label="FBS">
+                        <option value="FBS-Demo">FBS-Demo</option>
+                        <option value="FBS-Live">FBS-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 ThinkMarkets">
-                        <option value="ThinkMarkets-Demo">ThinkMarkets - Demo</option>
-                        <option value="ThinkMarkets-Live">ThinkMarkets - Live</option>
+
+                    <!-- HotForex -->
+                    <optgroup label="HotForex">
+                        <option value="HotForex-Demo">HotForex-Demo</option>
+                        <option value="HotForex-Live">HotForex-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 Axi">
-                        <option value="Axi-Demo">Axi - Demo</option>
-                        <option value="Axi-Live">Axi - Live</option>
+
+                    <!-- XTB -->
+                    <optgroup label="XTB">
+                        <option value="XTB-Demo">XTB-Demo</option>
+                        <option value="XTB-Live">XTB-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 Vantage">
-                        <option value="Vantage-Demo">Vantage - Demo</option>
-                        <option value="Vantage-Live">Vantage - Live</option>
+
+                    <!-- Tickmill -->
+                    <optgroup label="Tickmill">
+                        <option value="Tickmill-Demo">Tickmill-Demo</option>
+                        <option value="Tickmill-Live">Tickmill-Live</option>
                     </optgroup>
-                    <optgroup label="🔵 FP Markets">
-                        <option value="FP-Demo">FP Markets - Demo</option>
-                        <option value="FP-Live">FP Markets - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 GO Markets">
-                        <option value="GO-Demo">GO Markets - Demo</option>
-                        <option value="GO-Live">GO Markets - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 FXTM">
-                        <option value="FXTM-Demo">FXTM - Demo</option>
-                        <option value="FXTM-Live">FXTM - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 OctaFX">
-                        <option value="OctaFX-Demo">OctaFX - Demo</option>
-                        <option value="OctaFX-Live">OctaFX - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 RoboForex">
-                        <option value="RoboForex-Demo">RoboForex - Demo</option>
-                        <option value="RoboForex-Live">RoboForex - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 Alpari">
-                        <option value="Alpari-Demo">Alpari - Demo</option>
-                        <option value="Alpari-Live">Alpari - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 FBS">
-                        <option value="FBS-Demo">FBS - Demo</option>
-                        <option value="FBS-Live">FBS - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 InstaForex">
-                        <option value="InstaForex-Demo">InstaForex - Demo</option>
-                        <option value="InstaForex-Live">InstaForex - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 HotForex">
-                        <option value="HotForex-Demo">HotForex - Demo</option>
-                        <option value="HotForex-Live">HotForex - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 XTB">
-                        <option value="XTB-Demo">XTB - Demo</option>
-                        <option value="XTB-Live">XTB - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 Tickmill">
-                        <option value="Tickmill-Demo">Tickmill - Demo</option>
-                        <option value="Tickmill-Live">Tickmill - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 Darwinex">
-                        <option value="Darwinex-Demo">Darwinex - Demo</option>
-                        <option value="Darwinex-Live">Darwinex - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 Swissquote">
-                        <option value="Swissquote-Demo">Swissquote - Demo</option>
-                        <option value="Swissquote-Live">Swissquote - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 Dukascopy">
-                        <option value="Dukascopy-Demo">Dukascopy - Demo</option>
-                        <option value="Dukascopy-Live">Dukascopy - Live</option>
-                    </optgroup>
-                    <optgroup label="🔵 Custom Server">
-                        <option value="Custom">✏️ Custom Server</option>
+
+                    <!-- Custom -->
+                    <optgroup label="Custom">
+                        <option value="Custom">✏️ Enter Custom Server</option>
                     </optgroup>
                 </select>
             </div>
 
             <div class="field-group" id="customServerGroup" style="display:none;">
                 <label>Custom Server Address</label>
-                <input type="text" id="mt5CustomServer" placeholder="broker.example.com:443" />
-                <div class="helper">e.g., mt5.icmarkets.com:443</div>
+                <input type="text" id="mt5CustomServer" placeholder="mt5.yourbroker.com:443" />
+                <div class="helper">Paste the exact server name from your MT5 login window</div>
             </div>
 
             <div class="field-group">
@@ -560,7 +515,6 @@
         let syncTimer = null;
         let lastSyncSHA = null;
 
-        // MT5 State
         let mt5Config = JSON.parse(localStorage.getItem(MT5_CONFIG_KEY) || '{"enabled":false,"connected":false}');
         let mt5Credentials = JSON.parse(localStorage.getItem(MT5_CREDENTIALS_KEY) || '{}');
         let mt5IsConnected = false;
@@ -590,9 +544,6 @@
             return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
         }
 
-        // ============================================================
-        // CALCULATIONS
-        // ============================================================
         function calcR(direction, entry, stop, exit) {
             const e = parseFloat(entry),
                 s = parseFloat(stop),
@@ -621,9 +572,6 @@
 
         function fmtR(r) { return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); }
 
-        // ============================================================
-        // GITHUB STORAGE
-        // ============================================================
         function updateGithubStatus(text, type) {
             const el = document.getElementById('githubStatus');
             if (!el) return;
@@ -755,9 +703,6 @@
             }, SYNC_INTERVAL);
         }
 
-        // ============================================================
-        // STATISTICS
-        // ============================================================
         function computeStats() {
             const withR = trades.filter(t => t.r !== null && t.r !== undefined);
             const wins = withR.filter(t => outcome(t.r) === "win").length;
@@ -837,9 +782,6 @@
             };
         }
 
-        // ============================================================
-        // SVG CHARTS
-        // ============================================================
         function svgLineChart(data, opts) {
             const w = 600,
                 h = opts.height || 130,
@@ -897,9 +839,6 @@
           </svg>`;
         }
 
-        // ============================================================
-        // RENDER
-        // ============================================================
         function render() {
             renderStats();
             renderTabs();
@@ -1027,7 +966,7 @@
         }
 
         // ============================================================
-        // MT5 INTEGRATION - Full Login System
+        // MT5 INTEGRATION
         // ============================================================
         function updateMT5UI() {
             const statusEl = document.getElementById('mt5Status');
@@ -1067,9 +1006,6 @@
             el.className = 'status-msg';
         }
 
-        // ============================================================
-        // REAL MT5 CONNECTION - via Python Backend
-        // ============================================================
         async function connectToMT5(credentials) {
             try {
                 const response = await fetch(`${MT5_API_URL}/connect`, {

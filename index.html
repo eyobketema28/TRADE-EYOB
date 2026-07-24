@@ -1552,6 +1552,26 @@
         });
 
         // ============================================================
+        // VOICE WELCOME - "Welcome Sir Eyob"
+        // ============================================================
+        function speakWelcome() {
+            if ('speechSynthesis' in window) {
+                const msg = new SpeechSynthesisUtterance();
+                msg.text = 'Welcome Sir Eyob';
+                msg.lang = 'en-US';
+                msg.rate = 0.9;
+                msg.pitch = 1.1;
+                // Use a voice that sounds clear
+                const voices = speechSynthesis.getVoices();
+                // choose a male or default voice if available
+                const voice = voices.find(v => v.name.includes('Google UK') || v.name.includes('Samantha') || v.name.includes(
+                    'Daniel') || v.lang.startsWith('en'));
+                if (voice) msg.voice = voice;
+                window.speechSynthesis.speak(msg);
+            }
+        }
+
+        // ============================================================
         // INIT
         // ============================================================
         async function init() {
@@ -1579,6 +1599,20 @@
                     updateGithubStatus('⚡ Setup GitHub', '');
                 }
                 render();
+            }
+
+            // --- Voice welcome after splash is shown and voices are ready ---
+            // Wait a beat for voices to load, then speak
+            if (window.speechSynthesis) {
+                // If voices are already loaded, speak immediately
+                if (speechSynthesis.getVoices().length > 0) {
+                    speakWelcome();
+                } else {
+                    // Otherwise wait for the 'voiceschanged' event
+                    speechSynthesis.onvoiceschanged = () => {
+                        speakWelcome();
+                    };
+                }
             }
         }
 

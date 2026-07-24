@@ -1598,5 +1598,21 @@
     "notes": "",
     "r": 98,
     "pnl": 1.96
+  },
+  {
+    "id": "mryup1904figu",
+    "date": "2026-07-24",
+    "symbol": "CXC",
+    "direction": "Long",
+    "session": "New York",
+    "entry": "2",
+    "stop": "1",
+    "exit": "100",
+    "size": "0",
+    "risk": 1,
+    "target": null,
+    "notes": "",
+    "r": 98,
+    "pnl": null
   }
 ]

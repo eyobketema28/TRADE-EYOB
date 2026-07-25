@@ -55,13 +55,13 @@
         .greeting-banner { display: flex; align-items: center; gap: 16px; border: 1px solid var(--border); background: var(--bg-card); border-radius: 10px; padding: 12px 20px; margin-bottom: 24px; font-size: 14px; color: var(--text-dim); flex-wrap: wrap; }
         .greeting-banner .greeting-name { color: var(--text); font-weight: 700; font-size: 17px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
         .greeting-banner .greeting-quote { color: var(--text-dim); font-style: italic; margin-left: auto; font-size: 12px; }
-        .greeting-banner .github-status { font-size: 10px; color: var(--green); background: rgba(0,255,136,0.05); padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(0,255,136,0.1); font-family: 'JetBrains Mono', monospace; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
-        .greeting-banner .github-status:hover { background: rgba(0,255,136,0.1); }
-        .greeting-banner .github-status.saving { color: var(--text); border-color: var(--border-light); animation: pulse 1s ease-in-out infinite; }
+        .greeting-banner .github-status { font-size: 10px; color: var(--text-dim); background: rgba(255,255,255,0.03); padding: 4px 14px; border-radius: 20px; border: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
+        .greeting-banner .github-status:hover { background: rgba(255,255,255,0.06); }
+        .greeting-banner .github-status.saving { color: var(--green); border-color: rgba(0,255,136,0.3); animation: pulse 1s ease-in-out infinite; }
         .greeting-banner .github-status.error { color: var(--red); border-color: rgba(255,51,85,0.3); }
         .greeting-banner .github-status.success { color: var(--green); border-color: rgba(0,255,136,0.3); }
-        .greeting-banner .github-status.syncing { color: var(--text); border-color: var(--border-light); animation: pulse 0.5s ease-in-out infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .greeting-banner .github-status.syncing { color: var(--green); border-color: rgba(0,255,136,0.3); animation: pulse 0.5s ease-in-out infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
         .brand { display: flex; align-items: center; gap: 14px; }
@@ -78,9 +78,8 @@
         .btn-primary { background: var(--text); color: var(--bg); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
         .btn-primary:hover { opacity: 0.8; transform: scale(1.02); }
         .btn-cancel { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
-        .btn-mt5 { background: var(--text); color: var(--bg); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-        .btn-mt5:hover { opacity: 0.8; transform: scale(1.02); }
-        .btn-mt5.active { background: var(--green); color: var(--bg); }
+        .btn-danger { background: var(--red); color: var(--text); }
+        .btn-danger:hover { opacity: 0.8; }
 
         .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
         .tab { background: none; border: none; cursor: pointer; padding: 10px 8px 10px; margin-right: 32px; color: var(--text-dim); border-bottom: 2px solid transparent; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; }
@@ -144,6 +143,11 @@
         .token-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
         .token-modal .btn-row button { padding: 8px 20px; font-size: 12px; }
 
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 24px; font-size: 13px; color: var(--text); z-index: 999; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+        .toast.show { opacity: 1; }
+        .toast.success { border-color: var(--green); color: var(--green); }
+        .toast.error { border-color: var(--red); color: var(--red); }
+
         @media (max-width: 700px) {
             .row { grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px; gap: 4px; font-size: 10px; padding: 7px 10px; }
             .row-head { font-size: 8px; padding: 6px 10px; }
@@ -166,6 +170,9 @@
     </style>
 </head>
 <body>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"></div>
 
     <!-- TOKEN MODAL -->
     <div class="token-modal" id="tokenModal">
@@ -303,6 +310,25 @@
         let isSyncing = false;
         let syncTimer = null;
 
+        // ============================================================
+        // TOAST NOTIFICATION
+        // ============================================================
+        function showToast(message, type = '') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type;
+            // Force reflow
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ============================================================
+        // TRADE FUNCTIONS
+        // ============================================================
         function todaysQuote() {
             const start = new Date(new Date().getFullYear(), 0, 0);
             const diff = new Date() - start;
@@ -310,17 +336,25 @@
         }
 
         function loadTrades() {
-            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+            try { 
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : []; 
+            } catch { 
+                return []; 
+            }
         }
 
         function saveTrades() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
+            // Auto-sync to GitHub if token exists
             if (githubToken && githubToken.length > 10) {
                 saveToGitHub();
             }
         }
 
-        function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+        function uid() { 
+            return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); 
+        }
 
         function calcR(direction, entry, stop, exit) {
             const e = parseFloat(entry), s = parseFloat(stop), x = parseFloat(exit);
@@ -344,10 +378,12 @@
             return "flat";
         }
 
-        function fmtR(r) { return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); }
+        function fmtR(r) { 
+            return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); 
+        }
 
         // ============================================================
-        // GITHUB SYNC
+        // GITHUB SYNC - FIXED
         // ============================================================
         function updateGithubStatus(text, type) {
             const el = document.getElementById('githubStatus');
@@ -359,7 +395,10 @@
 
         async function saveToGitHub() {
             if (!githubToken || githubToken.length < 10 || isSaving) return false;
-            if (trades.length === 0) return false;
+            if (trades.length === 0) {
+                updateGithubStatus('● No trades', '');
+                return false;
+            }
 
             isSaving = true;
             updateGithubStatus('● Saving...', 'saving');
@@ -368,6 +407,7 @@
                 const data = JSON.stringify(trades, null, 2);
                 const content = btoa(unescape(encodeURIComponent(data)));
 
+                // First, try to get the current file to get its SHA
                 let sha = null;
                 try {
                     const shaRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
@@ -380,7 +420,9 @@
                         const file = await shaRes.json();
                         sha = file.sha;
                     }
-                } catch (e) { console.log('File not found, creating new'); }
+                } catch (e) {
+                    console.log('File not found, creating new');
+                }
 
                 const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
                     method: 'PUT',
@@ -399,7 +441,10 @@
 
                 if (putRes.ok) {
                     updateGithubStatus(`● ${trades.length} saved`, 'success');
-                    setTimeout(() => { updateGithubStatus(`● GitHub: ${trades.length}`, 'success'); }, 3000);
+                    showToast(`✅ ${trades.length} trades saved to GitHub`, 'success');
+                    setTimeout(() => { 
+                        if (!isSaving) updateGithubStatus(`● ${trades.length} on GitHub`, 'success'); 
+                    }, 3000);
                     return true;
                 } else {
                     const err = await putRes.json();
@@ -407,7 +452,8 @@
                 }
             } catch (error) {
                 console.error('Save error:', error);
-                updateGithubStatus(`● ${error.message || 'Save failed'}`, 'error');
+                updateGithubStatus('● Save failed', 'error');
+                showToast('❌ Failed to save to GitHub: ' + error.message, 'error');
                 return false;
             } finally {
                 isSaving = false;
@@ -440,16 +486,18 @@
                             trades = content;
                             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
                             render();
-                            updateGithubStatus(`● Synced ${trades.length}`, 'success');
-                            setTimeout(() => { updateGithubStatus(`● GitHub: ${trades.length}`, 'success'); }, 3000);
+                            updateGithubStatus(`● ${trades.length} synced`, 'success');
+                            showToast(`✅ Synced ${trades.length} trades from GitHub`, 'success');
                             return true;
                         } else {
-                            updateGithubStatus(`● ${trades.length} trades`, 'success');
+                            updateGithubStatus(`● ${trades.length} up to date`, 'success');
+                            showToast(`✅ ${trades.length} trades are up to date`, 'success');
                             return true;
                         }
                     }
                 } else if (res.status === 404) {
-                    updateGithubStatus('● No file yet', 'error');
+                    updateGithubStatus('● No file on GitHub', '');
+                    showToast('ℹ️ No trades file found on GitHub', '');
                     return false;
                 } else {
                     const err = await res.json();
@@ -457,7 +505,8 @@
                 }
             } catch (error) {
                 console.error('Load error:', error);
-                updateGithubStatus(`● ${error.message || 'Load failed'}`, 'error');
+                updateGithubStatus('● Sync failed', 'error');
+                showToast('❌ Failed to sync from GitHub: ' + error.message, 'error');
                 return false;
             } finally {
                 isSyncing = false;
@@ -470,14 +519,14 @@
                 if (githubToken && githubToken.length > 10) {
                     loadFromGitHub();
                 }
-            }, 30000);
+            }, 60000); // Every minute
         }
 
         // ============================================================
         // STATS
         // ============================================================
         function computeStats() {
-            const withR = trades.filter(t => t.r !== null);
+            const withR = trades.filter(t => t.r !== null && t.r !== undefined);
             const wins = withR.filter(t => outcome(t.r) === "win").length;
             const losses = withR.filter(t => outcome(t.r) === "loss").length;
             const total = withR.length;
@@ -500,7 +549,7 @@
                 return { cum: +cum.toFixed(2), drawdown: +(cum - peak).toFixed(2) };
             });
             const maxDD = curve.length ? Math.min(...curve.map(c => c.drawdown)) : 0;
-            return { total, winRate, avgR, totalR, expectancy, streak, streakType, curve, maxDD };
+            return { total, wins, losses, winRate, totalR, avgR, expectancy, streak, streakType, curve, maxDD };
         }
 
         // ============================================================
@@ -624,14 +673,21 @@
               <span class="${tone}">${fmtR(t.r)} ${targetBadge}</span>
               <span class="${tone}">${t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—"}</span>
               <span class="notes-cell">${(t.notes || "").replace(/</g, "&lt;")}</span>
-              <button class="del-btn" data-id="${t.id}">✕</button>
+              <button class="del-btn" data-id="${t.id}" title="Delete trade">✕</button>
             </div>`;
             }).join("");
+            
+            // Delete handler - FIXED
             rowsEl.querySelectorAll(".del-btn").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    trades = trades.filter(t => t.id !== btn.dataset.id);
-                    saveTrades();
-                    render();
+                btn.addEventListener("click", function(e) {
+                    e.stopPropagation();
+                    const id = this.dataset.id;
+                    if (confirm('Delete this trade?')) {
+                        trades = trades.filter(t => t.id !== id);
+                        saveTrades();
+                        render();
+                        showToast('🗑️ Trade deleted', '');
+                    }
                 });
             });
         }
@@ -692,16 +748,17 @@
             const stop = document.getElementById("f-stop").value;
             const exit = document.getElementById("f-exit").value;
             if (!symbol || !entry || !stop || !exit) return;
+            
             const trade = {
                 id: uid(),
                 date: document.getElementById("f-date").value,
                 symbol: symbol.toUpperCase(),
                 direction: document.getElementById("f-direction").value,
                 session: document.getElementById("f-session").value,
-                entry: entry,
-                stop: stop,
-                exit: exit,
-                size: document.getElementById("f-size").value || "0",
+                entry: parseFloat(entry),
+                stop: parseFloat(stop),
+                exit: parseFloat(exit),
+                size: parseFloat(document.getElementById("f-size").value) || 0,
                 risk: parseFloat(document.getElementById("f-risk").value) || null,
                 target: parseFloat(document.getElementById("f-target").value) || null,
                 notes: document.getElementById("f-notes").value,
@@ -719,6 +776,7 @@
             document.getElementById("toggleFormBtn").textContent = "+ New";
             document.getElementById("toggleFormBtn").className = "btn-primary";
             render();
+            showToast('✅ Trade logged successfully!', 'success');
         });
 
         // Tabs
@@ -735,6 +793,7 @@
             a.download = `trades-${new Date().toISOString().slice(0, 10)}.json`;
             a.click();
             URL.revokeObjectURL(url);
+            showToast('📤 Exported trades', 'success');
         });
 
         document.getElementById("importBtn").addEventListener("click", () => document.getElementById("importFile").click());
@@ -749,16 +808,20 @@
                         trades = parsed;
                         saveTrades();
                         render();
-                        alert(`● Imported ${trades.length} trades`);
+                        showToast(`✅ Imported ${trades.length} trades`, 'success');
+                    } else {
+                        showToast('❌ Invalid file format', 'error');
                     }
-                } catch { alert("Invalid file"); }
+                } catch { 
+                    showToast('❌ Failed to parse file', 'error');
+                }
             };
             reader.readAsText(file);
             e.target.value = "";
         });
 
         // ============================================================
-        // GITHUB UI
+        // GITHUB UI - FIXED
         // ============================================================
         document.getElementById("githubTokenBtn").addEventListener("click", () => {
             document.getElementById("tokenModal").classList.add("show");
@@ -770,7 +833,7 @@
         document.getElementById("tokenModal").addEventListener("click", (e) => {
             if (e.target === e.currentTarget) document.getElementById("tokenModal").classList.remove("show");
         });
-        document.getElementById("tokenSaveBtn").addEventListener("click", () => {
+        document.getElementById("tokenSaveBtn").addEventListener("click", async () => {
             const token = document.getElementById("tokenInput").value.trim();
             if (token && token.length > 10) {
                 githubToken = token;
@@ -778,13 +841,19 @@
                 document.getElementById("tokenModal").classList.remove("show");
                 document.getElementById("syncBtn").style.display = "inline-block";
                 updateGithubStatus('● Token saved', 'success');
+                showToast('✅ GitHub token saved', 'success');
                 startAutoSync();
-                loadFromGitHub();
+                await loadFromGitHub();
+            } else {
+                showToast('❌ Please enter a valid token', 'error');
             }
         });
-        document.getElementById("syncBtn").addEventListener("click", () => {
-            if (trades.length > 0) saveToGitHub();
-            loadFromGitHub();
+
+        document.getElementById("syncBtn").addEventListener("click", async () => {
+            if (trades.length > 0) {
+                await saveToGitHub();
+            }
+            await loadFromGitHub();
         });
 
         // ============================================================
@@ -809,6 +878,8 @@
                 document.getElementById("syncBtn").style.display = "inline-block";
                 updateGithubStatus('● GitHub ready', 'success');
                 startAutoSync();
+                // Load from GitHub on startup
+                setTimeout(loadFromGitHub, 1000);
             }
             
             render();

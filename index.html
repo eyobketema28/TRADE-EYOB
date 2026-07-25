@@ -6,194 +6,148 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Sir Eyob Ledger" />
-    <meta name="application-name" content="Sir Eyob Ledger" />
     <meta name="theme-color" content="#000000" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000000'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='50' cy='50' r='45' fill='none' stroke='%23FFFFFF' stroke-width='2'/></svg>" />
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23000000'/><text x='90' y='122' font-size='86' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='90' cy='90' r='80' fill='none' stroke='%23FFFFFF' stroke-width='3'/></svg>" />
-
     <title>Sir Eyob · Trade Ledger</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-            --bg: #000000;
-            --bg-card: #080808;
-            --bg-card-hover: #111111;
-            --bg-input: #0A0A0A;
-            --border: #1A1A1A;
-            --border-light: #2A2A2A;
-            --text: #FFFFFF;
-            --text-dim: #666666;
-            --text-muted: #444444;
-            --green: #00FF88;
-            --red: #FF3355;
-            --shadow: 0 8px 32px rgba(0,0,0,0.9);
-        }
-        body { background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; min-height: 100vh; padding: 0 0 40px 0; -webkit-tap-highlight-color: transparent; }
+        :root { --bg: #000000; --bg-card: #080808; --bg-card-hover: #111111; --bg-input: #0A0A0A; --border: #1A1A1A; --text: #FFFFFF; --text-dim: #666666; --green: #00FF88; --red: #FF3355; }
+        body { background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; min-height: 100vh; padding: 0 0 40px 0; }
         .mono { font-family: 'JetBrains Mono', monospace; }
         .display { font-family: 'Orbitron', sans-serif; }
         .wrap { max-width: 1200px; margin: 0 auto; padding: 20px 24px 40px; }
 
-        #splash { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
-        #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        #splash-logo { width: 120px; height: 120px; object-fit: contain; margin-bottom: 30px; filter: drop-shadow(0 0 60px rgba(255,255,255,0.05)); animation: pulse-white 3s ease-in-out infinite; }
-        #splash-logo.fallback { border-radius: 50%; border: 2px solid var(--text); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 40px; color: var(--text); background: rgba(255,255,255,0.02); }
-        @keyframes pulse-white { 0%,100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.03)); transform: scale(1); } 50% { filter: drop-shadow(0 0 60px rgba(255,255,255,0.08)); transform: scale(1.02); } }
-        #splash-title { font-size: 52px; font-weight: 900; letter-spacing: 10px; text-transform: uppercase; font-family: 'Orbitron', sans-serif; color: var(--text); }
-        #splash-title .highlight { color: var(--text); opacity: 0.7; }
-        #splash-sub { color: var(--text-dim); font-size: 16px; letter-spacing: 8px; text-transform: uppercase; margin-top: 8px; margin-bottom: 30px; font-weight: 300; }
-        #splash-sub .highlight { color: var(--text); }
-        #splash-quote-box { max-width: 540px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-card); padding: 28px 32px; margin-bottom: 30px; }
-        #splash-quote { font-size: 18px; font-weight: 300; line-height: 1.6; color: var(--text-dim); font-style: italic; font-family: 'Rajdhani', sans-serif; }
-        #splash-quote::before { content: "“"; color: var(--text); font-size: 24px; font-family: 'Georgia', serif; }
-        #splash-quote::after { content: "”"; color: var(--text); font-size: 24px; font-family: 'Georgia', serif; }
-        #splash-date { margin-top: 12px; font-size: 11px; letter-spacing: 4px; color: var(--text-dim); text-transform: uppercase; font-weight: 300; }
-        #enterBtn { background: transparent; color: var(--text); border: 1.5px solid var(--text); border-radius: 50px; padding: 16px 56px; font-family: 'Orbitron', sans-serif; font-size: 13px; letter-spacing: 5px; text-transform: uppercase; cursor: pointer; transition: all 0.4s ease; }
-        #enterBtn:hover { background: var(--text); color: var(--bg); box-shadow: 0 0 60px rgba(255,255,255,0.05); transform: scale(1.02); }
+        #splash { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; transition: opacity 0.8s ease; }
+        #splash.hidden { opacity: 0; pointer-events: none; }
+        #splash-logo { width: 120px; height: 120px; margin-bottom: 30px; border-radius: 50%; border: 2px solid var(--text); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 40px; color: var(--text); background: rgba(255,255,255,0.02); animation: pulse-white 3s ease-in-out infinite; }
+        @keyframes pulse-white { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        #splash-title { font-size: 42px; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; font-family: 'Orbitron', sans-serif; }
+        #splash-sub { color: var(--text-dim); font-size: 14px; letter-spacing: 6px; text-transform: uppercase; margin: 8px 0 30px; font-weight: 300; }
+        #splash-quote-box { max-width: 540px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-card); padding: 24px 28px; margin-bottom: 30px; }
+        #splash-quote { font-size: 17px; font-weight: 300; line-height: 1.6; color: var(--text-dim); font-style: italic; }
+        #splash-quote::before { content: "“"; color: var(--text); font-size: 22px; }
+        #splash-quote::after { content: "”"; color: var(--text); font-size: 22px; }
+        #splash-date { margin-top: 10px; font-size: 10px; letter-spacing: 3px; color: var(--text-dim); text-transform: uppercase; font-weight: 300; }
+        #enterBtn { background: transparent; color: var(--text); border: 1.5px solid var(--text); border-radius: 50px; padding: 14px 48px; font-family: 'Orbitron', sans-serif; font-size: 12px; letter-spacing: 4px; cursor: pointer; transition: all 0.3s ease; }
+        #enterBtn:hover { background: var(--text); color: var(--bg); }
 
-        .greeting-banner { display: flex; align-items: center; gap: 16px; border: 1px solid var(--border); background: var(--bg-card); border-radius: 10px; padding: 12px 20px; margin-bottom: 24px; font-size: 14px; color: var(--text-dim); flex-wrap: wrap; }
-        .greeting-banner .greeting-name { color: var(--text); font-weight: 700; font-size: 17px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
-        .greeting-banner .greeting-quote { color: var(--text-dim); font-style: italic; margin-left: auto; font-size: 12px; }
-        .greeting-banner .github-status { font-size: 10px; color: var(--green); background: rgba(0,255,136,0.05); padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(0,255,136,0.1); font-family: 'JetBrains Mono', monospace; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
-        .greeting-banner .github-status:hover { background: rgba(0,255,136,0.1); }
-        .greeting-banner .github-status.saving { color: var(--text); border-color: var(--border-light); animation: pulse 1s ease-in-out infinite; }
+        .greeting-banner { display: flex; align-items: center; gap: 14px; border: 1px solid var(--border); background: var(--bg-card); border-radius: 10px; padding: 10px 18px; margin-bottom: 20px; font-size: 13px; color: var(--text-dim); flex-wrap: wrap; }
+        .greeting-banner .greeting-name { color: var(--text); font-weight: 700; font-size: 16px; font-family: 'Orbitron', sans-serif; }
+        .greeting-banner .greeting-quote { color: var(--text-dim); font-style: italic; margin-left: auto; font-size: 11px; }
+        .greeting-banner .github-status { font-size: 9px; color: var(--green); background: rgba(0,255,136,0.05); padding: 3px 12px; border-radius: 20px; border: 1px solid rgba(0,255,136,0.1); font-family: 'JetBrains Mono', monospace; cursor: pointer; white-space: nowrap; }
         .greeting-banner .github-status.error { color: var(--red); border-color: rgba(255,51,85,0.3); }
         .greeting-banner .github-status.success { color: var(--green); border-color: rgba(0,255,136,0.3); }
-        .greeting-banner .github-status.syncing { color: var(--text); border-color: var(--border-light); animation: pulse 0.5s ease-in-out infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-        .brand { display: flex; align-items: center; gap: 14px; }
-        #app-logo { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 0 20px rgba(255,255,255,0.03)); }
-        #app-logo.fallback { border-radius: 50%; border: 1.5px solid var(--text); display: flex; align-items: center; justify-content: center; color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 14px; background: rgba(255,255,255,0.02); }
-        .title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 3px; text-transform: uppercase; color: var(--text); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        #app-logo { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--text); display: flex; align-items: center; justify-content: center; color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 14px; background: rgba(255,255,255,0.02); }
+        .title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; }
         .title .highlight { opacity: 0.6; }
-        .subtitle { color: var(--text-dim); font-size: 11px; margin-top: 2px; letter-spacing: 1.5px; font-weight: 300; }
-        .subtitle .highlight { color: var(--text); opacity: 0.8; }
-        .header-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-        button { font-family: 'Rajdhani', sans-serif; cursor: pointer; border: none; border-radius: 6px; font-weight: 600; font-size: 12px; padding: 7px 14px; letter-spacing: 0.5px; transition: all 0.25s ease; }
-        .btn-ghost { background: var(--bg-card); color: var(--text-dim); border: 1px solid var(--border); font-weight: 500; padding: 6px 12px; font-size: 11px; }
-        .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); background: var(--bg-card-hover); }
+        .subtitle { color: var(--text-dim); font-size: 10px; margin-top: 1px; letter-spacing: 1px; font-weight: 300; }
+        .header-actions { display: flex; gap: 5px; flex-wrap: wrap; }
+        button { font-family: 'Rajdhani', sans-serif; cursor: pointer; border: none; border-radius: 6px; font-weight: 600; font-size: 11px; padding: 6px 12px; transition: all 0.2s ease; }
+        .btn-ghost { background: var(--bg-card); color: var(--text-dim); border: 1px solid var(--border); font-weight: 500; padding: 5px 10px; font-size: 10px; }
+        .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); }
         .btn-primary { background: var(--text); color: var(--bg); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-        .btn-primary:hover { opacity: 0.8; transform: scale(1.02); }
+        .btn-primary:hover { opacity: 0.8; }
         .btn-cancel { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
         .btn-mt5 { background: var(--text); color: var(--bg); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-        .btn-mt5:hover { opacity: 0.8; transform: scale(1.02); }
-        .btn-mt5.active { background: var(--green); color: var(--bg); }
+        .btn-mt5:hover { opacity: 0.8; }
+        .btn-mt5.active { background: var(--green); }
 
-        .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
-        .tab { background: none; border: none; cursor: pointer; padding: 10px 8px 10px; margin-right: 32px; color: var(--text-dim); border-bottom: 2px solid transparent; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; }
+        .tabs { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+        .tab { background: none; border: none; cursor: pointer; padding: 8px 6px 8px; margin-right: 28px; color: var(--text-dim); border-bottom: 2px solid transparent; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; transition: all 0.3s ease; }
         .tab.active { color: var(--text); border-bottom: 2px solid var(--text); }
         .tab:hover { color: var(--text); }
 
-        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
-        .stat-cell { background: var(--bg-card); padding: 14px 16px; }
-        .stat-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; font-weight: 500; }
-        .stat-value { font-size: 18px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 18px; border: 1px solid var(--border); }
+        .stat-cell { background: var(--bg-card); padding: 12px 14px; }
+        .stat-label { font-size: 8px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; font-weight: 500; }
+        .stat-value { font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
         .tone-green { color: var(--green); }
         .tone-red { color: var(--red); }
-        .tone-white { color: var(--text); }
 
-        form.entry-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
-        .field { display: flex; flex-direction: column; gap: 4px; font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
-        .field input, .field select, .field textarea { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 13px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.25s ease; }
+        form.entry-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+        .field { display: flex; flex-direction: column; gap: 3px; font-size: 8px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 500; }
+        .field input, .field select, .field textarea { background: var(--bg-input); border: 1px solid var(--border); border-radius: 5px; padding: 6px 10px; color: var(--text); font-size: 12px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.2s ease; }
         .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--text-dim); }
-        .field textarea { font-family: 'Rajdhani', sans-serif; resize: vertical; }
         .form-full { grid-column: 1 / -1; }
         .form-submit-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; }
 
-        .chart-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 6px 6px; margin-bottom: 20px; height: 160px; position: relative; overflow: hidden; }
-        .chart-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%); pointer-events: none; }
-        .chart-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 1px; }
+        .chart-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 6px 6px; margin-bottom: 18px; height: 140px; position: relative; overflow: hidden; }
+        .chart-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 12px; font-weight: 300; }
 
-        .session-filters { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-        .chip { background: transparent; color: var(--text-dim); border: 1px solid var(--border); border-radius: 30px; padding: 4px 16px; font-size: 11px; cursor: pointer; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: all 0.25s ease; }
+        .session-filters { display: flex; gap: 5px; margin-bottom: 12px; flex-wrap: wrap; }
+        .chip { background: transparent; color: var(--text-dim); border: 1px solid var(--border); border-radius: 30px; padding: 3px 14px; font-size: 10px; cursor: pointer; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.2s ease; }
         .chip.active { background: var(--bg-card); color: var(--text); border-color: var(--text); }
         .chip:hover { border-color: var(--text-dim); color: var(--text); }
 
         .table-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-        .row { display: grid; grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px; gap: 8px; padding: 9px 16px; align-items: center; border-bottom: 1px solid var(--border); font-size: 12px; transition: background 0.2s ease; }
+        .row { display: grid; grid-template-columns: 16px 70px 60px 50px 70px 0.8fr 0.8fr 0.8fr 60px 80px 1fr 20px; gap: 6px; padding: 8px 14px; align-items: center; border-bottom: 1px solid var(--border); font-size: 11px; transition: background 0.2s ease; }
         .row:hover { background: var(--bg-card-hover); }
-        .row-head { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; padding: 8px 16px; font-weight: 600; border-bottom: 1px solid var(--border); }
-        .row-empty { padding: 40px; text-align: center; color: var(--text-dim); font-size: 13px; grid-column: 1 / -1; font-weight: 300; letter-spacing: 0.5px; }
-        .stamp { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-        .stamp-win { background: var(--green); box-shadow: 0 0 12px rgba(0,255,136,0.2); }
+        .row-head { font-size: 8px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; padding: 6px 14px; font-weight: 600; border-bottom: 1px solid var(--border); }
+        .row-empty { padding: 30px; text-align: center; color: var(--text-dim); font-size: 12px; grid-column: 1 / -1; font-weight: 300; }
+        .stamp { display: inline-block; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+        .stamp-win { background: var(--green); box-shadow: 0 0 10px rgba(0,255,136,0.2); }
         .stamp-loss { border: 2px solid var(--red); background: transparent; }
-        .stamp-flat { width: 8px; height: 1px; border-radius: 1px; background: var(--text-dim); }
-        .del-btn { background: none; border: none; color: var(--text-dim); cursor: pointer; padding: 4px; font-size: 14px; transition: color 0.2s ease; }
+        .stamp-flat { width: 6px; height: 1px; border-radius: 1px; background: var(--text-dim); }
+        .del-btn { background: none; border: none; color: var(--text-dim); cursor: pointer; padding: 3px; font-size: 12px; transition: color 0.2s ease; }
         .del-btn:hover { color: var(--red); }
-        .notes-cell { color: var(--text-dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .footnote { margin-top: 12px; font-size: 10px; color: var(--text-dim); text-align: right; letter-spacing: 1px; font-weight: 300; }
+        .notes-cell { color: var(--text-dim); font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .footnote { margin-top: 10px; font-size: 9px; color: var(--text-dim); text-align: right; letter-spacing: 0.5px; font-weight: 300; }
 
-        .analytics-grid { display: grid; gap: 20px; }
-        .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 12px 12px; transition: border-color 0.25s ease; }
-        .chart-card:hover { border-color: var(--border-light); }
-        .chart-card-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; padding-left: 8px; font-weight: 500; }
-        .chart-card-body { height: 160px; }
-        .empty-analytics { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 60px; text-align: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 0.5px; }
+        .analytics-grid { display: grid; gap: 16px; }
+        .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 10px 10px; }
+        .chart-card-title { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; padding-left: 6px; font-weight: 500; }
+        .chart-card-body { height: 140px; }
+        .empty-analytics { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 40px; text-align: center; color: var(--text-dim); font-size: 12px; font-weight: 300; }
 
-        .token-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; }
+        .token-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; }
         .token-modal.show { display: flex; }
-        .token-modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 460px; width: 90%; }
-        .token-modal h2 { color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 18px; margin-bottom: 12px; letter-spacing: 1px; }
-        .token-modal p { color: var(--text-dim); margin-bottom: 16px; font-size: 13px; line-height: 1.6; }
-        .token-modal input { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none; margin-bottom: 12px; }
+        .token-modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; max-width: 420px; width: 90%; }
+        .token-modal h2 { font-family: 'Orbitron', sans-serif; font-size: 16px; margin-bottom: 10px; letter-spacing: 1px; }
+        .token-modal p { color: var(--text-dim); margin-bottom: 14px; font-size: 12px; line-height: 1.5; }
+        .token-modal input { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 5px; padding: 8px 12px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 12px; outline: none; margin-bottom: 10px; }
         .token-modal input:focus { border-color: var(--text-dim); }
-        .token-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
-        .token-modal .btn-row button { padding: 8px 20px; font-size: 12px; }
+        .token-modal .btn-row { display: flex; gap: 8px; justify-content: flex-end; }
+        .token-modal .btn-row button { padding: 6px 18px; font-size: 11px; }
 
-        .mt5-login-modal { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.95); backdrop-filter: blur(12px); align-items: center; justify-content: center; }
+        .mt5-login-modal { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; }
         .mt5-login-modal.show { display: flex; }
-        .mt5-login-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; max-width: 440px; width: 92%; position: relative; }
-        .mt5-login-content .mt5-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-        .mt5-login-content .mt5-header .mt5-icon { font-size: 28px; }
-        .mt5-login-content .mt5-header h2 { color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 16px; letter-spacing: 1px; }
-        .mt5-login-content .mt5-header .mt5-badge { margin-left: auto; font-size: 9px; background: rgba(255,255,255,0.03); padding: 4px 12px; border-radius: 20px; color: var(--text-dim); border: 1px solid var(--border); letter-spacing: 0.5px; }
-        .mt5-login-content .field-group { margin-bottom: 14px; }
-        .mt5-login-content .field-group label { display: block; font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 500; }
-        .mt5-login-content .field-group input, .mt5-login-content .field-group select { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; color: var(--text); font-size: 13px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.25s ease; }
+        .mt5-login-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 28px 24px; max-width: 400px; width: 92%; }
+        .mt5-login-content .mt5-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+        .mt5-login-content .mt5-header .mt5-icon { font-size: 24px; }
+        .mt5-login-content .mt5-header h2 { font-family: 'Orbitron', sans-serif; font-size: 15px; letter-spacing: 1px; }
+        .mt5-login-content .mt5-header .mt5-badge { margin-left: auto; font-size: 8px; background: rgba(255,255,255,0.03); padding: 3px 10px; border-radius: 20px; color: var(--text-dim); border: 1px solid var(--border); letter-spacing: 0.5px; }
+        .mt5-login-content .field-group { margin-bottom: 12px; }
+        .mt5-login-content .field-group label { display: block; font-size: 8px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; font-weight: 500; }
+        .mt5-login-content .field-group input, .mt5-login-content .field-group select { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 5px; padding: 8px 10px; color: var(--text); font-size: 12px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.2s ease; }
         .mt5-login-content .field-group input:focus, .mt5-login-content .field-group select:focus { border-color: var(--text-dim); }
-        .mt5-login-content .field-group .helper { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
-        .mt5-login-content .btn-row { display: flex; gap: 10px; margin-top: 18px; justify-content: flex-end; }
-        .mt5-login-content .btn-row button { padding: 8px 24px; font-size: 12px; }
-        .mt5-login-content .status-msg { padding: 10px 14px; border-radius: 6px; margin-top: 12px; font-size: 12px; display: none; }
+        .mt5-login-content .btn-row { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; }
+        .mt5-login-content .btn-row button { padding: 6px 20px; font-size: 11px; }
+        .mt5-login-content .status-msg { padding: 8px 12px; border-radius: 5px; margin-top: 10px; font-size: 11px; display: none; }
         .mt5-login-content .status-msg.success { display: block; background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.1); color: var(--green); }
         .mt5-login-content .status-msg.error { display: block; background: rgba(255,51,85,0.05); border: 1px solid rgba(255,51,85,0.1); color: var(--red); }
         .mt5-login-content .status-msg.info { display: block; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--text-dim); }
 
-        .mt5-banner { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-left: 2px solid var(--text-dim); transition: border-color 0.3s ease; }
+        .mt5-banner { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 16px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-left: 2px solid var(--text-dim); transition: border-color 0.3s ease; }
         .mt5-banner.connected { border-left-color: var(--green); }
-        .mt5-banner .mt5-info { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--text-dim); flex-wrap: wrap; }
-        .mt5-banner .mt5-info .mt5-label { color: var(--text); font-weight: 700; font-family: 'Orbitron', sans-serif; font-size: 11px; letter-spacing: 1px; }
-        .mt5-banner .mt5-info .mt5-status { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 14px; border-radius: 20px; background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.1); color: var(--green); }
+        .mt5-banner .mt5-info { display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--text-dim); flex-wrap: wrap; }
+        .mt5-banner .mt5-info .mt5-label { color: var(--text); font-weight: 700; font-family: 'Orbitron', sans-serif; font-size: 10px; letter-spacing: 1px; }
+        .mt5-banner .mt5-info .mt5-status { font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 2px 12px; border-radius: 20px; background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.1); color: var(--green); }
         .mt5-banner .mt5-info .mt5-status.inactive { color: var(--text-dim); border-color: var(--border); background: transparent; }
         .mt5-banner .mt5-info .mt5-status.connected { color: var(--green); border-color: rgba(0,255,136,0.2); background: rgba(0,255,136,0.05); }
-        .mt5-banner .mt5-info .mt5-account { font-size: 11px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
-        .mt5-banner .mt5-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .mt5-banner .mt5-info .mt5-account { font-size: 10px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+        .mt5-banner .mt5-actions { display: flex; gap: 5px; flex-wrap: wrap; }
 
         @media (max-width: 700px) {
-            .row { grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px; gap: 4px; font-size: 10px; padding: 7px 10px; }
-            .row-head { font-size: 8px; padding: 6px 10px; }
-            .title { font-size: 16px; }
-            #splash-title { font-size: 32px; letter-spacing: 4px; }
-            #splash-quote { font-size: 16px; }
+            .row { grid-template-columns: 14px 55px 45px 40px 55px 0.6fr 0.6fr 0.6fr 45px 65px 0.8fr 16px; gap: 4px; font-size: 9px; padding: 6px 10px; }
+            .row-head { font-size: 7px; padding: 5px 10px; }
+            .title { font-size: 15px; }
+            #splash-title { font-size: 28px; letter-spacing: 4px; }
+            #splash-quote { font-size: 15px; }
             form.entry-form { grid-template-columns: 1fr 1fr; }
-            .greeting-banner { flex-wrap: wrap; }
-            .greeting-banner .greeting-quote { margin-left: 0; width: 100%; }
-            .greeting-banner .github-status { font-size: 9px; padding: 3px 10px; }
-            .mt5-banner { flex-direction: column; align-items: stretch; }
-            .mt5-banner .mt5-actions { justify-content: stretch; }
-            .mt5-banner .mt5-actions button { flex: 1; }
-            .mt5-login-content { padding: 20px 16px; }
-        }
-        @media (max-width: 480px) {
-            .row { grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px; gap: 3px; font-size: 9px; padding: 6px 6px; }
-            .row-head { font-size: 7px; padding: 4px 6px; }
-            .stats-row { grid-template-columns: 1fr 1fr; }
-            #splash-title { font-size: 22px; letter-spacing: 2px; }
-            .header-actions .btn-ghost { padding: 5px 8px; font-size: 10px; }
-            .header-actions .btn-primary { padding: 5px 10px; font-size: 10px; }
         }
     </style>
 </head>
@@ -204,10 +158,6 @@
         <div class="token-modal-content">
             <h2>GitHub Token</h2>
             <p>Enter your GitHub Personal Access Token for cloud sync.</p>
-            <p style="font-size:11px;color:var(--text-dim);">
-                Create at: <strong style="color:var(--text);">github.com/settings/tokens</strong><br>
-                Select <strong style="color:var(--green);">repo</strong> scope.
-            </p>
             <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
             <div class="btn-row">
                 <button class="btn-cancel" id="tokenCancelBtn">Cancel</button>
@@ -222,39 +172,30 @@
             <div class="mt5-header">
                 <span class="mt5-icon">◆</span>
                 <h2>MT5 Connection</h2>
-                <span class="mt5-badge">Simulation</span>
+                <span class="mt5-badge">SIM</span>
             </div>
-
             <div class="field-group">
-                <label>Broker Server</label>
+                <label>Server</label>
                 <select id="mt5Server">
                     <option value="Exness-MT5Trial9">Exness-MT5Trial9</option>
-                    <option value="Exness-MT5Trial10">Exness-MT5Trial10</option>
                     <option value="ICMarkets-Demo">ICMarkets-Demo</option>
-                    <option value="ICMarkets-Live">ICMarkets-Live</option>
                     <option value="XM-Demo">XM-Demo</option>
-                    <option value="XM-Live">XM-Live</option>
                     <option value="Pepperstone-Demo">Pepperstone-Demo</option>
-                    <option value="Pepperstone-Live">Pepperstone-Live</option>
-                    <option value="Custom">✏️ Custom Server</option>
+                    <option value="Custom">✏️ Custom</option>
                 </select>
             </div>
-
             <div class="field-group" id="customServerGroup" style="display:none;">
                 <label>Custom Server</label>
                 <input type="text" id="mt5CustomServer" placeholder="mt5.yourbroker.com:443" />
             </div>
-
             <div class="field-group">
-                <label>Login ID</label>
+                <label>Login</label>
                 <input type="text" id="mt5Login" placeholder="12345678" value="123456" />
             </div>
-
             <div class="field-group">
                 <label>Password</label>
                 <input type="password" id="mt5Password" placeholder="••••••••" value="password" />
             </div>
-
             <div class="field-group">
                 <label>Session</label>
                 <select id="mt5Session">
@@ -264,9 +205,7 @@
                     <option>Other</option>
                 </select>
             </div>
-
             <div id="mt5StatusMsg" class="status-msg"></div>
-
             <div class="btn-row">
                 <button class="btn-cancel" id="mt5LoginCancel">Cancel</button>
                 <button class="btn-mt5" id="mt5LoginBtn">Connect</button>
@@ -276,7 +215,7 @@
 
     <!-- SPLASH -->
     <div id="splash">
-        <img id="splash-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'splash-logo\' class=\'fallback\'>EY</div>'">
+        <div id="splash-logo">EY</div>
         <div id="splash-title">WELCOME <span class="highlight">SIR</span> <span class="highlight">EYOB</span></div>
         <div id="splash-sub">discipline is the <span class="highlight">edge</span></div>
         <div id="splash-quote-box">
@@ -298,9 +237,9 @@
 
         <div class="header">
             <div class="brand">
-                <img id="app-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'app-logo\' class=\'fallback\'>EY</div>'">
+                <div id="app-logo">EY</div>
                 <div>
-                    <div class="title">SIR <span class="highlight">EYOB</span> <span style="color:var(--text-dim);font-size:13px;letter-spacing:1px;">· LEDGER</span></div>
+                    <div class="title">SIR <span class="highlight">EYOB</span> <span style="color:var(--text-dim);font-size:12px;">· LEDGER</span></div>
                     <div class="subtitle">a running record of every <span class="highlight">position</span></div>
                 </div>
             </div>
@@ -338,21 +277,15 @@
         <form class="entry-form" id="entryForm" style="display:none;">
             <label class="field">Date<input type="date" id="f-date"></label>
             <label class="field">Symbol<input type="text" id="f-symbol" placeholder="EURUSD" required></label>
-            <label class="field">Direction
-                <select id="f-direction"><option>Long</option><option>Short</option></select>
-            </label>
-            <label class="field">Session
-                <select id="f-session">
-                    <option>Daily</option><option selected>New York</option><option>London</option><option>Other</option>
-                </select>
-            </label>
+            <label class="field">Direction<select id="f-direction"><option>Long</option><option>Short</option></select></label>
+            <label class="field">Session<select id="f-session"><option>Daily</option><option selected>New York</option><option>London</option><option>Other</option></select></label>
             <label class="field">Entry<input type="number" step="any" id="f-entry" required></label>
             <label class="field">Stop<input type="number" step="any" id="f-stop" required></label>
             <label class="field">Exit<input type="number" step="any" id="f-exit" required></label>
             <label class="field">Size<input type="number" step="any" id="f-size" placeholder="units"></label>
-            <label class="field">Risk %<input type="number" step="0.1" id="f-risk" placeholder="1.0" value="1.0"></label>
+            <label class="field">Risk %<input type="number" step="0.1" id="f-risk" value="1.0"></label>
             <label class="field">Target R:R<input type="number" step="0.1" id="f-target" placeholder="2.0"></label>
-            <label class="field form-full">Notes<textarea id="f-notes" rows="2" placeholder="Setup quality, emotions, lessons learned..."></textarea></label>
+            <label class="field form-full">Notes<textarea id="f-notes" rows="2" placeholder="Notes..."></textarea></label>
             <div class="form-submit-row"><button type="submit" class="btn-primary">Log Trade</button></div>
         </form>
 
@@ -360,13 +293,10 @@
             <div class="chart-box" id="equityChart"></div>
             <div class="session-filters" id="sessionFilters"></div>
             <div class="table-box">
-                <div class="row row-head">
-                    <span></span><span>Date</span><span>Symbol</span><span>Dir</span><span>Session</span>
-                    <span>Entry</span><span>Stop</span><span>Exit</span><span>R</span><span>P&amp;L</span><span>Notes</span><span></span>
-                </div>
+                <div class="row row-head"><span></span><span>Date</span><span>Symbol</span><span>Dir</span><span>Session</span><span>Entry</span><span>Stop</span><span>Exit</span><span>R</span><span>P&amp;L</span><span>Notes</span><span></span></div>
                 <div id="tradeRows"></div>
             </div>
-            <div class="footnote">◆ Auto-syncs via GitHub · All devices stay in sync</div>
+            <div class="footnote">◆ Auto-syncs via GitHub</div>
         </div>
 
         <div id="analyticsTab" style="display:none;"></div>
@@ -391,12 +321,7 @@
             "Energy flows where attention goes. Give your losses less of it than your process.",
             "The market mirrors the trader. Calm charts, calm mind.",
             "You don't rise to the level of your goals, you fall to the level of your discipline.",
-            "Abundance is a habit before it's a number in an account.",
-            "Every green candle you missed taught you something red couldn't.",
-            "Patience compounds faster than leverage.",
-            "You attract the trades that match the state you enter the session in.",
-            "A quiet mind sees the chart clearly. A loud one sees what it fears.",
-            "Discipline today writes the equity curve of tomorrow.",
+            "Abundance is a habit before it's a number in an account."
         ];
 
         // ============================================================
@@ -421,9 +346,6 @@
 
         function saveTrades() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
-            if (githubToken && githubToken.length > 10) {
-                saveToGitHub();
-            }
         }
 
         function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
@@ -463,52 +385,6 @@
             if (type) el.classList.add(type);
         }
 
-        async function saveToGitHub() {
-            if (!githubToken || githubToken.length < 10) return false;
-            updateGithubStatus('● Saving...', 'saving');
-            try {
-                const content = btoa(unescape(encodeURIComponent(JSON.stringify(trades, null, 2))));
-                const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
-                    method: 'PUT',
-                    headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: `Update trades`, content: content, branch: 'main' })
-                });
-                if (res.ok) {
-                    updateGithubStatus(`● ${trades.length} saved`, 'success');
-                    return true;
-                }
-                throw new Error('Save failed');
-            } catch (e) {
-                updateGithubStatus('● Save failed', 'error');
-                return false;
-            }
-        }
-
-        async function loadFromGitHub() {
-            if (!githubToken || githubToken.length < 10) return false;
-            updateGithubStatus('● Syncing...', 'syncing');
-            try {
-                const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
-                    headers: { 'Authorization': `token ${githubToken}` }
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    const content = JSON.parse(atob(data.content));
-                    if (Array.isArray(content)) {
-                        trades = content;
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
-                        render();
-                        updateGithubStatus(`● ${trades.length} synced`, 'success');
-                        return true;
-                    }
-                }
-                return false;
-            } catch (e) {
-                updateGithubStatus('● Sync failed', 'error');
-                return false;
-            }
-        }
-
         // ============================================================
         // STATS
         // ============================================================
@@ -520,7 +396,6 @@
             const winRate = total ? (wins / total) * 100 : 0;
             const totalR = withR.reduce((s, t) => s + t.r, 0);
             const avgR = total ? totalR / total : 0;
-            const expectancy = total ? totalR / total : 0;
             let streak = 0, streakType = null;
             for (let i = withR.length - 1; i >= 0; i--) {
                 const o = outcome(withR[i].r);
@@ -536,14 +411,14 @@
                 return { cum: +cum.toFixed(2), drawdown: +(cum - peak).toFixed(2) };
             });
             const maxDD = curve.length ? Math.min(...curve.map(c => c.drawdown)) : 0;
-            return { total, winRate, avgR, totalR, expectancy, streak, streakType, curve, maxDD };
+            return { total, winRate, avgR, totalR, streak, streakType, curve, maxDD };
         }
 
         // ============================================================
         // CHARTS
         // ============================================================
-        function svgLineChart(data, opts) {
-            const w = 600, h = opts.height || 140, pad = 12;
+        function svgLineChart(data) {
+            const w = 600, h = 130, pad = 10;
             if (data.length < 2) return `<div class="chart-empty">need more data</div>`;
             const vals = data.map(d => d.value);
             const min = Math.min(0, ...vals), max = Math.max(0, ...vals);
@@ -552,31 +427,30 @@
             const y = v => h - pad - ((v - min) / range) * (h - pad * 2);
             const zeroY = y(0);
             const points = data.map((d, i) => `${x(i)},${y(d.value)}`).join(" ");
-            const fillPath = opts.fill ? `<polygon points="${x(0)},${zeroY} ${points} ${x(data.length-1)},${zeroY}" fill="${opts.fill}" opacity="0.06"/>` : '';
             return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%">
             <line x1="${pad}" y1="${zeroY}" x2="${w-pad}" y2="${zeroY}" stroke="#1A1A1A" stroke-dasharray="3,4"/>
-            ${fillPath}
-            <polyline points="${points}" fill="none" stroke="${opts.stroke || '#FFFFFF'}" stroke-width="2.5" opacity="0.9"/>
+            <polygon points="${x(0)},${zeroY} ${points} ${x(data.length-1)},${zeroY}" fill="#FFFFFF" opacity="0.04"/>
+            <polyline points="${points}" fill="none" stroke="#FFFFFF" stroke-width="2"/>
           </svg>`;
         }
 
         function svgBarChart(data) {
-            const w = 600, h = 150, pad = 8, gap = 6;
+            const w = 600, h = 140, pad = 6, gap = 4;
             if (!data.length) return `<div class="chart-empty">no data</div>`;
             const vals = data.map(d => d.value);
             const min = Math.min(0, ...vals), max = Math.max(0, ...vals);
             const range = (max - min) || 1;
-            const barW = Math.min((w - pad * 2 - gap * (data.length - 1)) / data.length, 40);
-            const zeroY = h - 24 - ((0 - min) / range) * (h - 24 - pad);
+            const barW = Math.min((w - pad * 2 - gap * (data.length - 1)) / data.length, 35);
+            const zeroY = h - 20 - ((0 - min) / range) * (h - 20 - pad);
             let bars = '', labels = '';
             data.forEach((d, i) => {
                 const bx = pad + i * (barW + gap);
-                const by = h - 24 - ((d.value - min) / range) * (h - 24 - pad);
+                const by = h - 20 - ((d.value - min) / range) * (h - 20 - pad);
                 const barTop = Math.min(by, zeroY);
                 const barH = Math.abs(by - zeroY);
                 const color = d.value >= 0 ? '#00FF88' : '#FF3355';
-                bars += `<rect x="${bx}" y="${barTop}" width="${barW}" height="${Math.max(barH, 1)}" fill="${color}" rx="2" opacity="0.85"/>`;
-                labels += `<text x="${bx+barW/2}" y="${h-6}" font-size="8" fill="#666" text-anchor="middle">${d.label}</text>`;
+                bars += `<rect x="${bx}" y="${barTop}" width="${barW}" height="${Math.max(barH, 1)}" fill="${color}" rx="2" opacity="0.8"/>`;
+                labels += `<text x="${bx+barW/2}" y="${h-4}" font-size="7" fill="#666" text-anchor="middle">${d.label}</text>`;
             });
             return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%"><line x1="${pad}" y1="${zeroY}" x2="${w-pad}" y2="${zeroY}" stroke="#1A1A1A"/>${bars}${labels}</svg>`;
         }
@@ -612,8 +486,6 @@
                 cell("Win Rate", s.total ? s.winRate.toFixed(0) + "%" : "—"),
                 cell("Avg R", s.total ? fmtR(s.avgR) + "R" : "—", s.avgR > 0 ? "green" : s.avgR < 0 ? "red" : ""),
                 cell("Total R", s.total ? fmtR(s.totalR) + "R" : "—", s.totalR > 0 ? "green" : s.totalR < 0 ? "red" : ""),
-                cell("Expectancy", s.total ? fmtR(s.expectancy) + "R" : "—", s.expectancy > 0 ? "green" : s.expectancy < 0 ? "red" : ""),
-                cell("Max DD", s.total ? s.maxDD.toFixed(2) + "R" : "—", s.maxDD < 0 ? "red" : ""),
                 cell("Streak", s.streak ? s.streak + " " + (s.streakType === "win" ? "W" : "L") : "—", s.streakType === "win" ? "green" : s.streakType === "loss" ? "red" : ""),
             ].join("");
         }
@@ -622,7 +494,7 @@
             const s = computeStats();
             const el = document.getElementById("equityChart");
             if (s.curve.length > 1) {
-                el.innerHTML = svgLineChart(s.curve.map(c => ({ value: c.cum })), { stroke: '#FFFFFF', fill: '#FFFFFF' });
+                el.innerHTML = svgLineChart(s.curve.map(c => ({ value: c.cum })));
             } else {
                 el.innerHTML = `<div class="chart-empty">Log trades to see your equity curve</div>`;
             }
@@ -654,7 +526,7 @@
               <span style="color:var(--text-dim)">${t.date}</span>
               <span style="font-weight:600;color:var(--text)">${t.symbol}</span>
               <span class="${dirColor}">${t.direction}</span>
-              <span style="color:var(--text-dim);font-family:Rajdhani,sans-serif">${t.session}</span>
+              <span style="color:var(--text-dim);font-family:sans-serif">${t.session}</span>
               <span>${t.entry}</span><span>${t.stop}</span><span>${t.exit}</span>
               <span class="${tone}">${fmtR(t.r)}</span>
               <span class="${tone}">${t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—"}</span>
@@ -718,12 +590,25 @@
             el.textContent = message;
             el.className = 'status-msg ' + type;
             el.style.display = 'block';
-            setTimeout(() => { 
-                if (el.style.display === 'block') {
-                    el.style.display = 'none';
-                }
-            }, 5000);
+            setTimeout(() => { if (el.style.display === 'block') el.style.display = 'none'; }, 5000);
         }
+
+        // TEST: Check if server is reachable
+        async function checkServer() {
+            try {
+                console.log('🔍 Checking server...');
+                const response = await fetch(`${MT5_API_URL}/status`);
+                const data = await response.json();
+                console.log('✅ Server is running:', data);
+                return true;
+            } catch (error) {
+                console.error('❌ Server not reachable:', error.message);
+                return false;
+            }
+        }
+
+        // Run server check on load
+        setTimeout(checkServer, 1000);
 
         async function connectToMT5(credentials) {
             try {
@@ -976,16 +861,11 @@
                 document.getElementById("tokenModal").classList.remove("show");
                 document.getElementById("syncBtn").style.display = "inline-block";
                 updateGithubStatus('● Token saved', 'success');
-                loadFromGitHub();
             }
-        });
-        document.getElementById("syncBtn").addEventListener("click", () => {
-            if (trades.length > 0) saveToGitHub();
-            loadFromGitHub();
         });
 
         // ============================================================
-        // MT5 EVENTS - FIXED
+        // MT5 EVENTS
         // ============================================================
         document.getElementById('mt5LoginBtn2').addEventListener('click', () => {
             if (mt5IsConnected) {
@@ -1028,7 +908,6 @@
                     document.getElementById('mt5LoginModal').classList.remove('show');
                     showMT5Status('● Connected successfully!', 'success');
                     document.getElementById('f-session').value = session;
-                    // Auto-sync history after connection
                     setTimeout(() => syncMT5History(credentials), 1000);
                 }
             } catch (error) {
@@ -1055,17 +934,11 @@
         // VOICE
         // ============================================================
         function speakWelcome() {
-            const audio = new Audio('welcome.mp3');
-            audio.volume = 1.0;
-            audio.onerror = function() { fallbackSpeech(); };
-            audio.play().catch(function() { fallbackSpeech(); });
-            function fallbackSpeech() {
-                if ('speechSynthesis' in window) {
-                    const msg = new SpeechSynthesisUtterance('Welcome Sir Eyob');
-                    msg.lang = 'en-US';
-                    msg.rate = 0.9;
-                    window.speechSynthesis.speak(msg);
-                }
+            if ('speechSynthesis' in window) {
+                const msg = new SpeechSynthesisUtterance('Welcome Sir Eyob');
+                msg.lang = 'en-US';
+                msg.rate = 0.9;
+                window.speechSynthesis.speak(msg);
             }
         }
 
@@ -1089,30 +962,20 @@
 
             if (githubToken && githubToken.length > 10) {
                 document.getElementById("syncBtn").style.display = "inline-block";
-                await loadFromGitHub();
+                updateGithubStatus('● GitHub ready', 'success');
             }
             
             render();
             
+            // Check server connection
+            const serverRunning = await checkServer();
+            if (!serverRunning) {
+                console.warn('⚠️ MT5 Server not running. Start with: python mt5_server.py');
+            }
+            
             // Voice welcome
             setTimeout(speakWelcome, 500);
         }
-
-        // Check server connection
-        async function checkServer() {
-            try {
-                const response = await fetch(`${MT5_API_URL}/status`);
-                const data = await response.json();
-                console.log('🟢 Server status:', data);
-                return true;
-            } catch (error) {
-                console.log('🔴 Server not running:', error.message);
-                return false;
-            }
-        }
-
-        // Run server check
-        checkServer();
 
         init();
     </script>

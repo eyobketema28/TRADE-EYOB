@@ -8,8 +8,6 @@
     <meta name="apple-mobile-web-app-title" content="Sir Eyob Ledger" />
     <meta name="application-name" content="Sir Eyob Ledger" />
     <meta name="theme-color" content="#000000" />
-    <meta name="msapplication-TileColor" content="#000000" />
-
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000000'/><text x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='50' cy='50' r='45' fill='none' stroke='%23FFFFFF' stroke-width='2'/></svg>" />
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23000000'/><text x='90' y='122' font-size='86' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23FFFFFF'>EY</text><circle cx='90' cy='90' r='80' fill='none' stroke='%23FFFFFF' stroke-width='3'/></svg>" />
 
@@ -37,7 +35,6 @@
         .display { font-family: 'Orbitron', sans-serif; }
         .wrap { max-width: 1200px; margin: 0 auto; padding: 20px 24px 40px; }
 
-        /* Splash */
         #splash { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
         #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         #splash-logo { width: 120px; height: 120px; object-fit: contain; margin-bottom: 30px; filter: drop-shadow(0 0 60px rgba(255,255,255,0.05)); animation: pulse-white 3s ease-in-out infinite; }
@@ -55,7 +52,6 @@
         #enterBtn { background: transparent; color: var(--text); border: 1.5px solid var(--text); border-radius: 50px; padding: 16px 56px; font-family: 'Orbitron', sans-serif; font-size: 13px; letter-spacing: 5px; text-transform: uppercase; cursor: pointer; transition: all 0.4s ease; }
         #enterBtn:hover { background: var(--text); color: var(--bg); box-shadow: 0 0 60px rgba(255,255,255,0.05); transform: scale(1.02); }
 
-        /* Greeting */
         .greeting-banner { display: flex; align-items: center; gap: 16px; border: 1px solid var(--border); background: var(--bg-card); border-radius: 10px; padding: 12px 20px; margin-bottom: 24px; font-size: 14px; color: var(--text-dim); flex-wrap: wrap; }
         .greeting-banner .greeting-name { color: var(--text); font-weight: 700; font-size: 17px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
         .greeting-banner .greeting-quote { color: var(--text-dim); font-style: italic; margin-left: auto; font-size: 12px; }
@@ -67,7 +63,6 @@
         .greeting-banner .github-status.syncing { color: var(--text); border-color: var(--border-light); animation: pulse 0.5s ease-in-out infinite; }
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* Header */
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
         .brand { display: flex; align-items: center; gap: 14px; }
         #app-logo { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 0 20px rgba(255,255,255,0.03)); }
@@ -87,13 +82,11 @@
         .btn-mt5:hover { opacity: 0.8; transform: scale(1.02); }
         .btn-mt5.active { background: var(--green); color: var(--bg); }
 
-        /* Tabs */
         .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
         .tab { background: none; border: none; cursor: pointer; padding: 10px 8px 10px; margin-right: 32px; color: var(--text-dim); border-bottom: 2px solid transparent; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; }
         .tab.active { color: var(--text); border-bottom: 2px solid var(--text); }
         .tab:hover { color: var(--text); }
 
-        /* Stats */
         .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
         .stat-cell { background: var(--bg-card); padding: 14px 16px; }
         .stat-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; font-weight: 500; }
@@ -102,7 +95,6 @@
         .tone-red { color: var(--red); }
         .tone-white { color: var(--text); }
 
-        /* Form */
         form.entry-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
         .field { display: flex; flex-direction: column; gap: 4px; font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
         .field input, .field select, .field textarea { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 13px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.25s ease; }
@@ -111,19 +103,15 @@
         .form-full { grid-column: 1 / -1; }
         .form-submit-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; }
 
-        /* Chart */
         .chart-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 6px 6px; margin-bottom: 20px; height: 160px; position: relative; overflow: hidden; }
         .chart-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%); pointer-events: none; }
-        .chart-box svg { filter: drop-shadow(0 0 20px rgba(0,255,136,0.05)); }
         .chart-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 1px; }
 
-        /* Filters */
         .session-filters { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
         .chip { background: transparent; color: var(--text-dim); border: 1px solid var(--border); border-radius: 30px; padding: 4px 16px; font-size: 11px; cursor: pointer; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: all 0.25s ease; }
         .chip.active { background: var(--bg-card); color: var(--text); border-color: var(--text); }
         .chip:hover { border-color: var(--text-dim); color: var(--text); }
 
-        /* Table */
         .table-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
         .row { display: grid; grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px; gap: 8px; padding: 9px 16px; align-items: center; border-bottom: 1px solid var(--border); font-size: 12px; transition: background 0.2s ease; }
         .row:hover { background: var(--bg-card-hover); }
@@ -138,7 +126,6 @@
         .notes-cell { color: var(--text-dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .footnote { margin-top: 12px; font-size: 10px; color: var(--text-dim); text-align: right; letter-spacing: 1px; font-weight: 300; }
 
-        /* Analytics */
         .analytics-grid { display: grid; gap: 20px; }
         .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 12px 12px; transition: border-color 0.25s ease; }
         .chart-card:hover { border-color: var(--border-light); }
@@ -146,7 +133,6 @@
         .chart-card-body { height: 160px; }
         .empty-analytics { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 60px; text-align: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 0.5px; }
 
-        /* Modals */
         .token-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; }
         .token-modal.show { display: flex; }
         .token-modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 460px; width: 90%; }
@@ -157,7 +143,6 @@
         .token-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
         .token-modal .btn-row button { padding: 8px 20px; font-size: 12px; }
 
-        /* MT5 Login Modal */
         .mt5-login-modal { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.95); backdrop-filter: blur(12px); align-items: center; justify-content: center; }
         .mt5-login-modal.show { display: flex; }
         .mt5-login-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; max-width: 440px; width: 92%; position: relative; }
@@ -177,7 +162,6 @@
         .mt5-login-content .status-msg.error { display: block; background: rgba(255,51,85,0.05); border: 1px solid rgba(255,51,85,0.1); color: var(--red); }
         .mt5-login-content .status-msg.info { display: block; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--text-dim); }
 
-        /* MT5 Banner */
         .mt5-banner { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-left: 2px solid var(--text-dim); transition: border-color 0.3s ease; }
         .mt5-banner.connected { border-left-color: var(--green); }
         .mt5-banner .mt5-info { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--text-dim); flex-wrap: wrap; }
@@ -188,7 +172,6 @@
         .mt5-banner .mt5-info .mt5-account { font-size: 11px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
         .mt5-banner .mt5-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
-        /* Responsive */
         @media (max-width: 700px) {
             .row { grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px; gap: 4px; font-size: 10px; padding: 7px 10px; }
             .row-head { font-size: 8px; padding: 6px 10px; }
@@ -423,8 +406,6 @@
         let currentTab = "journal";
         let sessionFilter = "All";
         let githubToken = localStorage.getItem(TOKEN_STORAGE_KEY) || "";
-        let mt5Config = JSON.parse(localStorage.getItem(MT5_CONFIG_KEY) || '{"enabled":false,"connected":false}');
-        let mt5Credentials = JSON.parse(localStorage.getItem(MT5_CREDENTIALS_KEY) || '{}');
         let mt5IsConnected = false;
         let mt5AccountInfo = { login: '', server: '', name: '' };
 
@@ -707,7 +688,7 @@
         }
 
         // ============================================================
-        // MT5 INTEGRATION
+        // MT5 INTEGRATION - FIXED
         // ============================================================
         function updateMT5UI() {
             const statusEl = document.getElementById('mt5Status');
@@ -737,17 +718,24 @@
             el.textContent = message;
             el.className = 'status-msg ' + type;
             el.style.display = 'block';
-            setTimeout(() => { if (el.style.display === 'block') el.style.display = 'none'; }, 5000);
+            setTimeout(() => { 
+                if (el.style.display === 'block') {
+                    el.style.display = 'none';
+                }
+            }, 5000);
         }
 
         async function connectToMT5(credentials) {
             try {
+                console.log('📥 Connecting to MT5...', credentials);
                 const response = await fetch(`${MT5_API_URL}/connect`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(credentials)
                 });
                 const data = await response.json();
+                console.log('📥 MT5 Response:', data);
+                
                 if (data.success) {
                     mt5IsConnected = true;
                     mt5AccountInfo = data.account || { login: credentials.login, server: credentials.server };
@@ -758,6 +746,7 @@
                 }
                 throw new Error(data.error || 'Connection failed');
             } catch (error) {
+                console.error('❌ MT5 Connect Error:', error);
                 throw error;
             }
         }
@@ -771,12 +760,15 @@
         async function syncMT5History(credentials) {
             try {
                 showMT5Status('● Syncing history...', 'info');
+                console.log('📊 Syncing history...');
+                
                 const response = await fetch(`${MT5_API_URL}/history`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ days: 7 })
                 });
                 const data = await response.json();
+                console.log('📊 History Response:', data);
 
                 if (data.error) {
                     showMT5Status('● ' + data.error, 'error');
@@ -818,6 +810,7 @@
                         saveTrades();
                         render();
                         showMT5Status(`● Imported ${newTrades} trades`, 'success');
+                        console.log(`✅ Imported ${newTrades} trades`);
                     } else {
                         showMT5Status('○ No new trades found', 'info');
                     }
@@ -825,6 +818,7 @@
                     showMT5Status('○ No trade history found', 'info');
                 }
             } catch (error) {
+                console.error('❌ Sync error:', error);
                 showMT5Status('● Sync failed: ' + error.message, 'error');
             }
         }
@@ -990,7 +984,9 @@
             loadFromGitHub();
         });
 
-        // MT5
+        // ============================================================
+        // MT5 EVENTS - FIXED
+        // ============================================================
         document.getElementById('mt5LoginBtn2').addEventListener('click', () => {
             if (mt5IsConnected) {
                 disconnectMT5();
@@ -998,12 +994,15 @@
                 document.getElementById('mt5LoginModal').classList.add('show');
             }
         });
+        
         document.getElementById('mt5LoginCancel').addEventListener('click', () => {
             document.getElementById('mt5LoginModal').classList.remove('show');
         });
+        
         document.getElementById('mt5LoginModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) document.getElementById('mt5LoginModal').classList.remove('show');
         });
+        
         document.getElementById('mt5Server').addEventListener('change', function() {
             document.getElementById('customServerGroup').style.display = this.value === 'Custom' ? 'block' : 'none';
         });
@@ -1029,6 +1028,7 @@
                     document.getElementById('mt5LoginModal').classList.remove('show');
                     showMT5Status('● Connected successfully!', 'success');
                     document.getElementById('f-session').value = session;
+                    // Auto-sync history after connection
                     setTimeout(() => syncMT5History(credentials), 1000);
                 }
             } catch (error) {
@@ -1043,14 +1043,17 @@
                 alert('Please connect to MT5 first');
                 return;
             }
-            if (!mt5Credentials.login) {
-                alert('No MT5 credentials found');
+            const credentials = JSON.parse(localStorage.getItem(MT5_CREDENTIALS_KEY) || '{}');
+            if (!credentials.login) {
+                alert('No MT5 credentials found. Please login again.');
                 return;
             }
-            await syncMT5History(mt5Credentials);
+            await syncMT5History(credentials);
         });
 
-        // Voice
+        // ============================================================
+        // VOICE
+        // ============================================================
         function speakWelcome() {
             const audio = new Audio('welcome.mp3');
             audio.volume = 1.0;
@@ -1073,11 +1076,13 @@
             trades = loadTrades();
             
             // Check for saved MT5 connection
-            if (localStorage.getItem(MT5_CONFIG_KEY)) {
-                const config = JSON.parse(localStorage.getItem(MT5_CONFIG_KEY));
+            const savedConfig = localStorage.getItem(MT5_CONFIG_KEY);
+            if (savedConfig) {
+                const config = JSON.parse(savedConfig);
                 if (config.connected) {
                     mt5IsConnected = true;
-                    mt5AccountInfo = { login: 'Saved', server: 'MT5' };
+                    const creds = JSON.parse(localStorage.getItem(MT5_CREDENTIALS_KEY) || '{}');
+                    mt5AccountInfo = { login: creds.login || 'Saved', server: creds.server || 'MT5' };
                     updateMT5UI();
                 }
             }
@@ -1092,6 +1097,22 @@
             // Voice welcome
             setTimeout(speakWelcome, 500);
         }
+
+        // Check server connection
+        async function checkServer() {
+            try {
+                const response = await fetch(`${MT5_API_URL}/status`);
+                const data = await response.json();
+                console.log('🟢 Server status:', data);
+                return true;
+            } catch (error) {
+                console.log('🔴 Server not running:', error.message);
+                return false;
+            }
+        }
+
+        // Run server check
+        checkServer();
 
         init();
     </script>

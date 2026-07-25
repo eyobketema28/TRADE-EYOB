@@ -7,6 +7,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Sir Eyob Ledger" />
     <meta name="theme-color" content="#000000" />
+    <!-- Simple favicon - no SVG data URLs that break GitHub Pages -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>EY</text></svg>" />
     <title>Sir Eyob · Trade Ledger</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
@@ -35,8 +37,9 @@
 
         #splash { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
         #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        #splash-logo { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--text); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 40px; color: var(--text); background: rgba(255,255,255,0.02); margin-bottom: 30px; animation: pulse-white 3s ease-in-out infinite; }
-        @keyframes pulse-white { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        #splash-logo { width: 120px; height: 120px; object-fit: contain; margin-bottom: 30px; filter: drop-shadow(0 0 60px rgba(255,255,255,0.05)); animation: pulse-white 3s ease-in-out infinite; }
+        #splash-logo.fallback { border-radius: 50%; border: 2px solid var(--text); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 40px; color: var(--text); background: rgba(255,255,255,0.02); }
+        @keyframes pulse-white { 0%,100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.03)); transform: scale(1); } 50% { filter: drop-shadow(0 0 60px rgba(255,255,255,0.08)); transform: scale(1.02); } }
         #splash-title { font-size: 52px; font-weight: 900; letter-spacing: 10px; text-transform: uppercase; font-family: 'Orbitron', sans-serif; color: var(--text); }
         #splash-title .highlight { color: var(--text); opacity: 0.7; }
         #splash-sub { color: var(--text-dim); font-size: 16px; letter-spacing: 8px; text-transform: uppercase; margin-top: 8px; margin-bottom: 30px; font-weight: 300; }
@@ -62,7 +65,8 @@
 
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
         .brand { display: flex; align-items: center; gap: 14px; }
-        #app-logo { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--text); display: flex; align-items: center; justify-content: center; color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 14px; background: rgba(255,255,255,0.02); }
+        #app-logo { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 0 20px rgba(255,255,255,0.03)); }
+        #app-logo.fallback { border-radius: 50%; border: 1.5px solid var(--text); display: flex; align-items: center; justify-content: center; color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 14px; background: rgba(255,255,255,0.02); }
         .title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 3px; text-transform: uppercase; color: var(--text); }
         .title .highlight { opacity: 0.6; }
         .subtitle { color: var(--text-dim); font-size: 11px; margin-top: 2px; letter-spacing: 1.5px; font-weight: 300; }
@@ -74,8 +78,6 @@
         .btn-primary { background: var(--text); color: var(--bg); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
         .btn-primary:hover { opacity: 0.8; transform: scale(1.02); }
         .btn-cancel { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
-        .btn-danger { background: var(--red); color: var(--text); }
-        .btn-danger:hover { opacity: 0.8; }
 
         .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
         .tab { background: none; border: none; cursor: pointer; padding: 10px 8px 10px; margin-right: 32px; color: var(--text-dim); border-bottom: 2px solid transparent; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; }
@@ -88,7 +90,6 @@
         .stat-value { font-size: 18px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
         .tone-green { color: var(--green); }
         .tone-red { color: var(--red); }
-        .tone-white { color: var(--text); }
 
         form.entry-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
         .field { display: flex; flex-direction: column; gap: 4px; font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
@@ -189,7 +190,7 @@
 
     <!-- SPLASH -->
     <div id="splash">
-        <div id="splash-logo">EY</div>
+        <img id="splash-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'splash-logo\' class=\'fallback\'>EY</div>'">
         <div id="splash-title">WELCOME <span class="highlight">SIR</span> <span class="highlight">EYOB</span></div>
         <div id="splash-sub">discipline is the <span class="highlight">edge</span></div>
         <div id="splash-quote-box">
@@ -211,7 +212,7 @@
 
         <div class="header">
             <div class="brand">
-                <div id="app-logo">EY</div>
+                <img id="app-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'app-logo\' class=\'fallback\'>EY</div>'">
                 <div>
                     <div class="title">SIR <span class="highlight">EYOB</span> <span style="color:var(--text-dim);font-size:13px;letter-spacing:1px;">· LEDGER</span></div>
                     <div class="subtitle">a running record of every <span class="highlight">position</span></div>
@@ -849,15 +850,13 @@
         });
 
         // ============================================================
-        // VOICE - Audio file name is welcome.mp3
+        // VOICE - Audio file is welcome.mp3
         // ============================================================
         function speakWelcome() {
-            // Try to play welcome.mp3 first
             const audio = new Audio('welcome.mp3');
             audio.volume = 1.0;
             
             audio.onerror = function() {
-                // Fallback to speech synthesis if audio fails
                 if ('speechSynthesis' in window) {
                     const msg = new SpeechSynthesisUtterance('Welcome Sir Eyob');
                     msg.lang = 'en-US';
@@ -867,7 +866,6 @@
             };
             
             audio.play().catch(function() {
-                // Fallback to speech synthesis
                 if ('speechSynthesis' in window) {
                     const msg = new SpeechSynthesisUtterance('Welcome Sir Eyob');
                     msg.lang = 'en-US';

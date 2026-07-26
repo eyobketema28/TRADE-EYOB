@@ -34,22 +34,112 @@
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
 
-        #splash { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
-        #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        #splash-logo { width: 120px; height: 120px; object-fit: contain; margin-bottom: 30px; filter: drop-shadow(0 0 60px rgba(255,255,255,0.05)); animation: pulse-white 3s ease-in-out infinite; }
-        #splash-logo.fallback { border-radius: 50%; border: 2px solid var(--text); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 40px; color: var(--text); background: rgba(255,255,255,0.02); }
-        @keyframes pulse-white { 0%,100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.03)); transform: scale(1); } 50% { filter: drop-shadow(0 0 60px rgba(255,255,255,0.08)); transform: scale(1.02); } }
-        #splash-title { font-size: 52px; font-weight: 900; letter-spacing: 10px; text-transform: uppercase; font-family: 'Orbitron', sans-serif; color: var(--text); }
+        /* SPLASH SCREEN */
+        #splash { 
+            position: fixed; 
+            inset: 0; 
+            z-index: 10000; 
+            background: var(--bg); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 30px; 
+            text-align: center; 
+            transition: opacity 0.8s ease, visibility 0.8s ease; 
+        }
+        #splash.hidden { 
+            opacity: 0; 
+            visibility: hidden; 
+            pointer-events: none; 
+        }
+        #splash-logo { 
+            width: 120px; 
+            height: 120px; 
+            object-fit: contain; 
+            margin-bottom: 30px; 
+            filter: drop-shadow(0 0 60px rgba(255,255,255,0.05)); 
+            animation: pulse-white 3s ease-in-out infinite; 
+        }
+        #splash-logo.fallback { 
+            border-radius: 50%; 
+            border: 2px solid var(--text); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 40px; 
+            color: var(--text); 
+            background: rgba(255,255,255,0.02); 
+        }
+        @keyframes pulse-white { 
+            0%,100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.03)); transform: scale(1); } 
+            50% { filter: drop-shadow(0 0 60px rgba(255,255,255,0.08)); transform: scale(1.02); } 
+        }
+        #splash-title { 
+            font-size: 52px; 
+            font-weight: 900; 
+            letter-spacing: 10px; 
+            text-transform: uppercase; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--text); 
+        }
         #splash-title .highlight { color: var(--text); opacity: 0.7; }
-        #splash-sub { color: var(--text-dim); font-size: 16px; letter-spacing: 8px; text-transform: uppercase; margin-top: 8px; margin-bottom: 30px; font-weight: 300; }
+        #splash-sub { 
+            color: var(--text-dim); 
+            font-size: 16px; 
+            letter-spacing: 8px; 
+            text-transform: uppercase; 
+            margin-top: 8px; 
+            margin-bottom: 30px; 
+            font-weight: 300; 
+        }
         #splash-sub .highlight { color: var(--text); }
-        #splash-quote-box { max-width: 540px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-card); padding: 28px 32px; margin-bottom: 30px; }
-        #splash-quote { font-size: 18px; font-weight: 300; line-height: 1.6; color: var(--text-dim); font-style: italic; font-family: 'Rajdhani', sans-serif; }
+        #splash-quote-box { 
+            max-width: 540px; 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            background: var(--bg-card); 
+            padding: 28px 32px; 
+            margin-bottom: 30px; 
+        }
+        #splash-quote { 
+            font-size: 18px; 
+            font-weight: 300; 
+            line-height: 1.6; 
+            color: var(--text-dim); 
+            font-style: italic; 
+            font-family: 'Rajdhani', sans-serif; 
+        }
         #splash-quote::before { content: "“"; color: var(--text); font-size: 24px; font-family: 'Georgia', serif; }
         #splash-quote::after { content: "”"; color: var(--text); font-size: 24px; font-family: 'Georgia', serif; }
-        #splash-date { margin-top: 12px; font-size: 11px; letter-spacing: 4px; color: var(--text-dim); text-transform: uppercase; font-weight: 300; }
-        #enterBtn { background: transparent; color: var(--text); border: 1.5px solid var(--text); border-radius: 50px; padding: 16px 56px; font-family: 'Orbitron', sans-serif; font-size: 13px; letter-spacing: 5px; text-transform: uppercase; cursor: pointer; transition: all 0.4s ease; }
-        #enterBtn:hover { background: var(--text); color: var(--bg); box-shadow: 0 0 60px rgba(255,255,255,0.05); transform: scale(1.02); }
+        #splash-date { 
+            margin-top: 12px; 
+            font-size: 11px; 
+            letter-spacing: 4px; 
+            color: var(--text-dim); 
+            text-transform: uppercase; 
+            font-weight: 300; 
+        }
+        #enterBtn { 
+            background: transparent; 
+            color: var(--text); 
+            border: 1.5px solid var(--text); 
+            border-radius: 50px; 
+            padding: 16px 56px; 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 13px; 
+            letter-spacing: 5px; 
+            text-transform: uppercase; 
+            cursor: pointer; 
+            transition: all 0.4s ease; 
+        }
+        #enterBtn:hover { 
+            background: var(--text); 
+            color: var(--bg); 
+            box-shadow: 0 0 60px rgba(255,255,255,0.05); 
+            transform: scale(1.02); 
+        }
 
         .greeting-banner { display: flex; align-items: center; gap: 16px; border: 1px solid var(--border); background: var(--bg-card); border-radius: 10px; padding: 12px 20px; margin-bottom: 24px; font-size: 14px; color: var(--text-dim); flex-wrap: wrap; }
         .greeting-banner .greeting-name { color: var(--text); font-weight: 700; font-size: 17px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
@@ -309,14 +399,16 @@
         // ============================================================
         // TOAST NOTIFICATION
         // ============================================================
-        function showToast(message, type = '') {
-            const toast = document.getElementById('toast');
+        function showToast(message, type) {
+            type = type || '';
+            var toast = document.getElementById('toast');
             toast.textContent = message;
             toast.className = 'toast ' + type;
+            // Force reflow
             void toast.offsetWidth;
             toast.classList.add('show');
             clearTimeout(toast._timeout);
-            toast._timeout = setTimeout(() => {
+            toast._timeout = setTimeout(function() {
                 toast.classList.remove('show');
             }, 3000);
         }
@@ -325,16 +417,16 @@
         // TRADE FUNCTIONS
         // ============================================================
         function todaysQuote() {
-            const start = new Date(new Date().getFullYear(), 0, 0);
-            const diff = new Date() - start;
+            var start = new Date(new Date().getFullYear(), 0, 0);
+            var diff = new Date() - start;
             return QUOTES[Math.floor(diff / 86400000) % QUOTES.length];
         }
 
         function loadTrades() {
             try { 
-                const data = localStorage.getItem(STORAGE_KEY);
+                var data = localStorage.getItem(STORAGE_KEY);
                 return data ? JSON.parse(data) : []; 
-            } catch { 
+            } catch(e) { 
                 return []; 
             }
         }
@@ -351,17 +443,17 @@
         }
 
         function calcR(direction, entry, stop, exit) {
-            const e = parseFloat(entry), s = parseFloat(stop), x = parseFloat(exit);
-            if ([e, s, x].some(v => isNaN(v))) return null;
-            const risk = Math.abs(e - s);
+            var e = parseFloat(entry), s = parseFloat(stop), x = parseFloat(exit);
+            if ([e, s, x].some(function(v) { return isNaN(v); })) return null;
+            var risk = Math.abs(e - s);
             if (risk === 0) return null;
-            const reward = direction === "Long" ? x - e : e - x;
+            var reward = direction === "Long" ? x - e : e - x;
             return reward / risk;
         }
 
         function calcPnl(direction, entry, exit, size) {
-            const e = parseFloat(entry), x = parseFloat(exit), sz = parseFloat(size);
-            if ([e, x, sz].some(v => isNaN(v)) || sz <= 0) return null;
+            var e = parseFloat(entry), x = parseFloat(exit), sz = parseFloat(size);
+            if ([e, x, sz].some(function(v) { return isNaN(v); }) || sz <= 0) return null;
             return direction === "Long" ? (x - e) * sz : (e - x) * sz;
         }
 
@@ -380,7 +472,7 @@
         // GITHUB SYNC
         // ============================================================
         function updateGithubStatus(text, type) {
-            const el = document.getElementById('githubStatus');
+            var el = document.getElementById('githubStatus');
             if (!el) return;
             el.textContent = text;
             el.className = 'github-status';
@@ -398,34 +490,34 @@
             updateGithubStatus('● Saving...', 'saving');
 
             try {
-                const data = JSON.stringify(trades, null, 2);
-                const content = btoa(unescape(encodeURIComponent(data)));
+                var data = JSON.stringify(trades, null, 2);
+                var content = btoa(unescape(encodeURIComponent(data)));
 
-                let sha = null;
+                var sha = null;
                 try {
-                    const shaRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+                    var shaRes = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_PATH, {
                         headers: {
-                            'Authorization': `token ${githubToken}`,
+                            'Authorization': 'token ' + githubToken,
                             'Accept': 'application/vnd.github.v3+json'
                         }
                     });
                     if (shaRes.ok) {
-                        const file = await shaRes.json();
+                        var file = await shaRes.json();
                         sha = file.sha;
                     }
                 } catch (e) {
                     console.log('File not found, creating new');
                 }
 
-                const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+                var putRes = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_PATH, {
                     method: 'PUT',
                     headers: {
-                        'Authorization': `token ${githubToken}`,
+                        'Authorization': 'token ' + githubToken,
                         'Content-Type': 'application/json',
                         'Accept': 'application/vnd.github.v3+json'
                     },
                     body: JSON.stringify({
-                        message: `Update trades - ${new Date().toISOString().slice(0, 10)}`,
+                        message: 'Update trades - ' + new Date().toISOString().slice(0, 10),
                         content: content,
                         sha: sha || undefined,
                         branch: 'main'
@@ -433,15 +525,15 @@
                 });
 
                 if (putRes.ok) {
-                    updateGithubStatus(`● ${trades.length} saved`, 'success');
-                    showToast(`✅ ${trades.length} trades saved to GitHub`, 'success');
-                    setTimeout(() => { 
-                        if (!isSaving) updateGithubStatus(`● ${trades.length} on GitHub`, 'success'); 
+                    updateGithubStatus('● ' + trades.length + ' saved', 'success');
+                    showToast('✅ ' + trades.length + ' trades saved to GitHub', 'success');
+                    setTimeout(function() { 
+                        if (!isSaving) updateGithubStatus('● ' + trades.length + ' on GitHub', 'success'); 
                     }, 3000);
                     return true;
                 } else {
-                    const err = await putRes.json();
-                    throw new Error(err.message || `Failed: ${putRes.status}`);
+                    var err = await putRes.json();
+                    throw new Error(err.message || 'Failed: ' + putRes.status);
                 }
             } catch (error) {
                 console.error('Save error:', error);
@@ -460,31 +552,31 @@
             updateGithubStatus('● Syncing...', 'syncing');
 
             try {
-                const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+                var res = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_PATH, {
                     headers: {
-                        'Authorization': `token ${githubToken}`,
+                        'Authorization': 'token ' + githubToken,
                         'Accept': 'application/vnd.github.v3+json'
                     }
                 });
 
                 if (res.ok) {
-                    const file = await res.json();
-                    const content = JSON.parse(atob(file.content));
+                    var file = await res.json();
+                    var content = JSON.parse(atob(file.content));
 
                     if (Array.isArray(content)) {
-                        const currentData = JSON.stringify(trades);
-                        const newData = JSON.stringify(content);
+                        var currentData = JSON.stringify(trades);
+                        var newData = JSON.stringify(content);
 
                         if (currentData !== newData) {
                             trades = content;
                             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
                             render();
-                            updateGithubStatus(`● ${trades.length} synced`, 'success');
-                            showToast(`✅ Synced ${trades.length} trades from GitHub`, 'success');
+                            updateGithubStatus('● ' + trades.length + ' synced', 'success');
+                            showToast('✅ Synced ' + trades.length + ' trades from GitHub', 'success');
                             return true;
                         } else {
-                            updateGithubStatus(`● ${trades.length} up to date`, 'success');
-                            showToast(`✅ ${trades.length} trades are up to date`, 'success');
+                            updateGithubStatus('● ' + trades.length + ' up to date', 'success');
+                            showToast('✅ ' + trades.length + ' trades are up to date', 'success');
                             return true;
                         }
                     }
@@ -493,8 +585,8 @@
                     showToast('ℹ️ No trades file found on GitHub', '');
                     return false;
                 } else {
-                    const err = await res.json();
-                    throw new Error(err.message || `GitHub error: ${res.status}`);
+                    var err = await res.json();
+                    throw new Error(err.message || 'GitHub error: ' + res.status);
                 }
             } catch (error) {
                 console.error('Load error:', error);
@@ -508,7 +600,7 @@
 
         function startAutoSync() {
             if (syncTimer) clearInterval(syncTimer);
-            syncTimer = setInterval(() => {
+            syncTimer = setInterval(function() {
                 if (githubToken && githubToken.length > 10) {
                     loadFromGitHub();
                 }
@@ -519,72 +611,77 @@
         // STATS
         // ============================================================
         function computeStats() {
-            const withR = trades.filter(t => t.r !== null && t.r !== undefined);
-            const wins = withR.filter(t => outcome(t.r) === "win").length;
-            const losses = withR.filter(t => outcome(t.r) === "loss").length;
-            const total = withR.length;
-            const winRate = total ? (wins / total) * 100 : 0;
-            const totalR = withR.reduce((s, t) => s + t.r, 0);
-            const avgR = total ? totalR / total : 0;
-            const expectancy = total ? totalR / total : 0;
-            let streak = 0, streakType = null;
-            for (let i = withR.length - 1; i >= 0; i--) {
-                const o = outcome(withR[i].r);
+            var withR = trades.filter(function(t) { return t.r !== null && t.r !== undefined; });
+            var wins = withR.filter(function(t) { return outcome(t.r) === "win"; }).length;
+            var losses = withR.filter(function(t) { return outcome(t.r) === "loss"; }).length;
+            var total = withR.length;
+            var winRate = total ? (wins / total) * 100 : 0;
+            var totalR = withR.reduce(function(s, t) { return s + t.r; }, 0);
+            var avgR = total ? totalR / total : 0;
+            var expectancy = total ? totalR / total : 0;
+            var streak = 0, streakType = null;
+            for (var i = withR.length - 1; i >= 0; i--) {
+                var o = outcome(withR[i].r);
                 if (o === "flat") break;
                 if (!streakType) { streakType = o; streak = 1; }
                 else if (o === streakType) streak++;
                 else break;
             }
-            let cum = 0, peak = 0;
-            const curve = withR.map(t => {
+            var cum = 0, peak = 0;
+            var curve = withR.map(function(t) {
                 cum += t.r;
                 peak = Math.max(peak, cum);
                 return { cum: +cum.toFixed(2), drawdown: +(cum - peak).toFixed(2) };
             });
-            const maxDD = curve.length ? Math.min(...curve.map(c => c.drawdown)) : 0;
-            return { total, wins, losses, winRate, totalR, avgR, expectancy, streak, streakType, curve, maxDD };
+            var maxDD = curve.length ? Math.min.apply(null, curve.map(function(c) { return c.drawdown; })) : 0;
+            return { total: total, wins: wins, losses: losses, winRate: winRate, totalR: totalR, avgR: avgR, expectancy: expectancy, streak: streak, streakType: streakType, curve: curve, maxDD: maxDD };
         }
 
         // ============================================================
         // CHARTS
         // ============================================================
         function svgLineChart(data, opts) {
-            const w = 600, h = opts.height || 140, pad = 12;
-            if (data.length < 2) return `<div class="chart-empty">need more data</div>`;
-            const vals = data.map(d => d.value);
-            const min = Math.min(0, ...vals), max = Math.max(0, ...vals);
-            const range = max - min || 1;
-            const x = i => pad + (i / (data.length - 1)) * (w - pad * 2);
-            const y = v => h - pad - ((v - min) / range) * (h - pad * 2);
-            const zeroY = y(0);
-            const points = data.map((d, i) => `${x(i)},${y(d.value)}`).join(" ");
-            const fillPath = opts.fill ? `<polygon points="${x(0)},${zeroY} ${points} ${x(data.length-1)},${zeroY}" fill="${opts.fill}" opacity="0.06"/>` : '';
-            return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%">
-            <line x1="${pad}" y1="${zeroY}" x2="${w-pad}" y2="${zeroY}" stroke="#1A1A1A" stroke-dasharray="3,4"/>
-            ${fillPath}
-            <polyline points="${points}" fill="none" stroke="${opts.stroke || '#FFFFFF'}" stroke-width="2.5" opacity="0.9"/>
-          </svg>`;
+            var w = 600, h = opts.height || 140, pad = 12;
+            if (data.length < 2) return '<div class="chart-empty">need more data</div>';
+            var vals = data.map(function(d) { return d.value; });
+            var min = Math.min.apply(null, [0].concat(vals));
+            var max = Math.max.apply(null, [0].concat(vals));
+            var range = max - min || 1;
+            var x = function(i) { return pad + (i / (data.length - 1)) * (w - pad * 2); };
+            var y = function(v) { return h - pad - ((v - min) / range) * (h - pad * 2); };
+            var zeroY = y(0);
+            var points = data.map(function(d, i) { return x(i) + ',' + y(d.value); }).join(' ');
+            var fillPath = opts.fill ? '<polygon points="' + x(0) + ',' + zeroY + ' ' + points + ' ' + x(data.length-1) + ',' + zeroY + '" fill="' + opts.fill + '" opacity="0.06"/>' : '';
+            return '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" height="100%">' +
+                '<line x1="' + pad + '" y1="' + zeroY + '" x2="' + (w-pad) + '" y2="' + zeroY + '" stroke="#1A1A1A" stroke-dasharray="3,4"/>' +
+                fillPath +
+                '<polyline points="' + points + '" fill="none" stroke="' + (opts.stroke || '#FFFFFF') + '" stroke-width="2.5" opacity="0.9"/>' +
+            '</svg>';
         }
 
         function svgBarChart(data) {
-            const w = 600, h = 150, pad = 8, gap = 6;
-            if (!data.length) return `<div class="chart-empty">no data</div>`;
-            const vals = data.map(d => d.value);
-            const min = Math.min(0, ...vals), max = Math.max(0, ...vals);
-            const range = (max - min) || 1;
-            const barW = Math.min((w - pad * 2 - gap * (data.length - 1)) / data.length, 40);
-            const zeroY = h - 24 - ((0 - min) / range) * (h - 24 - pad);
-            let bars = '', labels = '';
-            data.forEach((d, i) => {
-                const bx = pad + i * (barW + gap);
-                const by = h - 24 - ((d.value - min) / range) * (h - 24 - pad);
-                const barTop = Math.min(by, zeroY);
-                const barH = Math.abs(by - zeroY);
-                const color = d.value >= 0 ? '#00FF88' : '#FF3355';
-                bars += `<rect x="${bx}" y="${barTop}" width="${barW}" height="${Math.max(barH, 1)}" fill="${color}" rx="2" opacity="0.85"/>`;
-                labels += `<text x="${bx+barW/2}" y="${h-6}" font-size="8" fill="#666" text-anchor="middle">${d.label}</text>`;
+            var w = 600, h = 150, pad = 8, gap = 6;
+            if (!data.length) return '<div class="chart-empty">no data</div>';
+            var vals = data.map(function(d) { return d.value; });
+            var min = Math.min.apply(null, [0].concat(vals));
+            var max = Math.max.apply(null, [0].concat(vals));
+            var range = (max - min) || 1;
+            var barW = Math.min((w - pad * 2 - gap * (data.length - 1)) / data.length, 40);
+            var zeroY = h - 24 - ((0 - min) / range) * (h - 24 - pad);
+            var bars = '', labels = '';
+            data.forEach(function(d, i) {
+                var bx = pad + i * (barW + gap);
+                var by = h - 24 - ((d.value - min) / range) * (h - 24 - pad);
+                var barTop = Math.min(by, zeroY);
+                var barH = Math.abs(by - zeroY);
+                var color = d.value >= 0 ? '#00FF88' : '#FF3355';
+                bars += '<rect x="' + bx + '" y="' + barTop + '" width="' + barW + '" height="' + Math.max(barH, 1) + '" fill="' + color + '" rx="2" opacity="0.85"/>';
+                labels += '<text x="' + (bx + barW / 2) + '" y="' + (h - 6) + '" font-size="8" fill="#666" text-anchor="middle">' + d.label + '</text>';
             });
-            return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%"><line x1="${pad}" y1="${zeroY}" x2="${w-pad}" y2="${zeroY}" stroke="#1A1A1A"/>${bars}${labels}</svg>`;
+            return '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" height="100%">' +
+                '<line x1="' + pad + '" y1="' + zeroY + '" x2="' + (w-pad) + '" y2="' + zeroY + '" stroke="#1A1A1A"/>' +
+                bars + labels +
+            '</svg>';
         }
 
         // ============================================================
@@ -607,114 +704,139 @@
         }
 
         function renderTabs() {
-            document.querySelectorAll(".tab").forEach(el => el.classList.toggle("active", el.dataset.tab === currentTab));
+            var tabs = document.querySelectorAll(".tab");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.toggle("active", tabs[i].dataset.tab === currentTab);
+            }
         }
 
         function renderStats() {
-            const s = computeStats();
-            const cell = (label, value, tone) => `<div class="stat-cell"><div class="stat-label">${label}</div><div class="stat-value mono ${tone ? 'tone-'+tone : ''}">${value}</div></div>`;
-            document.getElementById("statsRow").innerHTML = [
-                cell("Win Rate", s.total ? s.winRate.toFixed(0) + "%" : "—"),
-                cell("Avg R", s.total ? fmtR(s.avgR) + "R" : "—", s.avgR > 0 ? "green" : s.avgR < 0 ? "red" : ""),
-                cell("Total R", s.total ? fmtR(s.totalR) + "R" : "—", s.totalR > 0 ? "green" : s.totalR < 0 ? "red" : ""),
-                cell("Expectancy", s.total ? fmtR(s.expectancy) + "R" : "—", s.expectancy > 0 ? "green" : s.expectancy < 0 ? "red" : ""),
-                cell("Max DD", s.total ? s.maxDD.toFixed(2) + "R" : "—", s.maxDD < 0 ? "red" : ""),
-                cell("Streak", s.streak ? s.streak + " " + (s.streakType === "win" ? "W" : "L") : "—", s.streakType === "win" ? "green" : s.streakType === "loss" ? "red" : ""),
-            ].join("");
+            var s = computeStats();
+            var cells = [
+                { label: "Win Rate", value: s.total ? s.winRate.toFixed(0) + "%" : "—" },
+                { label: "Avg R", value: s.total ? fmtR(s.avgR) + "R" : "—", tone: s.avgR > 0 ? "green" : s.avgR < 0 ? "red" : "" },
+                { label: "Total R", value: s.total ? fmtR(s.totalR) + "R" : "—", tone: s.totalR > 0 ? "green" : s.totalR < 0 ? "red" : "" },
+                { label: "Expectancy", value: s.total ? fmtR(s.expectancy) + "R" : "—", tone: s.expectancy > 0 ? "green" : s.expectancy < 0 ? "red" : "" },
+                { label: "Max DD", value: s.total ? s.maxDD.toFixed(2) + "R" : "—", tone: s.maxDD < 0 ? "red" : "" },
+                { label: "Streak", value: s.streak ? s.streak + " " + (s.streakType === "win" ? "W" : "L") : "—", tone: s.streakType === "win" ? "green" : s.streakType === "loss" ? "red" : "" },
+            ];
+            var html = '';
+            for (var i = 0; i < cells.length; i++) {
+                html += '<div class="stat-cell"><div class="stat-label">' + cells[i].label + '</div><div class="stat-value mono ' + (cells[i].tone ? 'tone-' + cells[i].tone : '') + '">' + cells[i].value + '</div></div>';
+            }
+            document.getElementById("statsRow").innerHTML = html;
         }
 
         function renderEquityChart() {
-            const s = computeStats();
-            const el = document.getElementById("equityChart");
+            var s = computeStats();
+            var el = document.getElementById("equityChart");
             if (s.curve.length > 1) {
-                el.innerHTML = svgLineChart(s.curve.map(c => ({ value: c.cum })), { stroke: '#FFFFFF', fill: '#FFFFFF' });
+                el.innerHTML = svgLineChart(s.curve.map(function(c) { return { value: c.cum }; }), { stroke: '#FFFFFF', fill: '#FFFFFF' });
             } else {
-                el.innerHTML = `<div class="chart-empty">Log trades to see your equity curve</div>`;
+                el.innerHTML = '<div class="chart-empty">Log trades to see your equity curve</div>';
             }
         }
 
         function renderSessionFilters() {
-            const el = document.getElementById("sessionFilters");
-            const opts = ["All", ...SESSIONS];
-            el.innerHTML = opts.map(s => `<button class="chip ${sessionFilter === s ? 'active' : ''}" data-session="${s}">${s}</button>`).join("");
-            el.querySelectorAll(".chip").forEach(btn => {
-                btn.addEventListener("click", () => { sessionFilter = btn.dataset.session; render(); });
-            });
+            var el = document.getElementById("sessionFilters");
+            var opts = ["All"].concat(SESSIONS);
+            var html = '';
+            for (var i = 0; i < opts.length; i++) {
+                html += '<button class="chip ' + (sessionFilter === opts[i] ? 'active' : '') + '" data-session="' + opts[i] + '">' + opts[i] + '</button>';
+            }
+            el.innerHTML = html;
+            var chips = el.querySelectorAll(".chip");
+            for (var j = 0; j < chips.length; j++) {
+                chips[j].addEventListener("click", function() { 
+                    sessionFilter = this.dataset.session; 
+                    render(); 
+                });
+            }
         }
 
         function renderTable() {
-            const filtered = sessionFilter === "All" ? trades : trades.filter(t => t.session === sessionFilter);
-            const rowsEl = document.getElementById("tradeRows");
+            var filtered = sessionFilter === "All" ? trades : trades.filter(function(t) { return t.session === sessionFilter; });
+            var rowsEl = document.getElementById("tradeRows");
             if (filtered.length === 0) {
-                rowsEl.innerHTML = `<div class="row"><div class="row-empty">No trades logged yet.</div></div>`;
+                rowsEl.innerHTML = '<div class="row"><div class="row-empty">No trades logged yet.</div></div>';
                 return;
             }
-            rowsEl.innerHTML = [...filtered].reverse().map(t => {
-                const o = outcome(t.r);
-                const stampClass = o === "win" ? "stamp-win" : o === "loss" ? "stamp-loss" : "stamp-flat";
-                const tone = o === "win" ? "tone-green" : o === "loss" ? "tone-red" : "";
-                const dirColor = t.direction === "Long" ? "tone-green" : "tone-red";
-                const targetHit = t.target && t.r !== null && t.r >= t.target;
-                const targetBadge = targetHit ? '✓' : '';
-                return `<div class="row mono">
-              <span class="stamp ${stampClass}"></span>
-              <span style="color:var(--text-dim)">${t.date}</span>
-              <span style="font-weight:600;color:var(--text)">${t.symbol}</span>
-              <span class="${dirColor}">${t.direction}</span>
-              <span style="color:var(--text-dim);font-family:Rajdhani,sans-serif">${t.session}</span>
-              <span>${t.entry}</span><span>${t.stop}</span><span>${t.exit}</span>
-              <span class="${tone}">${fmtR(t.r)} ${targetBadge}</span>
-              <span class="${tone}">${t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—"}</span>
-              <span class="notes-cell">${(t.notes || "").replace(/</g, "&lt;")}</span>
-              <button class="del-btn" data-id="${t.id}" title="Delete trade">✕</button>
-            </div>`;
-            }).join("");
+            var html = '';
+            var reversed = filtered.slice().reverse();
+            for (var i = 0; i < reversed.length; i++) {
+                var t = reversed[i];
+                var o = outcome(t.r);
+                var stampClass = o === "win" ? "stamp-win" : o === "loss" ? "stamp-loss" : "stamp-flat";
+                var tone = o === "win" ? "tone-green" : o === "loss" ? "tone-red" : "";
+                var dirColor = t.direction === "Long" ? "tone-green" : "tone-red";
+                var targetHit = t.target && t.r !== null && t.r >= t.target;
+                var targetBadge = targetHit ? '✓' : '';
+                html += '<div class="row mono">' +
+                    '<span class="stamp ' + stampClass + '"></span>' +
+                    '<span style="color:var(--text-dim)">' + t.date + '</span>' +
+                    '<span style="font-weight:600;color:var(--text)">' + t.symbol + '</span>' +
+                    '<span class="' + dirColor + '">' + t.direction + '</span>' +
+                    '<span style="color:var(--text-dim);font-family:Rajdhani,sans-serif">' + t.session + '</span>' +
+                    '<span>' + t.entry + '</span><span>' + t.stop + '</span><span>' + t.exit + '</span>' +
+                    '<span class="' + tone + '">' + fmtR(t.r) + ' ' + targetBadge + '</span>' +
+                    '<span class="' + tone + '">' + (t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—") + '</span>' +
+                    '<span class="notes-cell">' + (t.notes || "").replace(/</g, "&lt;") + '</span>' +
+                    '<button class="del-btn" data-id="' + t.id + '" title="Delete trade">✕</button>' +
+                '</div>';
+            }
+            rowsEl.innerHTML = html;
             
-            rowsEl.querySelectorAll(".del-btn").forEach(btn => {
-                btn.addEventListener("click", function(e) {
+            var delBtns = rowsEl.querySelectorAll(".del-btn");
+            for (var j = 0; j < delBtns.length; j++) {
+                delBtns[j].addEventListener("click", function(e) {
                     e.stopPropagation();
-                    const id = this.dataset.id;
+                    var id = this.dataset.id;
                     if (confirm('Delete this trade?')) {
-                        trades = trades.filter(t => t.id !== id);
+                        trades = trades.filter(function(t) { return t.id !== id; });
                         saveTrades();
                         render();
                         showToast('🗑️ Trade deleted', '');
                     }
                 });
-            });
+            }
         }
 
         function renderAnalytics() {
-            const s = computeStats();
-            const el = document.getElementById("analyticsTab");
+            var s = computeStats();
+            var el = document.getElementById("analyticsTab");
             if (s.total < 2) {
-                el.innerHTML = `<div class="empty-analytics">Log more trades to unlock analytics.</div>`;
+                el.innerHTML = '<div class="empty-analytics">Log more trades to unlock analytics.</div>';
                 return;
             }
-            const bySession = SESSIONS.map(sess => {
-                const rows = trades.filter(t => t.session === sess && t.r !== null);
-                return { label: sess, value: rows.reduce((sum, t) => sum + t.r, 0) };
-            }).filter(s => s.value !== 0);
-            const byMonth = {};
-            trades.forEach(t => {
+            var bySession = SESSIONS.map(function(sess) {
+                var rows = trades.filter(function(t) { return t.session === sess && t.r !== null; });
+                return { label: sess, value: rows.reduce(function(sum, t) { return sum + t.r; }, 0) };
+            }).filter(function(s) { return s.value !== 0; });
+            var byMonth = {};
+            trades.forEach(function(t) {
                 if (t.r !== null) {
-                    const m = t.date.slice(0, 7);
+                    var m = t.date.slice(0, 7);
                     byMonth[m] = (byMonth[m] || 0) + t.r;
                 }
             });
-            const monthData = Object.keys(byMonth).sort().map(m => ({ label: m.slice(5), value: byMonth[m] }));
+            var monthData = Object.keys(byMonth).sort().map(function(m) { return { label: m.slice(5), value: byMonth[m] }; });
             
-            el.innerHTML = `<div class="analytics-grid">
-            ${bySession.length ? `<div class="chart-card"><div class="chart-card-title">Performance by Session</div><div class="chart-card-body">${svgBarChart(bySession)}</div></div>` : ''}
-            ${monthData.length ? `<div class="chart-card"><div class="chart-card-title">Monthly R</div><div class="chart-card-body">${svgBarChart(monthData)}</div></div>` : ''}
-          </div>`;
+            var html = '<div class="analytics-grid">';
+            if (bySession.length) {
+                html += '<div class="chart-card"><div class="chart-card-title">Performance by Session</div><div class="chart-card-body">' + svgBarChart(bySession) + '</div></div>';
+            }
+            if (monthData.length) {
+                html += '<div class="chart-card"><div class="chart-card-title">Monthly R</div><div class="chart-card-body">' + svgBarChart(monthData) + '</div></div>';
+            }
+            html += '</div>';
+            el.innerHTML = html;
         }
 
         // ============================================================
         // UI EVENTS
         // ============================================================
         // Splash - FIXED
-        const quoteText = todaysQuote();
+        var quoteText = todaysQuote();
         document.getElementById("splash-quote").textContent = quoteText;
         document.getElementById("bannerQuote").textContent = quoteText;
         document.getElementById("splash-date").textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -722,15 +844,16 @@
         // FIXED: Properly hide splash when Enter is clicked
         document.getElementById("enterBtn").addEventListener("click", function(e) {
             e.preventDefault();
-            document.getElementById("splash").classList.add("hidden");
+            var splash = document.getElementById("splash");
+            splash.classList.add("hidden");
         });
 
         // Form
         document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
         document.getElementById("toggleFormBtn").addEventListener("click", function() {
-            const form = document.getElementById("entryForm");
-            const btn = document.getElementById("toggleFormBtn");
-            const isOpen = form.style.display !== "none";
+            var form = document.getElementById("entryForm");
+            var btn = document.getElementById("toggleFormBtn");
+            var isOpen = form.style.display !== "none";
             form.style.display = isOpen ? "none" : "grid";
             btn.textContent = isOpen ? "+ New" : "Cancel";
             btn.className = isOpen ? "btn-primary" : "btn-cancel";
@@ -738,13 +861,13 @@
 
         document.getElementById("entryForm").addEventListener("submit", function(e) {
             e.preventDefault();
-            const symbol = document.getElementById("f-symbol").value.trim();
-            const entry = document.getElementById("f-entry").value;
-            const stop = document.getElementById("f-stop").value;
-            const exit = document.getElementById("f-exit").value;
+            var symbol = document.getElementById("f-symbol").value.trim();
+            var entry = document.getElementById("f-entry").value;
+            var stop = document.getElementById("f-stop").value;
+            var exit = document.getElementById("f-exit").value;
             if (!symbol || !entry || !stop || !exit) return;
             
-            const trade = {
+            var trade = {
                 id: uid(),
                 date: document.getElementById("f-date").value,
                 symbol: symbol.toUpperCase(),
@@ -762,7 +885,7 @@
                 mt5: false
             };
             trades.push(trade);
-            trades.sort((a, b) => a.date.localeCompare(b.date));
+            trades.sort(function(a, b) { return a.date.localeCompare(b.date); });
             saveTrades();
             this.reset();
             document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
@@ -775,20 +898,21 @@
         });
 
         // Tabs
-        document.querySelectorAll(".tab").forEach(function(el) {
-            el.addEventListener("click", function() { 
+        var tabs = document.querySelectorAll(".tab");
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].addEventListener("click", function() { 
                 currentTab = this.dataset.tab; 
                 render(); 
             });
-        });
+        }
 
         // Export/Import
         document.getElementById("exportBtn").addEventListener("click", function() {
-            const blob = new Blob([JSON.stringify(trades, null, 2)], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
+            var blob = new Blob([JSON.stringify(trades, null, 2)], { type: "application/json" });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
             a.href = url;
-            a.download = `trades-${new Date().toISOString().slice(0, 10)}.json`;
+            a.download = "trades-" + new Date().toISOString().slice(0, 10) + ".json";
             a.click();
             URL.revokeObjectURL(url);
             showToast('📤 Exported trades', 'success');
@@ -798,21 +922,21 @@
             document.getElementById("importFile").click(); 
         });
         document.getElementById("importFile").addEventListener("change", function(e) {
-            const file = this.files[0];
+            var file = this.files[0];
             if (!file) return;
-            const reader = new FileReader();
+            var reader = new FileReader();
             reader.onload = function(ev) {
                 try {
-                    const parsed = JSON.parse(ev.target.result);
+                    var parsed = JSON.parse(ev.target.result);
                     if (Array.isArray(parsed)) {
                         trades = parsed;
                         saveTrades();
                         render();
-                        showToast(`✅ Imported ${trades.length} trades`, 'success');
+                        showToast('✅ Imported ' + trades.length + ' trades', 'success');
                     } else {
                         showToast('❌ Invalid file format', 'error');
                     }
-                } catch { 
+                } catch(err) { 
                     showToast('❌ Failed to parse file', 'error');
                 }
             };
@@ -834,7 +958,7 @@
             if (e.target === this) document.getElementById("tokenModal").classList.remove("show");
         });
         document.getElementById("tokenSaveBtn").addEventListener("click", async function() {
-            const token = document.getElementById("tokenInput").value.trim();
+            var token = document.getElementById("tokenInput").value.trim();
             if (token && token.length > 10) {
                 githubToken = token;
                 localStorage.setItem(TOKEN_STORAGE_KEY, token);
@@ -860,12 +984,12 @@
         // VOICE - Audio file is welcome.mp3
         // ============================================================
         function speakWelcome() {
-            const audio = new Audio('welcome.mp3');
+            var audio = new Audio('welcome.mp3');
             audio.volume = 1.0;
             
             audio.onerror = function() {
                 if ('speechSynthesis' in window) {
-                    const msg = new SpeechSynthesisUtterance('Welcome Sir Eyob');
+                    var msg = new SpeechSynthesisUtterance('Welcome Sir Eyob');
                     msg.lang = 'en-US';
                     msg.rate = 0.9;
                     window.speechSynthesis.speak(msg);
@@ -874,7 +998,7 @@
             
             audio.play().catch(function() {
                 if ('speechSynthesis' in window) {
-                    const msg = new SpeechSynthesisUtterance('Welcome Sir Eyob');
+                    var msg = new SpeechSynthesisUtterance('Welcome Sir Eyob');
                     msg.lang = 'en-US';
                     msg.rate = 0.9;
                     window.speechSynthesis.speak(msg);
@@ -900,7 +1024,12 @@
             setTimeout(speakWelcome, 500);
         }
 
-        init();
+        // Make sure DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
     </script>
 </body>
 </html>

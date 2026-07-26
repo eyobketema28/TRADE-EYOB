@@ -277,6 +277,27 @@
         </div>
     </div>
 
+    <!-- METAAPI MODAL -->
+    <div class="token-modal" id="metaapiModal">
+        <div class="token-modal-content">
+            <h2>Connect MT5</h2>
+            <p>Connect your live/demo MT5 account via MetaApi.cloud for automatic trade sync.</p>
+            <p style="font-size:11px;color:var(--text-dim);">
+                Get a free API token at: <strong style="color:var(--text);">app.metaapi.cloud/token</strong><br>
+                Use your <strong style="color:var(--green);">investor (read-only)</strong> password, never your trading password.
+            </p>
+            <input type="password" id="metaapiTokenInput" placeholder="MetaApi token" />
+            <input type="text" id="metaapiLoginInput" placeholder="MT5 account login (number)" />
+            <input type="password" id="metaapiPasswordInput" placeholder="MT5 investor password" />
+            <input type="text" id="metaapiServerInput" placeholder="Broker server (e.g. ICMarketsSC-Demo)" />
+            <div id="metaapiStatusMsg" style="font-size:11px;color:var(--text-dim);margin-bottom:8px;min-height:14px;"></div>
+            <div class="btn-row">
+                <button class="btn-cancel" id="metaapiCancelBtn">Cancel</button>
+                <button class="btn-primary" id="metaapiConnectBtn">Connect</button>
+            </div>
+        </div>
+    </div>
+
     <!-- SPLASH -->
     <div id="splash">
         <img id="splash-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'splash-logo\' class=\'fallback\'>EY</div>'">
@@ -313,6 +334,8 @@
                 <input type="file" id="importFile" accept="application/json" style="display:none">
                 <button class="btn-ghost" id="mt5ImportBtn">MT5 Import</button>
                 <input type="file" id="mt5ImportFile" accept=".csv,.htm,.html,text/csv,text/html" style="display:none">
+                <button class="btn-ghost" id="metaapiBtn">MT5 Login</button>
+                <button class="btn-ghost" id="metaapiSyncBtn" style="display:none;">Sync MT5</button>
                 <button class="btn-ghost" id="githubTokenBtn">GitHub</button>
                 <button class="btn-ghost" id="syncBtn" style="display:none;">Sync</button>
                 <button class="btn-primary" id="toggleFormBtn">+ New</button>
@@ -399,6 +422,25 @@
         let syncTimer = null;
         let isDirty = false;
 
+        // MetaApi (MT5 live login) state — password is never persisted, only used transiently to connect
+        const MT5_STORAGE_PREFIX = 'trade-ledger:mt5-';
+        let mt5Config = {
+            token: localStorage.getItem(MT5_STORAGE_PREFIX + 'token') || '',
+            accountId: localStorage.getItem(MT5_STORAGE_PREFIX + 'account-id') || '',
+            region: localStorage.getItem(MT5_STORAGE_PREFIX + 'region') || '',
+            login: localStorage.getItem(MT5_STORAGE_PREFIX + 'login') || '',
+            server: localStorage.getItem(MT5_STORAGE_PREFIX + 'server') || '',
+            lastSync: localStorage.getItem(MT5_STORAGE_PREFIX + 'last-sync') || ''
+        };
+        function saveMt5Config() {
+            localStorage.setItem(MT5_STORAGE_PREFIX + 'token', mt5Config.token);
+            localStorage.setItem(MT5_STORAGE_PREFIX + 'account-id', mt5Config.accountId);
+            localStorage.setItem(MT5_STORAGE_PREFIX + 'region', mt5Config.region);
+            localStorage.setItem(MT5_STORAGE_PREFIX + 'login', mt5Config.login);
+            localStorage.setItem(MT5_STORAGE_PREFIX + 'server', mt5Config.server);
+            localStorage.setItem(MT5_STORAGE_PREFIX + 'last-sync', mt5Config.lastSync);
+        }
+
         // ============================================================
         // TOAST NOTIFICATION
         // ============================================================
@@ -475,6 +517,39 @@
         // ============================================================
         // GITHUB SYNC
         // ============================================================
+        function utf8ToBase64(str) {
+            return btoa(unescape(encodeURIComponent(str)));
+        }
+
+        function base64ToUtf8(b64) {
+            // GitHub returns base64 with embedded newlines; strip them before decoding,
+            // and decode as UTF-8 (not Latin-1) so accented/curly characters in notes survive.
+            var clean = b64.replace(/\n/g, '');
+            return decodeURIComponent(escape(atob(clean)));
+        }
+
+        let cachedDefaultBranch = null;
+        async function getDefaultBranch() {
+            if (cachedDefaultBranch) return cachedDefaultBranch;
+            try {
+                var res = await fetch('https://api.github.com/repos/' + GITHUB_REPO, {
+                    headers: {
+                        'Authorization': 'token ' + githubToken,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                if (res.ok) {
+                    var info = await res.json();
+                    cachedDefaultBranch = info.default_branch || 'main';
+                } else {
+                    cachedDefaultBranch = 'main';
+                }
+            } catch (e) {
+                cachedDefaultBranch = 'main';
+            }
+            return cachedDefaultBranch;
+        }
+
         function updateGithubStatus(text, type) {
             var el = document.getElementById('githubStatus');
             if (!el) return;
@@ -495,11 +570,12 @@
 
             try {
                 var data = JSON.stringify(trades, null, 2);
-                var content = btoa(unescape(encodeURIComponent(data)));
+                var content = utf8ToBase64(data);
 
+                var branch = await getDefaultBranch();
                 var sha = null;
                 try {
-                    var shaRes = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_PATH, {
+                    var shaRes = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_PATH + '?ref=' + branch, {
                         headers: {
                             'Authorization': 'token ' + githubToken,
                             'Accept': 'application/vnd.github.v3+json'
@@ -508,8 +584,12 @@
                     if (shaRes.ok) {
                         var file = await shaRes.json();
                         sha = file.sha;
+                    } else if (shaRes.status !== 404) {
+                        var shaErr = await shaRes.json().catch(function() { return {}; });
+                        throw new Error((shaErr.message || ('HTTP ' + shaRes.status)) + ' (checking existing file)');
                     }
                 } catch (e) {
+                    if (e.message && e.message.indexOf('checking existing file') !== -1) throw e;
                     console.log('File not found, creating new');
                 }
 
@@ -524,7 +604,7 @@
                         message: 'Update trades - ' + new Date().toISOString().slice(0, 10),
                         content: content,
                         sha: sha || undefined,
-                        branch: 'main'
+                        branch: branch
                     })
                 });
 
@@ -537,8 +617,8 @@
                     }, 3000);
                     return true;
                 } else {
-                    var err = await putRes.json();
-                    throw new Error(err.message || 'Failed: ' + putRes.status);
+                    var err = await putRes.json().catch(function() { return {}; });
+                    throw new Error((err.message || ('HTTP ' + putRes.status)) + ' (save)');
                 }
             } catch (error) {
                 console.error('Save error:', error);
@@ -565,7 +645,8 @@
             updateGithubStatus('● Syncing...', 'syncing');
 
             try {
-                var res = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_PATH, {
+                var branch = await getDefaultBranch();
+                var res = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_PATH + '?ref=' + branch, {
                     headers: {
                         'Authorization': 'token ' + githubToken,
                         'Accept': 'application/vnd.github.v3+json'
@@ -574,7 +655,12 @@
 
                 if (res.ok) {
                     var file = await res.json();
-                    var content = JSON.parse(atob(file.content));
+                    var content;
+                    try {
+                        content = JSON.parse(base64ToUtf8(file.content));
+                    } catch (parseErr) {
+                        throw new Error('the file on GitHub isn\'t valid JSON (parse error)');
+                    }
 
                     if (Array.isArray(content)) {
                         // Double-check nothing changed locally while we were fetching.
@@ -598,18 +684,29 @@
                             return true;
                         }
                     }
+                    updateGithubStatus('● Bad file format', 'error');
+                    showToast('❌ trades.json on GitHub is not a list of trades', 'error');
+                    return false;
                 } else if (res.status === 404) {
                     updateGithubStatus('● No file on GitHub', '');
                     showToast('ℹ️ No trades file found on GitHub', '');
                     return false;
+                } else if (res.status === 401) {
+                    updateGithubStatus('● Bad token', 'error');
+                    showToast('❌ GitHub rejected the token (401 Bad credentials) — click GitHub button to re-enter it', 'error');
+                    return false;
+                } else if (res.status === 403) {
+                    updateGithubStatus('● Access denied', 'error');
+                    showToast('❌ GitHub returned 403 — check token scope/repo access or rate limit', 'error');
+                    return false;
                 } else {
-                    var err = await res.json();
-                    throw new Error(err.message || 'GitHub error: ' + res.status);
+                    var err = await res.json().catch(function() { return {}; });
+                    throw new Error((err.message || ('HTTP ' + res.status)));
                 }
             } catch (error) {
                 console.error('Load error:', error);
                 updateGithubStatus('● Sync failed', 'error');
-                showToast('❌ Failed to sync from GitHub: ' + error.message, 'error');
+                showToast('❌ Sync failed: ' + error.message, 'error');
                 return false;
             } finally {
                 isSyncing = false;
@@ -1142,6 +1239,174 @@
         }
 
         // ============================================================
+        // METAAPI (live MT5 login + auto sync)
+        // ============================================================
+        const MT5_PROVISIONING_BASE = 'https://mt-provisioning-api-v1.agiliumtrade.agiliumtrade.ai';
+
+        function uuidv4() {
+            if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function sleep(ms) { return new Promise(function(res) { setTimeout(res, ms); }); }
+
+        function mt5Headers(token, extra) {
+            var h = { 'auth-token': token, 'Content-Type': 'application/json', 'Accept': 'application/json' };
+            if (extra) for (var k in extra) h[k] = extra[k];
+            return h;
+        }
+
+        async function findOrCreateMt5Account(token, login, password, server) {
+            var listRes = await fetch(MT5_PROVISIONING_BASE + '/users/current/accounts', { headers: mt5Headers(token) });
+            if (!listRes.ok) {
+                var lerr = await listRes.json().catch(function() { return {}; });
+                throw new Error(lerr.message || ('Could not list MetaApi accounts (HTTP ' + listRes.status + ')'));
+            }
+            var listData = await listRes.json();
+            var items = Array.isArray(listData) ? listData : (listData.items || []);
+            var existing = items.find(function(a) { return String(a.login) === String(login) && a.server === server; });
+            if (existing) return existing;
+
+            var createRes = await fetch(MT5_PROVISIONING_BASE + '/users/current/accounts', {
+                method: 'POST',
+                headers: mt5Headers(token, { 'transaction-id': uuidv4() }),
+                body: JSON.stringify({
+                    login: String(login),
+                    password: password,
+                    name: 'Sir Eyob Ledger',
+                    server: server,
+                    platform: 'mt5',
+                    magic: Math.floor(Math.random() * 900000) + 100000
+                })
+            });
+            var createData = await createRes.json().catch(function() { return {}; });
+            if (!createRes.ok) {
+                throw new Error(createData.message || ('Could not create MetaApi account (HTTP ' + createRes.status + ')'));
+            }
+            return { _id: createData.id, state: createData.state };
+        }
+
+        async function waitForMt5Deployed(token, accountId) {
+            for (var i = 0; i < 20; i++) {
+                var res = await fetch(MT5_PROVISIONING_BASE + '/users/current/accounts/' + accountId, { headers: mt5Headers(token) });
+                if (!res.ok) {
+                    var derr = await res.json().catch(function() { return {}; });
+                    throw new Error(derr.message || ('Could not read account status (HTTP ' + res.status + ')'));
+                }
+                var data = await res.json();
+                if (data.state === 'DEPLOYED') return data;
+                if (data.state === 'UNDEPLOYED') {
+                    await fetch(MT5_PROVISIONING_BASE + '/users/current/accounts/' + accountId + '/deploy', {
+                        method: 'POST', headers: mt5Headers(token)
+                    }).catch(function() {});
+                }
+                await sleep(3000);
+            }
+            throw new Error('Timed out waiting for MT5 account to deploy — check your login/password/server and try again');
+        }
+
+        async function fetchMt5Deals(token, accountId, region, fromISO, toISO) {
+            var url = 'https://mt-client-api-v1.' + region + '.agiliumtrade.ai/users/current/accounts/' + accountId + '/history-deals/time/' + fromISO + '/' + toISO;
+            var res = await fetch(url, { headers: { 'auth-token': token, 'Accept': 'application/json' } });
+            if (!res.ok) {
+                var err = await res.json().catch(function() { return {}; });
+                throw new Error(err.message || ('Could not fetch trade history (HTTP ' + res.status + ')'));
+            }
+            return await res.json();
+        }
+
+        function metaApiDealsToTrades(deals) {
+            var groups = {};
+            (deals || []).forEach(function(d) {
+                if (!d.positionId) return;
+                if (d.type === 'DEAL_TYPE_BALANCE' || d.type === 'DEAL_TYPE_CREDIT') return;
+                (groups[d.positionId] = groups[d.positionId] || []).push(d);
+            });
+            var out = [];
+            Object.keys(groups).forEach(function(pos) {
+                var legs = groups[pos];
+                var inLeg = legs.find(function(d) { return d.entryType === 'DEAL_ENTRY_IN'; });
+                var outLeg = legs.find(function(d) { return d.entryType === 'DEAL_ENTRY_OUT' || d.entryType === 'DEAL_ENTRY_OUT_BY'; });
+                if (!inLeg || !outLeg) return;
+                var direction = String(inLeg.type || '').toUpperCase().indexOf('SELL') !== -1 ? 'Short' : 'Long';
+                var profit = 0;
+                legs.forEach(function(d) {
+                    profit += (d.profit || 0) + (d.swap || 0) + (d.commission || 0);
+                });
+                out.push({
+                    date: String(outLeg.time || inLeg.time || '').slice(0, 10),
+                    symbol: String(inLeg.symbol || '').toUpperCase(),
+                    direction: direction,
+                    entry: inLeg.price,
+                    exit: outLeg.price,
+                    stop: null,
+                    size: inLeg.volume || 0,
+                    pnl: +profit.toFixed(2),
+                    notes: inLeg.comment || outLeg.comment || ''
+                });
+            });
+            return out.filter(function(t) { return t.symbol && t.entry != null && t.exit != null; });
+        }
+
+        function updateMetaapiUi() {
+            var connected = mt5Config.token && mt5Config.accountId;
+            document.getElementById('metaapiSyncBtn').style.display = connected ? 'inline-block' : 'none';
+            document.getElementById('metaapiBtn').textContent = connected ? 'MT5: ' + mt5Config.login : 'MT5 Login';
+        }
+
+        async function connectMetaApi(token, login, password, server) {
+            var statusEl = document.getElementById('metaapiStatusMsg');
+            function setStatus(msg) { statusEl.textContent = msg; }
+            setStatus('Looking up your account...');
+            var account = await findOrCreateMt5Account(token, login, password, server);
+            setStatus('Deploying cloud terminal (can take up to a minute the first time)...');
+            var deployed = await waitForMt5Deployed(token, account._id);
+            mt5Config = {
+                token: token,
+                accountId: deployed._id,
+                region: deployed.region,
+                login: login,
+                server: server,
+                lastSync: ''
+            };
+            saveMt5Config();
+            setStatus('Fetching trade history...');
+            await syncMt5(true);
+            updateMetaapiUi();
+        }
+
+        async function syncMt5(silent) {
+            if (!mt5Config.token || !mt5Config.accountId) {
+                showToast('❌ Connect an MT5 account first', 'error');
+                return;
+            }
+            try {
+                document.getElementById('metaapiSyncBtn').textContent = 'Syncing...';
+                var fromISO = mt5Config.lastSync || '2000-01-01T00:00:00.000Z';
+                var toISO = new Date().toISOString();
+                var deals = await fetchMt5Deals(mt5Config.token, mt5Config.accountId, mt5Config.region, fromISO, toISO);
+                var rawTrades = metaApiDealsToTrades(deals);
+                var added = importMt5Trades(rawTrades);
+                // small overlap on next sync to avoid missing late-settling deals
+                mt5Config.lastSync = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+                saveMt5Config();
+                if (added > 0) {
+                    showToast('✅ Synced ' + added + ' new trade' + (added === 1 ? '' : 's') + ' from MT5', 'success');
+                } else if (!silent) {
+                    showToast('ℹ️ MT5 is up to date', '');
+                }
+            } catch (error) {
+                console.error('MT5 sync error:', error);
+                showToast('❌ MT5 sync failed: ' + error.message, 'error');
+            } finally {
+                document.getElementById('metaapiSyncBtn').textContent = 'Sync MT5';
+            }
+        }
+
+        // ============================================================
         // UI EVENTS
         // ============================================================
         // Splash
@@ -1266,6 +1531,47 @@
             this.value = "";
         });
 
+        // MetaApi (live MT5 login)
+        document.getElementById("metaapiBtn").addEventListener("click", function() {
+            document.getElementById("metaapiModal").classList.add("show");
+            document.getElementById("metaapiTokenInput").value = mt5Config.token;
+            document.getElementById("metaapiLoginInput").value = mt5Config.login;
+            document.getElementById("metaapiPasswordInput").value = "";
+            document.getElementById("metaapiServerInput").value = mt5Config.server;
+            document.getElementById("metaapiStatusMsg").textContent = "";
+        });
+        document.getElementById("metaapiCancelBtn").addEventListener("click", function() {
+            document.getElementById("metaapiModal").classList.remove("show");
+        });
+        document.getElementById("metaapiModal").addEventListener("click", function(e) {
+            if (e.target === this) this.classList.remove("show");
+        });
+        document.getElementById("metaapiConnectBtn").addEventListener("click", async function() {
+            var token = document.getElementById("metaapiTokenInput").value.trim();
+            var login = document.getElementById("metaapiLoginInput").value.trim();
+            var password = document.getElementById("metaapiPasswordInput").value;
+            var server = document.getElementById("metaapiServerInput").value.trim();
+            var statusEl = document.getElementById("metaapiStatusMsg");
+            if (!token || !login || !password || !server) {
+                statusEl.textContent = "Please fill in every field.";
+                return;
+            }
+            this.disabled = true;
+            try {
+                await connectMetaApi(token, login, password, server);
+                document.getElementById("metaapiModal").classList.remove("show");
+                showToast('✅ MT5 account connected', 'success');
+            } catch (error) {
+                console.error('MetaApi connect error:', error);
+                statusEl.textContent = "❌ " + error.message;
+            } finally {
+                this.disabled = false;
+            }
+        });
+        document.getElementById("metaapiSyncBtn").addEventListener("click", function() {
+            syncMt5(false);
+        });
+
         // ============================================================
         // GITHUB UI
         // ============================================================
@@ -1339,6 +1645,11 @@
                 updateGithubStatus('● GitHub ready', 'success');
                 startAutoSync();
                 setTimeout(loadFromGitHub, 1000);
+            }
+
+            updateMetaapiUi();
+            if (mt5Config.token && mt5Config.accountId) {
+                setTimeout(function() { syncMt5(true); }, 1500);
             }
             
             // Don't render here - render after splash is dismissed

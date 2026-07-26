@@ -24,6 +24,7 @@
             --text-dim: #666666;
             --green: #00FF88;
             --red: #FF3355;
+            --gold: #FFD700;
         }
         body { background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; min-height: 100vh; padding: 0 0 40px 0; -webkit-tap-highlight-color: transparent; }
         .mono { font-family: 'JetBrains Mono', monospace; }
@@ -149,7 +150,7 @@
         .greeting-banner .github-status.saving { color: var(--green); border-color: rgba(0,255,136,0.3); animation: pulse 1s ease-in-out infinite; }
         .greeting-banner .github-status.error { color: var(--red); border-color: rgba(255,51,85,0.3); }
         .greeting-banner .github-status.success { color: var(--green); border-color: rgba(0,255,136,0.3); }
-        .greeting-banner .github-status.syncing { color: var(--green); border-color: rgba(0,255,136,0.3); animation: pulse 0.5s ease-in-out infinite; }
+        .greeting-banner .github-status.syncing { color: var(--gold); border-color: rgba(255,215,0,0.3); animation: pulse 0.5s ease-in-out infinite; }
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
@@ -167,26 +168,29 @@
         .btn-primary { background: var(--text); color: var(--bg); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
         .btn-primary:hover { opacity: 0.8; transform: scale(1.02); }
         .btn-cancel { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
+        .btn-success { background: var(--green); color: var(--bg); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .btn-success:hover { opacity: 0.8; transform: scale(1.02); }
 
         .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
         .tab { background: none; border: none; cursor: pointer; padding: 10px 8px 10px; margin-right: 32px; color: var(--text-dim); border-bottom: 2px solid transparent; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; }
         .tab.active { color: var(--text); border-bottom: 2px solid var(--text); }
         .tab:hover { color: var(--text); }
 
-        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
-        .stat-cell { background: var(--bg-card); padding: 14px 16px; }
-        .stat-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; font-weight: 500; }
-        .stat-value { font-size: 18px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
+        .stat-cell { background: var(--bg-card); padding: 12px 14px; }
+        .stat-label { font-size: 8px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; font-weight: 500; }
+        .stat-value { font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
         .tone-green { color: var(--green); }
         .tone-red { color: var(--red); }
+        .tone-gold { color: var(--gold); }
 
-        form.entry-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
-        .field { display: flex; flex-direction: column; gap: 4px; font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
+        form.entry-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+        .field { display: flex; flex-direction: column; gap: 4px; font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 500; }
         .field input, .field select, .field textarea { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 13px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.25s ease; }
         .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--text-dim); }
         .field textarea { font-family: 'Rajdhani', sans-serif; resize: vertical; }
         .form-full { grid-column: 1 / -1; }
-        .form-submit-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; }
+        .form-submit-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 8px; }
 
         .chart-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 6px 6px; margin-bottom: 20px; height: 160px; position: relative; overflow: hidden; }
         .chart-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%); pointer-events: none; }
@@ -197,6 +201,11 @@
         .chip { background: transparent; color: var(--text-dim); border: 1px solid var(--border); border-radius: 30px; padding: 4px 16px; font-size: 11px; cursor: pointer; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: all 0.25s ease; }
         .chip.active { background: var(--bg-card); color: var(--text); border-color: var(--text); }
         .chip:hover { border-color: var(--text-dim); color: var(--text); }
+
+        .search-bar { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
+        .search-bar input { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; color: var(--text); font-size: 12px; font-family: 'Rajdhani', sans-serif; outline: none; flex: 1; min-width: 150px; }
+        .search-bar input:focus { border-color: var(--text-dim); }
+        .search-bar .chip { padding: 4px 12px; font-size: 10px; }
 
         .table-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
         .row { display: grid; grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px; gap: 8px; padding: 9px 16px; align-items: center; border-bottom: 1px solid var(--border); font-size: 12px; transition: background 0.2s ease; }
@@ -229,10 +238,11 @@
         .token-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
         .token-modal .btn-row button { padding: 8px 20px; font-size: 12px; }
 
-        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 24px; font-size: 13px; color: var(--text); z-index: 999; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 24px; font-size: 13px; color: var(--text); z-index: 999; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; max-width: 90%; }
         .toast.show { opacity: 1; }
         .toast.success { border-color: var(--green); color: var(--green); }
         .toast.error { border-color: var(--red); color: var(--red); }
+        .toast.info { border-color: var(--gold); color: var(--gold); }
 
         @media (max-width: 700px) {
             .row { grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px; gap: 4px; font-size: 10px; padding: 7px 10px; }
@@ -277,27 +287,6 @@
         </div>
     </div>
 
-    <!-- METAAPI MODAL -->
-    <div class="token-modal" id="metaapiModal">
-        <div class="token-modal-content">
-            <h2>Connect MT5</h2>
-            <p>Connect your live/demo MT5 account via MetaApi.cloud for automatic trade sync.</p>
-            <p style="font-size:11px;color:var(--text-dim);">
-                Get a free API token at: <strong style="color:var(--text);">app.metaapi.cloud/token</strong><br>
-                Use your <strong style="color:var(--green);">investor (read-only)</strong> password, never your trading password.
-            </p>
-            <input type="password" id="metaapiTokenInput" placeholder="MetaApi token" />
-            <input type="text" id="metaapiLoginInput" placeholder="MT5 account login (number)" />
-            <input type="password" id="metaapiPasswordInput" placeholder="MT5 investor password" />
-            <input type="text" id="metaapiServerInput" placeholder="Broker server (e.g. ICMarketsSC-Demo)" />
-            <div id="metaapiStatusMsg" style="font-size:11px;color:var(--text-dim);margin-bottom:8px;min-height:14px;"></div>
-            <div class="btn-row">
-                <button class="btn-cancel" id="metaapiCancelBtn">Cancel</button>
-                <button class="btn-primary" id="metaapiConnectBtn">Connect</button>
-            </div>
-        </div>
-    </div>
-
     <!-- SPLASH -->
     <div id="splash">
         <img id="splash-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'splash-logo\' class=\'fallback\'>EY</div>'">
@@ -332,12 +321,9 @@
                 <button class="btn-ghost" id="exportBtn">Export</button>
                 <button class="btn-ghost" id="importBtn">Import</button>
                 <input type="file" id="importFile" accept="application/json" style="display:none">
-                <button class="btn-ghost" id="mt5ImportBtn">MT5 Import</button>
-                <input type="file" id="mt5ImportFile" accept=".csv,.htm,.html,text/csv,text/html" style="display:none">
-                <button class="btn-ghost" id="metaapiBtn">MT5 Login</button>
-                <button class="btn-ghost" id="metaapiSyncBtn" style="display:none;">Sync MT5</button>
                 <button class="btn-ghost" id="githubTokenBtn">GitHub</button>
                 <button class="btn-ghost" id="syncBtn" style="display:none;">Sync</button>
+                <button class="btn-ghost" id="clearAllBtn" style="display:none;">Clear All</button>
                 <button class="btn-primary" id="toggleFormBtn">+ New</button>
             </div>
         </div>
@@ -345,6 +331,7 @@
         <div class="tabs">
             <button class="tab active" data-tab="journal">Journal</button>
             <button class="tab" data-tab="analytics">Analytics</button>
+            <button class="tab" data-tab="stats">Statistics</button>
         </div>
 
         <div class="stats-row" id="statsRow"></div>
@@ -366,12 +353,31 @@
             <label class="field">Size<input type="number" step="any" id="f-size" placeholder="units"></label>
             <label class="field">Risk %<input type="number" step="0.1" id="f-risk" value="1.0"></label>
             <label class="field">Target R:R<input type="number" step="0.1" id="f-target" placeholder="2.0"></label>
+            <label class="field">Rating
+                <select id="f-rating">
+                    <option value="">None</option>
+                    <option value="A+">A+ (Perfect)</option>
+                    <option value="A">A (Good)</option>
+                    <option value="B">B (OK)</option>
+                    <option value="C">C (Poor)</option>
+                    <option value="D">D (Terrible)</option>
+                </select>
+            </label>
             <label class="field form-full">Notes<textarea id="f-notes" rows="2" placeholder="Setup quality, emotions, lessons learned..."></textarea></label>
-            <div class="form-submit-row"><button type="submit" class="btn-primary">Log Trade</button></div>
+            <div class="form-submit-row">
+                <button type="button" class="btn-cancel" id="cancelFormBtn">Cancel</button>
+                <button type="submit" class="btn-primary">Log Trade</button>
+            </div>
         </form>
 
         <div id="journalTab">
             <div class="chart-box" id="equityChart"></div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="🔍 Search symbols, notes..." />
+                <button class="chip active" data-filter="all">All</button>
+                <button class="chip" data-filter="win">Wins</button>
+                <button class="chip" data-filter="loss">Losses</button>
+            </div>
             <div class="session-filters" id="sessionFilters"></div>
             <div class="table-box">
                 <div class="row row-head">
@@ -384,6 +390,7 @@
         </div>
 
         <div id="analyticsTab" style="display:none;"></div>
+        <div id="statsTab" style="display:none;"></div>
 
     </div>
 
@@ -408,6 +415,11 @@
             "You attract the trades that match the state you enter the session in.",
             "A quiet mind sees the chart clearly. A loud one sees what it fears.",
             "Discipline today writes the equity curve of tomorrow.",
+            "The trade you didn't take can teach as much as the one you did.",
+            "Consistency is a magnet. Chaos repels good decisions.",
+            "Trust the process publicly, refine it privately.",
+            "Your next winning streak starts with the next disciplined loss.",
+            "Certainty is not required to act with conviction.",
         ];
 
         // ============================================================
@@ -416,30 +428,13 @@
         let trades = [];
         let currentTab = "journal";
         let sessionFilter = "All";
+        let searchQuery = "";
+        let resultFilter = "all";
         let githubToken = localStorage.getItem(TOKEN_STORAGE_KEY) || "";
         let isSaving = false;
         let isSyncing = false;
         let syncTimer = null;
         let isDirty = false;
-
-        // MetaApi (MT5 live login) state — password is never persisted, only used transiently to connect
-        const MT5_STORAGE_PREFIX = 'trade-ledger:mt5-';
-        let mt5Config = {
-            token: localStorage.getItem(MT5_STORAGE_PREFIX + 'token') || '',
-            accountId: localStorage.getItem(MT5_STORAGE_PREFIX + 'account-id') || '',
-            region: localStorage.getItem(MT5_STORAGE_PREFIX + 'region') || '',
-            login: localStorage.getItem(MT5_STORAGE_PREFIX + 'login') || '',
-            server: localStorage.getItem(MT5_STORAGE_PREFIX + 'server') || '',
-            lastSync: localStorage.getItem(MT5_STORAGE_PREFIX + 'last-sync') || ''
-        };
-        function saveMt5Config() {
-            localStorage.setItem(MT5_STORAGE_PREFIX + 'token', mt5Config.token);
-            localStorage.setItem(MT5_STORAGE_PREFIX + 'account-id', mt5Config.accountId);
-            localStorage.setItem(MT5_STORAGE_PREFIX + 'region', mt5Config.region);
-            localStorage.setItem(MT5_STORAGE_PREFIX + 'login', mt5Config.login);
-            localStorage.setItem(MT5_STORAGE_PREFIX + 'server', mt5Config.server);
-            localStorage.setItem(MT5_STORAGE_PREFIX + 'last-sync', mt5Config.lastSync);
-        }
 
         // ============================================================
         // TOAST NOTIFICATION
@@ -449,13 +444,12 @@
             var toast = document.getElementById('toast');
             toast.textContent = message;
             toast.className = 'toast ' + type;
-            // Force reflow
             void toast.offsetWidth;
             toast.classList.add('show');
             clearTimeout(toast._timeout);
             toast._timeout = setTimeout(function() {
                 toast.classList.remove('show');
-            }, 3000);
+            }, 4000);
         }
 
         // ============================================================
@@ -482,10 +476,11 @@
             if (githubToken && githubToken.length > 10) {
                 saveToGitHub();
             }
+            render();
         }
 
         function uid() { 
-            return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); 
+            return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); 
         }
 
         function calcR(direction, entry, stop, exit) {
@@ -515,15 +510,13 @@
         }
 
         // ============================================================
-        // GITHUB SYNC
+        // GITHUB SYNC - FIXED & WORKING
         // ============================================================
         function utf8ToBase64(str) {
             return btoa(unescape(encodeURIComponent(str)));
         }
 
         function base64ToUtf8(b64) {
-            // GitHub returns base64 with embedded newlines; strip them before decoding,
-            // and decode as UTF-8 (not Latin-1) so accented/curly characters in notes survive.
             var clean = b64.replace(/\n/g, '');
             return decodeURIComponent(escape(atob(clean)));
         }
@@ -585,11 +578,9 @@
                         var file = await shaRes.json();
                         sha = file.sha;
                     } else if (shaRes.status !== 404) {
-                        var shaErr = await shaRes.json().catch(function() { return {}; });
-                        throw new Error((shaErr.message || ('HTTP ' + shaRes.status)) + ' (checking existing file)');
+                        throw new Error('Failed to check existing file (HTTP ' + shaRes.status + ')');
                     }
                 } catch (e) {
-                    if (e.message && e.message.indexOf('checking existing file') !== -1) throw e;
                     console.log('File not found, creating new');
                 }
 
@@ -618,7 +609,7 @@
                     return true;
                 } else {
                     var err = await putRes.json().catch(function() { return {}; });
-                    throw new Error((err.message || ('HTTP ' + putRes.status)) + ' (save)');
+                    throw new Error((err.message || 'HTTP ' + putRes.status) + ' (save)');
                 }
             } catch (error) {
                 console.error('Save error:', error);
@@ -633,8 +624,6 @@
         async function loadFromGitHub() {
             if (!githubToken || githubToken.length < 10 || isSyncing) return false;
 
-            // Never let a pull clobber changes that haven't been pushed yet.
-            // Push first; the caller (or the next auto-sync tick) will pull once clean.
             if (isDirty) {
                 console.log('Skipping pull: local changes pending push');
                 await saveToGitHub();
@@ -659,11 +648,10 @@
                     try {
                         content = JSON.parse(base64ToUtf8(file.content));
                     } catch (parseErr) {
-                        throw new Error('the file on GitHub isn\'t valid JSON (parse error)');
+                        throw new Error('the file on GitHub isn\'t valid JSON');
                     }
 
                     if (Array.isArray(content)) {
-                        // Double-check nothing changed locally while we were fetching.
                         if (isDirty) {
                             isSyncing = false;
                             return await loadFromGitHub();
@@ -689,19 +677,15 @@
                     return false;
                 } else if (res.status === 404) {
                     updateGithubStatus('● No file on GitHub', '');
-                    showToast('ℹ️ No trades file found on GitHub', '');
+                    showToast('ℹ️ No trades file found on GitHub', 'info');
                     return false;
                 } else if (res.status === 401) {
                     updateGithubStatus('● Bad token', 'error');
-                    showToast('❌ GitHub rejected the token (401 Bad credentials) — click GitHub button to re-enter it', 'error');
-                    return false;
-                } else if (res.status === 403) {
-                    updateGithubStatus('● Access denied', 'error');
-                    showToast('❌ GitHub returned 403 — check token scope/repo access or rate limit', 'error');
+                    showToast('❌ GitHub rejected the token (401) — re-enter it', 'error');
                     return false;
                 } else {
                     var err = await res.json().catch(function() { return {}; });
-                    throw new Error((err.message || ('HTTP ' + res.status)));
+                    throw new Error((err.message || 'HTTP ' + res.status));
                 }
             } catch (error) {
                 console.error('Load error:', error);
@@ -727,7 +711,7 @@
         }
 
         // ============================================================
-        // STATS
+        // ADVANCED STATS
         // ============================================================
         function computeStats() {
             var withR = trades.filter(function(t) { return t.r !== null && t.r !== undefined; });
@@ -738,6 +722,7 @@
             var totalR = withR.reduce(function(s, t) { return s + t.r; }, 0);
             var avgR = total ? totalR / total : 0;
             var expectancy = total ? totalR / total : 0;
+            
             var streak = 0, streakType = null;
             for (var i = withR.length - 1; i >= 0; i--) {
                 var o = outcome(withR[i].r);
@@ -746,6 +731,7 @@
                 else if (o === streakType) streak++;
                 else break;
             }
+            
             var cum = 0, peak = 0;
             var curve = withR.map(function(t) {
                 cum += t.r;
@@ -753,7 +739,48 @@
                 return { cum: +cum.toFixed(2), drawdown: +(cum - peak).toFixed(2) };
             });
             var maxDD = curve.length ? Math.min.apply(null, curve.map(function(c) { return c.drawdown; })) : 0;
-            return { total: total, wins: wins, losses: losses, winRate: winRate, totalR: totalR, avgR: avgR, expectancy: expectancy, streak: streak, streakType: streakType, curve: curve, maxDD: maxDD };
+            
+            // Average win/loss
+            var avgWin = wins ? withR.filter(function(t) { return outcome(t.r) === "win"; }).reduce(function(s, t) { return s + t.r; }, 0) / wins : 0;
+            var avgLoss = losses ? withR.filter(function(t) { return outcome(t.r) === "loss"; }).reduce(function(s, t) { return s + t.r; }, 0) / losses : 0;
+            
+            // Profit factor
+            var grossProfit = withR.filter(function(t) { return t.r > 0; }).reduce(function(s, t) { return s + t.r; }, 0);
+            var grossLoss = withR.filter(function(t) { return t.r < 0; }).reduce(function(s, t) { return s + Math.abs(t.r); }, 0);
+            var profitFactor = grossLoss > 0 ? grossProfit / grossLoss : (grossProfit > 0 ? Infinity : 0);
+            
+            // Rating distribution
+            var ratings = {};
+            trades.forEach(function(t) {
+                if (t.rating) {
+                    ratings[t.rating] = (ratings[t.rating] || 0) + 1;
+                }
+            });
+            
+            // Best/worst trades
+            var sortedByR = withR.slice().sort(function(a, b) { return b.r - a.r; });
+            var bestTrade = sortedByR.length > 0 ? sortedByR[0] : null;
+            var worstTrade = sortedByR.length > 0 ? sortedByR[sortedByR.length - 1] : null;
+            
+            return { 
+                total: total, 
+                wins: wins, 
+                losses: losses, 
+                winRate: winRate, 
+                totalR: totalR, 
+                avgR: avgR, 
+                expectancy: expectancy, 
+                streak: streak, 
+                streakType: streakType, 
+                curve: curve, 
+                maxDD: maxDD,
+                avgWin: avgWin,
+                avgLoss: avgLoss,
+                profitFactor: profitFactor,
+                ratings: ratings,
+                bestTrade: bestTrade,
+                worstTrade: worstTrade
+            };
         }
 
         // ============================================================
@@ -807,18 +834,25 @@
         // RENDER
         // ============================================================
         function render() {
-            renderStats();
             renderTabs();
             if (currentTab === "journal") {
                 document.getElementById("journalTab").style.display = "";
                 document.getElementById("analyticsTab").style.display = "none";
+                document.getElementById("statsTab").style.display = "none";
+                renderStats();
                 renderEquityChart();
                 renderSessionFilters();
                 renderTable();
-            } else {
+            } else if (currentTab === "analytics") {
                 document.getElementById("journalTab").style.display = "none";
                 document.getElementById("analyticsTab").style.display = "";
+                document.getElementById("statsTab").style.display = "none";
                 renderAnalytics();
+            } else if (currentTab === "stats") {
+                document.getElementById("journalTab").style.display = "none";
+                document.getElementById("analyticsTab").style.display = "none";
+                document.getElementById("statsTab").style.display = "";
+                renderDetailedStats();
             }
         }
 
@@ -833,36 +867,12 @@
             var s = computeStats();
             
             var statItems = [
-                { 
-                    label: "Win Rate", 
-                    value: s.total ? s.winRate.toFixed(0) + "%" : "—",
-                    tone: "" 
-                },
-                { 
-                    label: "Avg R", 
-                    value: s.total ? fmtR(s.avgR) + "R" : "—",
-                    tone: s.avgR > 0 ? "green" : s.avgR < 0 ? "red" : ""
-                },
-                { 
-                    label: "Total R", 
-                    value: s.total ? fmtR(s.totalR) + "R" : "—",
-                    tone: s.totalR > 0 ? "green" : s.totalR < 0 ? "red" : ""
-                },
-                { 
-                    label: "Expectancy", 
-                    value: s.total ? fmtR(s.expectancy) + "R" : "—",
-                    tone: s.expectancy > 0 ? "green" : s.expectancy < 0 ? "red" : ""
-                },
-                { 
-                    label: "Max DD", 
-                    value: s.total ? s.maxDD.toFixed(2) + "R" : "—",
-                    tone: s.maxDD < 0 ? "red" : ""
-                },
-                { 
-                    label: "Streak", 
-                    value: s.streak ? s.streak + " " + (s.streakType === "win" ? "W" : "L") : "—",
-                    tone: s.streakType === "win" ? "green" : s.streakType === "loss" ? "red" : ""
-                }
+                { label: "Win Rate", value: s.total ? s.winRate.toFixed(0) + "%" : "—", tone: "" },
+                { label: "Avg R", value: s.total ? fmtR(s.avgR) + "R" : "—", tone: s.avgR > 0 ? "green" : s.avgR < 0 ? "red" : "" },
+                { label: "Total R", value: s.total ? fmtR(s.totalR) + "R" : "—", tone: s.totalR > 0 ? "green" : s.totalR < 0 ? "red" : "" },
+                { label: "Expectancy", value: s.total ? fmtR(s.expectancy) + "R" : "—", tone: s.expectancy > 0 ? "green" : s.expectancy < 0 ? "red" : "" },
+                { label: "Max DD", value: s.total ? s.maxDD.toFixed(2) + "R" : "—", tone: s.maxDD < 0 ? "red" : "" },
+                { label: "Streak", value: s.streak ? s.streak + " " + (s.streakType === "win" ? "W" : "L") : "—", tone: s.streakType === "win" ? "green" : s.streakType === "loss" ? "red" : "" },
             ];
 
             var html = '';
@@ -905,12 +915,35 @@
         }
 
         function renderTable() {
-            var filtered = sessionFilter === "All" ? trades : trades.filter(function(t) { return t.session === sessionFilter; });
+            var filtered = trades;
+            
+            // Apply session filter
+            if (sessionFilter !== "All") {
+                filtered = filtered.filter(function(t) { return t.session === sessionFilter; });
+            }
+            
+            // Apply search
+            if (searchQuery) {
+                var query = searchQuery.toLowerCase();
+                filtered = filtered.filter(function(t) {
+                    return t.symbol.toLowerCase().indexOf(query) !== -1 ||
+                           (t.notes && t.notes.toLowerCase().indexOf(query) !== -1);
+                });
+            }
+            
+            // Apply win/loss filter
+            if (resultFilter === "win") {
+                filtered = filtered.filter(function(t) { return outcome(t.r) === "win"; });
+            } else if (resultFilter === "loss") {
+                filtered = filtered.filter(function(t) { return outcome(t.r) === "loss"; });
+            }
+            
             var rowsEl = document.getElementById("tradeRows");
             if (filtered.length === 0) {
-                rowsEl.innerHTML = '<div class="row"><div class="row-empty">No trades logged yet.</div></div>';
+                rowsEl.innerHTML = '<div class="row"><div class="row-empty">No trades match your filters.</div></div>';
                 return;
             }
+            
             var html = '';
             var reversed = filtered.slice().reverse();
             for (var i = 0; i < reversed.length; i++) {
@@ -919,17 +952,15 @@
                 var stampClass = o === "win" ? "stamp-win" : o === "loss" ? "stamp-loss" : "stamp-flat";
                 var tone = o === "win" ? "tone-green" : o === "loss" ? "tone-red" : "";
                 var dirColor = t.direction === "Long" ? "tone-green" : "tone-red";
-                var targetHit = t.target && t.r !== null && t.r >= t.target;
-                var targetBadge = targetHit ? '✓' : '';
-                var mt5Badge = t.mt5 ? ' <span style="opacity:0.5;font-size:9px;" title="Imported from MT5">MT5</span>' : '';
+                var ratingBadge = t.rating ? ' ★' + t.rating : '';
                 html += '<div class="row mono">' +
                     '<span class="stamp ' + stampClass + '"></span>' +
                     '<span style="color:var(--text-dim)">' + t.date + '</span>' +
                     '<span style="font-weight:600;color:var(--text)">' + t.symbol + '</span>' +
                     '<span class="' + dirColor + '">' + t.direction + '</span>' +
-                    '<span style="color:var(--text-dim);font-family:Rajdhani,sans-serif">' + t.session + mt5Badge + '</span>' +
+                    '<span style="color:var(--text-dim);font-family:Rajdhani,sans-serif">' + t.session + '</span>' +
                     '<span>' + t.entry + '</span><span>' + t.stop + '</span><span>' + t.exit + '</span>' +
-                    '<span class="' + tone + '">' + fmtR(t.r) + ' ' + targetBadge + '</span>' +
+                    '<span class="' + tone + '">' + fmtR(t.r) + ratingBadge + '</span>' +
                     '<span class="' + tone + '">' + (t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—") + '</span>' +
                     '<span class="notes-cell">' + (t.notes || "").replace(/</g, "&lt;") + '</span>' +
                     '<button class="del-btn" data-id="' + t.id + '" title="Delete trade">✕</button>' +
@@ -959,10 +990,12 @@
                 el.innerHTML = '<div class="empty-analytics">Log more trades to unlock analytics.</div>';
                 return;
             }
+            
             var bySession = SESSIONS.map(function(sess) {
                 var rows = trades.filter(function(t) { return t.session === sess && t.r !== null; });
                 return { label: sess, value: rows.reduce(function(sum, t) { return sum + t.r; }, 0) };
             }).filter(function(s) { return s.value !== 0; });
+            
             var byMonth = {};
             trades.forEach(function(t) {
                 if (t.r !== null) {
@@ -972,6 +1005,12 @@
             });
             var monthData = Object.keys(byMonth).sort().map(function(m) { return { label: m.slice(5), value: byMonth[m] }; });
             
+            // Win/Loss distribution
+            var winLossData = [
+                { label: 'Wins', value: s.wins },
+                { label: 'Losses', value: s.losses }
+            ];
+            
             var html = '<div class="analytics-grid">';
             if (bySession.length) {
                 html += '<div class="chart-card"><div class="chart-card-title">Performance by Session</div><div class="chart-card-body">' + svgBarChart(bySession) + '</div></div>';
@@ -979,431 +1018,56 @@
             if (monthData.length) {
                 html += '<div class="chart-card"><div class="chart-card-title">Monthly R</div><div class="chart-card-body">' + svgBarChart(monthData) + '</div></div>';
             }
+            if (s.total > 0) {
+                html += '<div class="chart-card"><div class="chart-card-title">Win/Loss Distribution</div><div class="chart-card-body">' + svgBarChart(winLossData) + '</div></div>';
+            }
             html += '</div>';
             el.innerHTML = html;
         }
 
-        // ============================================================
-        // MT5 IMPORT (CSV / HTML report)
-        // ============================================================
-        function normalizeHeader(h) {
-            return String(h || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-        }
-
-        function findColIndex(headers, candidates) {
-            for (var i = 0; i < headers.length; i++) {
-                var h = normalizeHeader(headers[i]);
-                if (candidates.indexOf(h) !== -1) return i;
-            }
-            for (var i = 0; i < headers.length; i++) {
-                var h = normalizeHeader(headers[i]);
-                for (var j = 0; j < candidates.length; j++) {
-                    if (h.indexOf(candidates[j]) !== -1) return i;
-                }
-            }
-            return -1;
-        }
-
-        function findAllColIndices(headers, candidates) {
-            var out = [];
-            for (var i = 0; i < headers.length; i++) {
-                var h = normalizeHeader(headers[i]);
-                for (var j = 0; j < candidates.length; j++) {
-                    if (h === candidates[j] || h.indexOf(candidates[j]) !== -1) { out.push(i); break; }
-                }
-            }
-            return out;
-        }
-
-        function parseDelimitedLine(line, delim) {
-            // simple splitter that respects quoted fields
-            var out = [], cur = '', inQuotes = false;
-            for (var i = 0; i < line.length; i++) {
-                var c = line[i];
-                if (c === '"') { inQuotes = !inQuotes; continue; }
-                if (c === delim && !inQuotes) { out.push(cur); cur = ''; continue; }
-                cur += c;
-            }
-            out.push(cur);
-            return out.map(function(s) { return s.trim(); });
-        }
-
-        function detectDelimiter(line) {
-            var counts = { ',': (line.match(/,/g) || []).length, ';': (line.match(/;/g) || []).length, '\t': (line.match(/\t/g) || []).length };
-            var best = ',', bestCount = 0;
-            for (var d in counts) { if (counts[d] > bestCount) { best = d; bestCount = counts[d]; } }
-            return best;
-        }
-
-        function tableFromCsv(text) {
-            var lines = text.split(/\r?\n/).filter(function(l) { return l.trim().length; });
-            if (!lines.length) return null;
-            var delim = detectDelimiter(lines[0]);
-            // Find the header row: first line containing both a "symbol" and "profit"-like column
-            var headerRowIdx = -1, headers = null;
-            for (var i = 0; i < Math.min(lines.length, 20); i++) {
-                var cols = parseDelimitedLine(lines[i], delim);
-                var hasSymbol = findColIndex(cols, ['symbol']) !== -1;
-                var hasProfit = findColIndex(cols, ['profit']) !== -1;
-                if (hasSymbol && hasProfit) { headerRowIdx = i; headers = cols; break; }
-            }
-            if (headerRowIdx === -1) return null;
-            var rows = [];
-            for (var i = headerRowIdx + 1; i < lines.length; i++) {
-                var cols = parseDelimitedLine(lines[i], delim);
-                if (cols.length < 2) continue;
-                rows.push(cols);
-            }
-            return { headers: headers, rows: rows };
-        }
-
-        function tableFromHtml(text) {
-            var doc = new DOMParser().parseFromString(text, 'text/html');
-            var tables = doc.querySelectorAll('table');
-            var best = null;
-            for (var i = 0; i < tables.length; i++) {
-                var trs = tables[i].querySelectorAll('tr');
-                for (var r = 0; r < Math.min(trs.length, 10); r++) {
-                    var cells = trs[r].querySelectorAll('th,td');
-                    var headers = [];
-                    for (var c = 0; c < cells.length; c++) headers.push(cells[c].textContent);
-                    var hasSymbol = findColIndex(headers, ['symbol']) !== -1;
-                    var hasProfit = findColIndex(headers, ['profit']) !== -1;
-                    if (hasSymbol && hasProfit) {
-                        var rows = [];
-                        for (var r2 = r + 1; r2 < trs.length; r2++) {
-                            var rcells = trs[r2].querySelectorAll('th,td');
-                            if (!rcells.length) continue;
-                            var rowVals = [];
-                            for (var c2 = 0; c2 < rcells.length; c2++) rowVals.push(rcells[c2].textContent.trim());
-                            rows.push(rowVals);
-                        }
-                        best = { headers: headers, rows: rows };
-                        break;
-                    }
-                }
-                if (best) break;
-            }
-            return best;
-        }
-
-        function num(v) {
-            if (v === undefined || v === null) return NaN;
-            var n = parseFloat(String(v).replace(/[^0-9eE\.\-\+]/g, ''));
-            return n;
-        }
-
-        function mt5RowsToTrades(table) {
-            var headers = table.headers, rows = table.rows;
-            var symbolIdx = findColIndex(headers, ['symbol']);
-            var typeIdx = findColIndex(headers, ['type']);
-            var profitIdx = findColIndex(headers, ['profit']);
-            var swapIdx = findColIndex(headers, ['swap']);
-            var commissionIdx = findColIndex(headers, ['commission']);
-            var volumeIdx = findColIndex(headers, ['volume', 'lots', 'size']);
-            var directionIdx = findColIndex(headers, ['direction']);
-            var positionIdx = findColIndex(headers, ['position', 'positionid', 'order']);
-            var timeIdxs = findAllColIndices(headers, ['time', 'date']);
-            var priceIdxs = findAllColIndices(headers, ['price']);
-            var commentIdx = findColIndex(headers, ['comment']);
-
-            var out = [];
-
-            if (directionIdx !== -1 && positionIdx !== -1) {
-                // "Deals" export: one row per in/out leg, grouped by position id
-                var groups = {};
-                rows.forEach(function(r) {
-                    var pos = r[positionIdx];
-                    if (!pos) return;
-                    if (!groups[pos]) groups[pos] = [];
-                    groups[pos].push(r);
-                });
-                Object.keys(groups).forEach(function(pos) {
-                    var legs = groups[pos];
-                    var inLeg = legs.find(function(r) { return normalizeHeader(r[directionIdx]).indexOf('in') !== -1; });
-                    var outLeg = legs.find(function(r) { return normalizeHeader(r[directionIdx]).indexOf('out') !== -1; });
-                    if (!inLeg || !outLeg) return;
-                    var symbol = symbolIdx !== -1 ? inLeg[symbolIdx] : null;
-                    if (!symbol) return;
-                    var typeRaw = typeIdx !== -1 ? normalizeHeader(inLeg[typeIdx]) : '';
-                    var direction = typeRaw.indexOf('sell') !== -1 ? 'Short' : 'Long';
-                    var entry = priceIdxs.length ? num(inLeg[priceIdxs[0]]) : NaN;
-                    var exit = priceIdxs.length ? num(outLeg[priceIdxs[0]]) : NaN;
-                    var profit = 0;
-                    legs.forEach(function(r) {
-                        if (profitIdx !== -1) profit += (num(r[profitIdx]) || 0);
-                        if (swapIdx !== -1) profit += (num(r[swapIdx]) || 0);
-                        if (commissionIdx !== -1) profit += (num(r[commissionIdx]) || 0);
-                    });
-                    var dateStr = timeIdxs.length ? String(outLeg[timeIdxs[0]]).slice(0, 10).replace(/\./g, '-') : new Date().toISOString().slice(0, 10);
-                    out.push({
-                        date: dateStr, symbol: symbol.toUpperCase(), direction: direction,
-                        entry: entry, exit: exit, stop: null,
-                        size: volumeIdx !== -1 ? (num(inLeg[volumeIdx]) || 0) : 0,
-                        pnl: isNaN(profit) ? null : +profit.toFixed(2),
-                        notes: commentIdx !== -1 ? (inLeg[commentIdx] || '') : ''
-                    });
-                });
-            } else if (timeIdxs.length >= 2 && priceIdxs.length >= 2) {
-                // "Statement" export: one row per closed position, open + close columns
-                rows.forEach(function(r) {
-                    var symbol = symbolIdx !== -1 ? r[symbolIdx] : null;
-                    if (!symbol) return;
-                    var typeRaw = typeIdx !== -1 ? normalizeHeader(r[typeIdx]) : '';
-                    if (!typeRaw || (typeRaw.indexOf('buy') === -1 && typeRaw.indexOf('sell') === -1)) return;
-                    var direction = typeRaw.indexOf('sell') !== -1 ? 'Short' : 'Long';
-                    var entry = num(r[priceIdxs[0]]);
-                    var exit = num(r[priceIdxs[1]]);
-                    var profit = 0;
-                    if (profitIdx !== -1) profit += (num(r[profitIdx]) || 0);
-                    if (swapIdx !== -1) profit += (num(r[swapIdx]) || 0);
-                    if (commissionIdx !== -1) profit += (num(r[commissionIdx]) || 0);
-                    var dateStr = String(r[timeIdxs[1]] || r[timeIdxs[0]]).slice(0, 10).replace(/\./g, '-');
-                    out.push({
-                        date: dateStr, symbol: symbol.toUpperCase(), direction: direction,
-                        entry: entry, exit: exit, stop: null,
-                        size: volumeIdx !== -1 ? (num(r[volumeIdx]) || 0) : 0,
-                        pnl: isNaN(profit) ? null : +profit.toFixed(2),
-                        notes: commentIdx !== -1 ? (r[commentIdx] || '') : ''
-                    });
-                });
-            }
-
-            return out.filter(function(t) { return t.symbol && !isNaN(t.entry) && !isNaN(t.exit); });
-        }
-
-        function importMt5Trades(rawTrades) {
-            // De-dupe against existing MT5 imports using a fingerprint
-            var existingFingerprints = {};
-            trades.forEach(function(t) {
-                if (t.mt5) existingFingerprints[[t.date, t.symbol, t.direction, t.entry, t.exit, t.pnl].join('|')] = true;
-            });
-            var added = 0;
-            rawTrades.forEach(function(rt) {
-                var fp = [rt.date, rt.symbol, rt.direction, rt.entry, rt.exit, rt.pnl].join('|');
-                if (existingFingerprints[fp]) return;
-                existingFingerprints[fp] = true;
-                trades.push({
-                    id: uid(),
-                    date: rt.date,
-                    symbol: rt.symbol,
-                    direction: rt.direction,
-                    session: 'Other',
-                    entry: rt.entry,
-                    stop: rt.stop === null || rt.stop === undefined || isNaN(rt.stop) ? null : rt.stop,
-                    exit: rt.exit,
-                    size: rt.size || 0,
-                    risk: null,
-                    target: null,
-                    notes: rt.notes ? ('MT5: ' + rt.notes) : 'Imported from MT5',
-                    r: (rt.stop !== null && rt.stop !== undefined && !isNaN(rt.stop)) ? calcR(rt.direction, rt.entry, rt.stop, rt.exit) : null,
-                    pnl: rt.pnl,
-                    mt5: true
-                });
-                added++;
-            });
-            if (added > 0) {
-                trades.sort(function(a, b) { return a.date.localeCompare(b.date); });
-                saveTrades();
-                render();
-            }
-            return added;
-        }
-
-        function handleMt5File(file) {
-            var reader = new FileReader();
-            reader.onload = function(ev) {
-                var text = ev.target.result;
-                var isHtml = /\.html?$/i.test(file.name) || /<html/i.test(text.slice(0, 500));
-                var table = isHtml ? tableFromHtml(text) : tableFromCsv(text);
-                if (!table) {
-                    showToast('❌ Could not find a Symbol/Profit table in that file', 'error');
-                    return;
-                }
-                var rawTrades = mt5RowsToTrades(table);
-                if (!rawTrades.length) {
-                    showToast('❌ No closed trades recognized in that file', 'error');
-                    return;
-                }
-                var added = importMt5Trades(rawTrades);
-                if (added > 0) {
-                    showToast('✅ Imported ' + added + ' trade' + (added === 1 ? '' : 's') + ' from MT5', 'success');
-                } else {
-                    showToast('ℹ️ No new trades — all rows already imported', '');
-                }
-            };
-            reader.onerror = function() {
-                showToast('❌ Failed to read file', 'error');
-            };
-            reader.readAsText(file);
-        }
-
-        // ============================================================
-        // METAAPI (live MT5 login + auto sync)
-        // ============================================================
-        const MT5_PROVISIONING_BASE = 'https://mt-provisioning-api-v1.agiliumtrade.agiliumtrade.ai';
-
-        function uuidv4() {
-            if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
-
-        function sleep(ms) { return new Promise(function(res) { setTimeout(res, ms); }); }
-
-        function mt5Headers(token, extra) {
-            var h = { 'auth-token': token, 'Content-Type': 'application/json', 'Accept': 'application/json' };
-            if (extra) for (var k in extra) h[k] = extra[k];
-            return h;
-        }
-
-        async function findOrCreateMt5Account(token, login, password, server) {
-            var listRes = await fetch(MT5_PROVISIONING_BASE + '/users/current/accounts', { headers: mt5Headers(token) });
-            if (!listRes.ok) {
-                var lerr = await listRes.json().catch(function() { return {}; });
-                throw new Error(lerr.message || ('Could not list MetaApi accounts (HTTP ' + listRes.status + ')'));
-            }
-            var listData = await listRes.json();
-            var items = Array.isArray(listData) ? listData : (listData.items || []);
-            var existing = items.find(function(a) { return String(a.login) === String(login) && a.server === server; });
-            if (existing) return existing;
-
-            var createRes = await fetch(MT5_PROVISIONING_BASE + '/users/current/accounts', {
-                method: 'POST',
-                headers: mt5Headers(token, { 'transaction-id': uuidv4() }),
-                body: JSON.stringify({
-                    login: String(login),
-                    password: password,
-                    name: 'Sir Eyob Ledger',
-                    server: server,
-                    platform: 'mt5',
-                    magic: Math.floor(Math.random() * 900000) + 100000
-                })
-            });
-            var createData = await createRes.json().catch(function() { return {}; });
-            if (!createRes.ok) {
-                throw new Error(createData.message || ('Could not create MetaApi account (HTTP ' + createRes.status + ')'));
-            }
-            return { _id: createData.id, state: createData.state };
-        }
-
-        async function waitForMt5Deployed(token, accountId) {
-            for (var i = 0; i < 20; i++) {
-                var res = await fetch(MT5_PROVISIONING_BASE + '/users/current/accounts/' + accountId, { headers: mt5Headers(token) });
-                if (!res.ok) {
-                    var derr = await res.json().catch(function() { return {}; });
-                    throw new Error(derr.message || ('Could not read account status (HTTP ' + res.status + ')'));
-                }
-                var data = await res.json();
-                if (data.state === 'DEPLOYED') return data;
-                if (data.state === 'UNDEPLOYED') {
-                    await fetch(MT5_PROVISIONING_BASE + '/users/current/accounts/' + accountId + '/deploy', {
-                        method: 'POST', headers: mt5Headers(token)
-                    }).catch(function() {});
-                }
-                await sleep(3000);
-            }
-            throw new Error('Timed out waiting for MT5 account to deploy — check your login/password/server and try again');
-        }
-
-        async function fetchMt5Deals(token, accountId, region, fromISO, toISO) {
-            var url = 'https://mt-client-api-v1.' + region + '.agiliumtrade.ai/users/current/accounts/' + accountId + '/history-deals/time/' + fromISO + '/' + toISO;
-            var res = await fetch(url, { headers: { 'auth-token': token, 'Accept': 'application/json' } });
-            if (!res.ok) {
-                var err = await res.json().catch(function() { return {}; });
-                throw new Error(err.message || ('Could not fetch trade history (HTTP ' + res.status + ')'));
-            }
-            return await res.json();
-        }
-
-        function metaApiDealsToTrades(deals) {
-            var groups = {};
-            (deals || []).forEach(function(d) {
-                if (!d.positionId) return;
-                if (d.type === 'DEAL_TYPE_BALANCE' || d.type === 'DEAL_TYPE_CREDIT') return;
-                (groups[d.positionId] = groups[d.positionId] || []).push(d);
-            });
-            var out = [];
-            Object.keys(groups).forEach(function(pos) {
-                var legs = groups[pos];
-                var inLeg = legs.find(function(d) { return d.entryType === 'DEAL_ENTRY_IN'; });
-                var outLeg = legs.find(function(d) { return d.entryType === 'DEAL_ENTRY_OUT' || d.entryType === 'DEAL_ENTRY_OUT_BY'; });
-                if (!inLeg || !outLeg) return;
-                var direction = String(inLeg.type || '').toUpperCase().indexOf('SELL') !== -1 ? 'Short' : 'Long';
-                var profit = 0;
-                legs.forEach(function(d) {
-                    profit += (d.profit || 0) + (d.swap || 0) + (d.commission || 0);
-                });
-                out.push({
-                    date: String(outLeg.time || inLeg.time || '').slice(0, 10),
-                    symbol: String(inLeg.symbol || '').toUpperCase(),
-                    direction: direction,
-                    entry: inLeg.price,
-                    exit: outLeg.price,
-                    stop: null,
-                    size: inLeg.volume || 0,
-                    pnl: +profit.toFixed(2),
-                    notes: inLeg.comment || outLeg.comment || ''
-                });
-            });
-            return out.filter(function(t) { return t.symbol && t.entry != null && t.exit != null; });
-        }
-
-        function updateMetaapiUi() {
-            var connected = mt5Config.token && mt5Config.accountId;
-            document.getElementById('metaapiSyncBtn').style.display = connected ? 'inline-block' : 'none';
-            document.getElementById('metaapiBtn').textContent = connected ? 'MT5: ' + mt5Config.login : 'MT5 Login';
-        }
-
-        async function connectMetaApi(token, login, password, server) {
-            var statusEl = document.getElementById('metaapiStatusMsg');
-            function setStatus(msg) { statusEl.textContent = msg; }
-            setStatus('Looking up your account...');
-            var account = await findOrCreateMt5Account(token, login, password, server);
-            setStatus('Deploying cloud terminal (can take up to a minute the first time)...');
-            var deployed = await waitForMt5Deployed(token, account._id);
-            mt5Config = {
-                token: token,
-                accountId: deployed._id,
-                region: deployed.region,
-                login: login,
-                server: server,
-                lastSync: ''
-            };
-            saveMt5Config();
-            setStatus('Fetching trade history...');
-            await syncMt5(true);
-            updateMetaapiUi();
-        }
-
-        async function syncMt5(silent) {
-            if (!mt5Config.token || !mt5Config.accountId) {
-                showToast('❌ Connect an MT5 account first', 'error');
+        function renderDetailedStats() {
+            var s = computeStats();
+            var el = document.getElementById("statsTab");
+            
+            if (s.total === 0) {
+                el.innerHTML = '<div class="empty-analytics">No trades to analyze yet.</div>';
                 return;
             }
-            try {
-                document.getElementById('metaapiSyncBtn').textContent = 'Syncing...';
-                var fromISO = mt5Config.lastSync || '2000-01-01T00:00:00.000Z';
-                var toISO = new Date().toISOString();
-                var deals = await fetchMt5Deals(mt5Config.token, mt5Config.accountId, mt5Config.region, fromISO, toISO);
-                var rawTrades = metaApiDealsToTrades(deals);
-                var added = importMt5Trades(rawTrades);
-                // small overlap on next sync to avoid missing late-settling deals
-                mt5Config.lastSync = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-                saveMt5Config();
-                if (added > 0) {
-                    showToast('✅ Synced ' + added + ' new trade' + (added === 1 ? '' : 's') + ' from MT5', 'success');
-                } else if (!silent) {
-                    showToast('ℹ️ MT5 is up to date', '');
-                }
-            } catch (error) {
-                console.error('MT5 sync error:', error);
-                showToast('❌ MT5 sync failed: ' + error.message, 'error');
-            } finally {
-                document.getElementById('metaapiSyncBtn').textContent = 'Sync MT5';
+            
+            var html = '<div class="analytics-grid">';
+            
+            // Summary cards
+            html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;width:100%;">';
+            var summaryItems = [
+                { label: 'Total Trades', value: s.total },
+                { label: 'Winners', value: s.wins },
+                { label: 'Losers', value: s.losses },
+                { label: 'Win Rate', value: s.winRate.toFixed(1) + '%' },
+                { label: 'Avg Win', value: fmtR(s.avgWin) + 'R' },
+                { label: 'Avg Loss', value: fmtR(s.avgLoss) + 'R' },
+                { label: 'Profit Factor', value: s.profitFactor === Infinity ? '∞' : s.profitFactor.toFixed(2) },
+                { label: 'Best Trade', value: s.bestTrade ? fmtR(s.bestTrade.r) + 'R' : '—' },
+                { label: 'Worst Trade', value: s.worstTrade ? fmtR(s.worstTrade.r) + 'R' : '—' },
+            ];
+            for (var i = 0; i < summaryItems.length; i++) {
+                var item = summaryItems[i];
+                html += '<div class="stat-cell" style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;">' +
+                    '<div class="stat-label">' + item.label + '</div>' +
+                    '<div class="stat-value mono">' + item.value + '</div>' +
+                '</div>';
             }
+            html += '</div>';
+            
+            // Rating distribution
+            if (Object.keys(s.ratings).length > 0) {
+                var ratingData = Object.keys(s.ratings).sort().map(function(r) {
+                    return { label: r, value: s.ratings[r] };
+                });
+                html += '<div class="chart-card"><div class="chart-card-title">Trade Ratings</div><div class="chart-card-body">' + svgBarChart(ratingData) + '</div></div>';
+            }
+            
+            html += '</div>';
+            el.innerHTML = html;
         }
 
         // ============================================================
@@ -1418,7 +1082,6 @@
         document.getElementById("enterBtn").addEventListener("click", function() {
             var splash = document.getElementById("splash");
             splash.classList.add("hidden");
-            // Wait for splash to fade out, then render
             setTimeout(function() {
                 render();
             }, 100);
@@ -1434,6 +1097,12 @@
             btn.textContent = isOpen ? "+ New" : "Cancel";
             btn.className = isOpen ? "btn-primary" : "btn-cancel";
         });
+        
+        document.getElementById("cancelFormBtn").addEventListener("click", function() {
+            document.getElementById("entryForm").style.display = "none";
+            document.getElementById("toggleFormBtn").textContent = "+ New";
+            document.getElementById("toggleFormBtn").className = "btn-primary";
+        });
 
         document.getElementById("entryForm").addEventListener("submit", function(e) {
             e.preventDefault();
@@ -1442,6 +1111,8 @@
             var stop = document.getElementById("f-stop").value;
             var exit = document.getElementById("f-exit").value;
             if (!symbol || !entry || !stop || !exit) return;
+            
+            var rating = document.getElementById("f-rating").value;
             
             var trade = {
                 id: uid(),
@@ -1455,6 +1126,7 @@
                 size: parseFloat(document.getElementById("f-size").value) || 0,
                 risk: parseFloat(document.getElementById("f-risk").value) || null,
                 target: parseFloat(document.getElementById("f-target").value) || null,
+                rating: rating || null,
                 notes: document.getElementById("f-notes").value,
                 r: calcR(document.getElementById("f-direction").value, entry, stop, exit),
                 pnl: calcPnl(document.getElementById("f-direction").value, entry, exit, document.getElementById("f-size").value),
@@ -1466,6 +1138,7 @@
             this.reset();
             document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
             document.getElementById("f-risk").value = "1.0";
+            document.getElementById("f-rating").value = "";
             document.getElementById("entryForm").style.display = "none";
             document.getElementById("toggleFormBtn").textContent = "+ New";
             document.getElementById("toggleFormBtn").className = "btn-primary";
@@ -1479,6 +1152,23 @@
             tabs[i].addEventListener("click", function() { 
                 currentTab = this.dataset.tab; 
                 render(); 
+            });
+        }
+
+        // Search
+        document.getElementById("searchInput").addEventListener("input", function() {
+            searchQuery = this.value;
+            render();
+        });
+
+        // Result filters (win/loss/all)
+        var filterBtns = document.querySelectorAll('.search-bar .chip');
+        for (var i = 0; i < filterBtns.length; i++) {
+            filterBtns[i].addEventListener("click", function() {
+                document.querySelectorAll('.search-bar .chip').forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                resultFilter = this.dataset.filter;
+                render();
             });
         }
 
@@ -1520,56 +1210,18 @@
             this.value = "";
         });
 
-        // MT5 Import
-        document.getElementById("mt5ImportBtn").addEventListener("click", function() {
-            document.getElementById("mt5ImportFile").click();
-        });
-        document.getElementById("mt5ImportFile").addEventListener("change", function(e) {
-            var file = this.files[0];
-            if (!file) return;
-            handleMt5File(file);
-            this.value = "";
-        });
-
-        // MetaApi (live MT5 login)
-        document.getElementById("metaapiBtn").addEventListener("click", function() {
-            document.getElementById("metaapiModal").classList.add("show");
-            document.getElementById("metaapiTokenInput").value = mt5Config.token;
-            document.getElementById("metaapiLoginInput").value = mt5Config.login;
-            document.getElementById("metaapiPasswordInput").value = "";
-            document.getElementById("metaapiServerInput").value = mt5Config.server;
-            document.getElementById("metaapiStatusMsg").textContent = "";
-        });
-        document.getElementById("metaapiCancelBtn").addEventListener("click", function() {
-            document.getElementById("metaapiModal").classList.remove("show");
-        });
-        document.getElementById("metaapiModal").addEventListener("click", function(e) {
-            if (e.target === this) this.classList.remove("show");
-        });
-        document.getElementById("metaapiConnectBtn").addEventListener("click", async function() {
-            var token = document.getElementById("metaapiTokenInput").value.trim();
-            var login = document.getElementById("metaapiLoginInput").value.trim();
-            var password = document.getElementById("metaapiPasswordInput").value;
-            var server = document.getElementById("metaapiServerInput").value.trim();
-            var statusEl = document.getElementById("metaapiStatusMsg");
-            if (!token || !login || !password || !server) {
-                statusEl.textContent = "Please fill in every field.";
+        // Clear All
+        document.getElementById("clearAllBtn").addEventListener("click", function() {
+            if (trades.length === 0) {
+                showToast('ℹ️ No trades to clear', 'info');
                 return;
             }
-            this.disabled = true;
-            try {
-                await connectMetaApi(token, login, password, server);
-                document.getElementById("metaapiModal").classList.remove("show");
-                showToast('✅ MT5 account connected', 'success');
-            } catch (error) {
-                console.error('MetaApi connect error:', error);
-                statusEl.textContent = "❌ " + error.message;
-            } finally {
-                this.disabled = false;
+            if (confirm('⚠️ Delete ALL trades? This cannot be undone!')) {
+                trades = [];
+                saveTrades();
+                render();
+                showToast('🗑️ All trades cleared', '');
             }
-        });
-        document.getElementById("metaapiSyncBtn").addEventListener("click", function() {
-            syncMt5(false);
         });
 
         // ============================================================
@@ -1592,12 +1244,13 @@
                 localStorage.setItem(TOKEN_STORAGE_KEY, token);
                 document.getElementById("tokenModal").classList.remove("show");
                 document.getElementById("syncBtn").style.display = "inline-block";
+                document.getElementById("clearAllBtn").style.display = "inline-block";
                 updateGithubStatus('● Token saved', 'success');
                 showToast('✅ GitHub token saved', 'success');
                 startAutoSync();
                 await loadFromGitHub();
             } else {
-                showToast('❌ Please enter a valid token', 'error');
+                showToast('❌ Please enter a valid token (starts with ghp_)', 'error');
             }
         });
 
@@ -1642,23 +1295,16 @@
 
             if (githubToken && githubToken.length > 10) {
                 document.getElementById("syncBtn").style.display = "inline-block";
+                document.getElementById("clearAllBtn").style.display = "inline-block";
                 updateGithubStatus('● GitHub ready', 'success');
                 startAutoSync();
                 setTimeout(loadFromGitHub, 1000);
             }
-
-            updateMetaapiUi();
-            if (mt5Config.token && mt5Config.accountId) {
-                setTimeout(function() { syncMt5(true); }, 1500);
-            }
             
-            // Don't render here - render after splash is dismissed
-            // render();
-            
+            render();
             setTimeout(speakWelcome, 500);
         }
 
-        // Make sure DOM is loaded
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
         } else {

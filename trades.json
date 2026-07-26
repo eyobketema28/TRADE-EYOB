@@ -1582,24 +1582,5 @@
     "notes": "Deposit 3.00",
     "r": null,
     "pnl": 3
-  },
-  {
-    "id": "ms2ejzvf597ky4",
-    "date": "2026-07-26",
-    "symbol": "XAU",
-    "direction": "Long",
-    "session": "New York",
-    "entry": 2,
-    "stop": 1,
-    "exit": 400,
-    "size": 1,
-    "risk": 1,
-    "target": 1,
-    "rating": "A+",
-    "notes": "",
-    "r": 398,
-    "pnl": 398,
-    "mt5": false,
-    "created": 1785106895453
   }
 ]

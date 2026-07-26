@@ -713,7 +713,6 @@
         function renderStats() {
             var s = computeStats();
             
-            // Define stat items with their values and tone conditions
             var statItems = [
                 { 
                     label: "Win Rate", 
@@ -874,7 +873,12 @@
         document.getElementById("splash-date").textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         
         document.getElementById("enterBtn").addEventListener("click", function() {
-            document.getElementById("splash").classList.add("hidden");
+            var splash = document.getElementById("splash");
+            splash.classList.add("hidden");
+            // Wait for splash to fade out, then render
+            setTimeout(function() {
+                render();
+            }, 100);
         });
 
         // Form
@@ -1048,7 +1052,8 @@
                 setTimeout(loadFromGitHub, 1000);
             }
             
-            render();
+            // Don't render here - render after splash is dismissed
+            // render();
             
             setTimeout(speakWelcome, 500);
         }

@@ -712,17 +712,49 @@
 
         function renderStats() {
             var s = computeStats();
-            var cells = [
-                { label: "Win Rate", value: s.total ? s.winRate.toFixed(0) + "%" : "—" },
-                { label: "Avg R", value: s.total ? fmtR(s.avgR) + "R" : "—", tone: s.avgR > 0 ? "green" : s.avgR < 0 ? "red" : "" },
-                { label: "Total R", value: s.total ? fmtR(s.totalR) + "R" : "—", tone: s.totalR > 0 ? "green" : s.totalR < 0 ? "red" : "" },
-                { label: "Expectancy", value: s.total ? fmtR(s.expectancy) + "R" : "—", tone: s.expectancy > 0 ? "green" : s.expectancy < 0 ? "red" : "" },
-                { label: "Max DD", value: s.total ? s.maxDD.toFixed(2) + "R" : "—", tone: s.maxDD < 0 ? "red" : "" },
-                { label: "Streak", value: s.streak ? s.streak + " " + (s.streakType === "win" ? "W" : "L") : "—", tone: s.streakType === "win" ? "green" : s.streakType === "loss" ? "red" : "" },
+            
+            // Define stat items with their values and tone conditions
+            var statItems = [
+                { 
+                    label: "Win Rate", 
+                    value: s.total ? s.winRate.toFixed(0) + "%" : "—",
+                    tone: "" 
+                },
+                { 
+                    label: "Avg R", 
+                    value: s.total ? fmtR(s.avgR) + "R" : "—",
+                    tone: s.avgR > 0 ? "green" : s.avgR < 0 ? "red" : ""
+                },
+                { 
+                    label: "Total R", 
+                    value: s.total ? fmtR(s.totalR) + "R" : "—",
+                    tone: s.totalR > 0 ? "green" : s.totalR < 0 ? "red" : ""
+                },
+                { 
+                    label: "Expectancy", 
+                    value: s.total ? fmtR(s.expectancy) + "R" : "—",
+                    tone: s.expectancy > 0 ? "green" : s.expectancy < 0 ? "red" : ""
+                },
+                { 
+                    label: "Max DD", 
+                    value: s.total ? s.maxDD.toFixed(2) + "R" : "—",
+                    tone: s.maxDD < 0 ? "red" : ""
+                },
+                { 
+                    label: "Streak", 
+                    value: s.streak ? s.streak + " " + (s.streakType === "win" ? "W" : "L") : "—",
+                    tone: s.streakType === "win" ? "green" : s.streakType === "loss" ? "red" : ""
+                }
             ];
+
             var html = '';
-            for (var i = 0; i < cells.length; i++) {
-                html += '<div class="stat-cell"><div class="stat-label">' + cells[i].label + '</div><div class="stat-value mono ' + (cells[i].tone ? 'tone-' + cells[i].tone : '') + '">' + cells[i].value + '</div></div>';
+            for (var i = 0; i < statItems.length; i++) {
+                var item = statItems[i];
+                var toneClass = item.tone ? ' tone-' + item.tone : '';
+                html += '<div class="stat-cell">' +
+                    '<div class="stat-label">' + item.label + '</div>' +
+                    '<div class="stat-value mono' + toneClass + '">' + item.value + '</div>' +
+                '</div>';
             }
             document.getElementById("statsRow").innerHTML = html;
         }
@@ -835,17 +867,14 @@
         // ============================================================
         // UI EVENTS
         // ============================================================
-        // Splash - FIXED
+        // Splash
         var quoteText = todaysQuote();
         document.getElementById("splash-quote").textContent = quoteText;
         document.getElementById("bannerQuote").textContent = quoteText;
         document.getElementById("splash-date").textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         
-        // FIXED: Properly hide splash when Enter is clicked
-        document.getElementById("enterBtn").addEventListener("click", function(e) {
-            e.preventDefault();
-            var splash = document.getElementById("splash");
-            splash.classList.add("hidden");
+        document.getElementById("enterBtn").addEventListener("click", function() {
+            document.getElementById("splash").classList.add("hidden");
         });
 
         // Form

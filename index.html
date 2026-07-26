@@ -1,1315 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Sir Eyob Ledger" />
-    <meta name="theme-color" content="#000000" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>EY</text></svg>" />
-    <title>Sir Eyob · Trade Ledger</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>EXODUS CLOTHING - Coming Soon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-            --bg: #000000;
-            --bg-card: #080808;
-            --bg-card-hover: #111111;
-            --bg-input: #0A0A0A;
-            --border: #1A1A1A;
-            --border-light: #2A2A2A;
-            --text: #FFFFFF;
-            --text-dim: #666666;
-            --green: #00FF88;
-            --red: #FF3355;
-            --gold: #FFD700;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        body { background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; min-height: 100vh; padding: 0 0 40px 0; -webkit-tap-highlight-color: transparent; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        .display { font-family: 'Orbitron', sans-serif; }
-        .wrap { max-width: 1200px; margin: 0 auto; padding: 20px 24px 40px; }
-
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
-
-        /* SPLASH SCREEN */
-        #splash { 
-            position: fixed; 
-            inset: 0; 
-            z-index: 10000; 
-            background: var(--bg); 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 30px; 
-            text-align: center; 
-            transition: opacity 0.8s ease, visibility 0.8s ease; 
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
         }
-        #splash.hidden { 
-            opacity: 0; 
-            visibility: hidden; 
-            pointer-events: none; 
+        
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: #000000;
         }
-        #splash-logo { 
-            width: 120px; 
-            height: 120px; 
-            object-fit: contain; 
-            margin-bottom: 30px; 
-            filter: drop-shadow(0 0 60px rgba(255,255,255,0.05)); 
-            animation: pulse-white 3s ease-in-out infinite; 
+        
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 10px),
+                              repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 10px);
+            animation: gridMove 20s linear infinite;
         }
-        #splash-logo.fallback { 
-            border-radius: 50%; 
-            border: 2px solid var(--text); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 40px; 
-            color: var(--text); 
-            background: rgba(255,255,255,0.02); 
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 20px); }
         }
-        @keyframes pulse-white { 
-            0%,100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.03)); transform: scale(1); } 
-            50% { filter: drop-shadow(0 0 60px rgba(255,255,255,0.08)); transform: scale(1.02); } 
+        
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 2px, transparent 2px, transparent 8px);
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.3;
         }
-        #splash-title { 
-            font-size: 52px; 
-            font-weight: 900; 
-            letter-spacing: 10px; 
-            text-transform: uppercase; 
-            font-family: 'Orbitron', sans-serif; 
-            color: var(--text); 
+        
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px 20px;
+            z-index: 1;
         }
-        #splash-title .highlight { color: var(--text); opacity: 0.7; }
-        #splash-sub { 
-            color: var(--text-dim); 
-            font-size: 16px; 
-            letter-spacing: 8px; 
-            text-transform: uppercase; 
-            margin-top: 8px; 
-            margin-bottom: 30px; 
-            font-weight: 300; 
+        
+        .logo {
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease;
         }
-        #splash-sub .highlight { color: var(--text); }
-        #splash-quote-box { 
-            max-width: 540px; 
-            border: 1px solid var(--border); 
-            border-radius: 12px; 
-            background: var(--bg-card); 
-            padding: 28px 32px; 
-            margin-bottom: 30px; 
+        
+        .logo img {
+            height: 120px;
+            width: auto;
         }
-        #splash-quote { 
-            font-size: 18px; 
-            font-weight: 300; 
-            line-height: 1.6; 
-            color: var(--text-dim); 
-            font-style: italic; 
-            font-family: 'Rajdhani', sans-serif; 
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: fadeInUp 0.8s ease 0.1s backwards;
         }
-        #splash-quote::before { content: "“"; color: var(--text); font-size: 24px; font-family: 'Georgia', serif; }
-        #splash-quote::after { content: "”"; color: var(--text); font-size: 24px; font-family: 'Georgia', serif; }
-        #splash-date { 
-            margin-top: 12px; 
-            font-size: 11px; 
-            letter-spacing: 4px; 
-            color: var(--text-dim); 
-            text-transform: uppercase; 
-            font-weight: 300; 
+        
+        .coming-soon-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            font-family: 'Space Mono', monospace;
+            animation: fadeInUp 0.8s ease 0.05s backwards;
         }
-        #enterBtn { 
-            background: transparent; 
-            color: var(--text); 
-            border: 1.5px solid var(--text); 
-            border-radius: 50px; 
-            padding: 16px 56px; 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 13px; 
-            letter-spacing: 5px; 
-            text-transform: uppercase; 
-            cursor: pointer; 
-            transition: all 0.4s ease; 
+        
+        p {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            font-size: 1rem;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
         }
-        #enterBtn:hover { 
-            background: var(--text); 
-            color: var(--bg); 
-            box-shadow: 0 0 60px rgba(255,255,255,0.05); 
-            transform: scale(1.02); 
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.3s backwards;
         }
-
-        .greeting-banner { display: flex; align-items: center; gap: 16px; border: 1px solid var(--border); background: var(--bg-card); border-radius: 10px; padding: 12px 20px; margin-bottom: 24px; font-size: 14px; color: var(--text-dim); flex-wrap: wrap; }
-        .greeting-banner .greeting-name { color: var(--text); font-weight: 700; font-size: 17px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
-        .greeting-banner .greeting-quote { color: var(--text-dim); font-style: italic; margin-left: auto; font-size: 12px; }
-        .greeting-banner .github-status { font-size: 10px; color: var(--text-dim); background: rgba(255,255,255,0.03); padding: 4px 14px; border-radius: 20px; border: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
-        .greeting-banner .github-status:hover { background: rgba(255,255,255,0.06); }
-        .greeting-banner .github-status.saving { color: var(--green); border-color: rgba(0,255,136,0.3); animation: pulse 1s ease-in-out infinite; }
-        .greeting-banner .github-status.error { color: var(--red); border-color: rgba(255,51,85,0.3); }
-        .greeting-banner .github-status.success { color: var(--green); border-color: rgba(0,255,136,0.3); }
-        .greeting-banner .github-status.syncing { color: var(--gold); border-color: rgba(255,215,0,0.3); animation: pulse 0.5s ease-in-out infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-        .brand { display: flex; align-items: center; gap: 14px; }
-        #app-logo { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 0 20px rgba(255,255,255,0.03)); }
-        #app-logo.fallback { border-radius: 50%; border: 1.5px solid var(--text); display: flex; align-items: center; justify-content: center; color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 14px; background: rgba(255,255,255,0.02); }
-        .title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 3px; text-transform: uppercase; color: var(--text); }
-        .title .highlight { opacity: 0.6; }
-        .subtitle { color: var(--text-dim); font-size: 11px; margin-top: 2px; letter-spacing: 1.5px; font-weight: 300; }
-        .subtitle .highlight { color: var(--text); opacity: 0.8; }
-        .header-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-        button { font-family: 'Rajdhani', sans-serif; cursor: pointer; border: none; border-radius: 6px; font-weight: 600; font-size: 12px; padding: 7px 14px; letter-spacing: 0.5px; transition: all 0.25s ease; }
-        .btn-ghost { background: var(--bg-card); color: var(--text-dim); border: 1px solid var(--border); font-weight: 500; padding: 6px 12px; font-size: 11px; }
-        .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); background: var(--bg-card-hover); }
-        .btn-primary { background: var(--text); color: var(--bg); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-        .btn-primary:hover { opacity: 0.8; transform: scale(1.02); }
-        .btn-cancel { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
-        .btn-success { background: var(--green); color: var(--bg); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-        .btn-success:hover { opacity: 0.8; transform: scale(1.02); }
-
-        .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
-        .tab { background: none; border: none; cursor: pointer; padding: 10px 8px 10px; margin-right: 32px; color: var(--text-dim); border-bottom: 2px solid transparent; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; }
-        .tab.active { color: var(--text); border-bottom: 2px solid var(--text); }
-        .tab:hover { color: var(--text); }
-
-        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
-        .stat-cell { background: var(--bg-card); padding: 12px 14px; }
-        .stat-label { font-size: 8px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; font-weight: 500; }
-        .stat-value { font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
-        .tone-green { color: var(--green); }
-        .tone-red { color: var(--red); }
-        .tone-gold { color: var(--gold); }
-
-        form.entry-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
-        .field { display: flex; flex-direction: column; gap: 4px; font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 500; }
-        .field input, .field select, .field textarea { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 13px; font-family: 'JetBrains Mono', monospace; outline: none; transition: border 0.25s ease; }
-        .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--text-dim); }
-        .field textarea { font-family: 'Rajdhani', sans-serif; resize: vertical; }
-        .form-full { grid-column: 1 / -1; }
-        .form-submit-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 8px; }
-
-        .chart-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 6px 6px; margin-bottom: 20px; height: 160px; position: relative; overflow: hidden; }
-        .chart-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%); pointer-events: none; }
-        .chart-box svg { filter: drop-shadow(0 0 20px rgba(0,255,136,0.05)); }
-        .chart-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 1px; }
-
-        .session-filters { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-        .chip { background: transparent; color: var(--text-dim); border: 1px solid var(--border); border-radius: 30px; padding: 4px 16px; font-size: 11px; cursor: pointer; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: all 0.25s ease; }
-        .chip.active { background: var(--bg-card); color: var(--text); border-color: var(--text); }
-        .chip:hover { border-color: var(--text-dim); color: var(--text); }
-
-        .search-bar { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
-        .search-bar input { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; color: var(--text); font-size: 12px; font-family: 'Rajdhani', sans-serif; outline: none; flex: 1; min-width: 150px; }
-        .search-bar input:focus { border-color: var(--text-dim); }
-        .search-bar .chip { padding: 4px 12px; font-size: 10px; }
-
-        .table-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-        .row { display: grid; grid-template-columns: 20px 80px 70px 60px 80px 1fr 1fr 1fr 70px 90px 1.3fr 24px; gap: 8px; padding: 9px 16px; align-items: center; border-bottom: 1px solid var(--border); font-size: 12px; transition: background 0.2s ease; }
-        .row:hover { background: var(--bg-card-hover); }
-        .row-head { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; padding: 8px 16px; font-weight: 600; border-bottom: 1px solid var(--border); }
-        .row-empty { padding: 40px; text-align: center; color: var(--text-dim); font-size: 13px; grid-column: 1 / -1; font-weight: 300; letter-spacing: 0.5px; }
-        .stamp { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-        .stamp-win { background: var(--green); box-shadow: 0 0 12px rgba(0,255,136,0.2); }
-        .stamp-loss { border: 2px solid var(--red); background: transparent; }
-        .stamp-flat { width: 8px; height: 1px; border-radius: 1px; background: var(--text-dim); }
-        .del-btn { background: none; border: none; color: var(--text-dim); cursor: pointer; padding: 4px; font-size: 14px; transition: color 0.2s ease; }
-        .del-btn:hover { color: var(--red); }
-        .notes-cell { color: var(--text-dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .footnote { margin-top: 12px; font-size: 10px; color: var(--text-dim); text-align: right; letter-spacing: 1px; font-weight: 300; }
-
-        .analytics-grid { display: grid; gap: 20px; }
-        .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 12px 12px; transition: border-color 0.25s ease; }
-        .chart-card:hover { border-color: var(--border-light); }
-        .chart-card-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; padding-left: 8px; font-weight: 500; }
-        .chart-card-body { height: 160px; }
-        .empty-analytics { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 60px; text-align: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 0.5px; }
-
-        .token-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; }
-        .token-modal.show { display: flex; }
-        .token-modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 460px; width: 90%; }
-        .token-modal h2 { color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 18px; margin-bottom: 12px; letter-spacing: 1px; }
-        .token-modal p { color: var(--text-dim); margin-bottom: 16px; font-size: 13px; line-height: 1.6; }
-        .token-modal input { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none; margin-bottom: 12px; }
-        .token-modal input:focus { border-color: var(--text-dim); }
-        .token-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
-        .token-modal .btn-row button { padding: 8px 20px; font-size: 12px; }
-
-        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 24px; font-size: 13px; color: var(--text); z-index: 999; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; max-width: 90%; }
-        .toast.show { opacity: 1; }
-        .toast.success { border-color: var(--green); color: var(--green); }
-        .toast.error { border-color: var(--red); color: var(--red); }
-        .toast.info { border-color: var(--gold); color: var(--gold); }
-
-        @media (max-width: 700px) {
-            .row { grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px; gap: 4px; font-size: 10px; padding: 7px 10px; }
-            .row-head { font-size: 8px; padding: 6px 10px; }
-            .title { font-size: 16px; }
-            #splash-title { font-size: 32px; letter-spacing: 4px; }
-            #splash-quote { font-size: 16px; }
-            form.entry-form { grid-template-columns: 1fr 1fr; }
-            .greeting-banner { flex-wrap: wrap; }
-            .greeting-banner .greeting-quote { margin-left: 0; width: 100%; }
-            .greeting-banner .github-status { font-size: 9px; padding: 3px 10px; }
+        
+        .countdown-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px 25px;
+            min-width: 100px;
         }
-        @media (max-width: 480px) {
-            .row { grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px; gap: 3px; font-size: 9px; padding: 6px 6px; }
-            .row-head { font-size: 7px; padding: 4px 6px; }
-            .stats-row { grid-template-columns: 1fr 1fr; }
-            #splash-title { font-size: 22px; letter-spacing: 2px; }
-            .header-actions .btn-ghost { padding: 5px 8px; font-size: 10px; }
-            .header-actions .btn-primary { padding: 5px 10px; font-size: 10px; }
+        
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
+            color: white;
+        }
+        
+        .countdown-label {
+            font-size: 0.7rem;
+            color: #888;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        
+        .notify-form {
+            display: flex;
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease 0.4s backwards;
+        }
+        
+        .notify-input {
+            flex: 1;
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 40px;
+            color: white;
+            font-size: 0.9rem;
+            min-width: 250px;
+        }
+        
+        .notify-input:focus {
+            outline: none;
+            border-color: white;
+        }
+        
+        .notify-btn {
+            background: white;
+            color: black;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .notify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,255,255,0.15);
+        }
+        
+        .social-links {
+            margin-top: 60px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease 0.5s backwards;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.3rem;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+        
+        .social-links a:hover {
+            opacity: 1;
+        }
+        
+        footer {
+            margin-top: 60px;
+            color: #444;
+            font-size: 0.7rem;
+            animation: fadeInUp 0.8s ease 0.55s backwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .countdown-item {
+                padding: 15px 20px;
+                min-width: 70px;
+            }
+            .countdown-number {
+                font-size: 1.8rem;
+            }
+            .logo img {
+                height: 80px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
-
-    <!-- TOAST NOTIFICATION -->
-    <div class="toast" id="toast"></div>
-
-    <!-- TOKEN MODAL -->
-    <div class="token-modal" id="tokenModal">
-        <div class="token-modal-content">
-            <h2>GitHub Token</h2>
-            <p>Enter your GitHub Personal Access Token for cloud sync.</p>
-            <p style="font-size:11px;color:var(--text-dim);">
-                Create at: <strong style="color:var(--text);">github.com/settings/tokens</strong><br>
-                Select <strong style="color:var(--green);">repo</strong> scope.
-            </p>
-            <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
-            <div class="btn-row">
-                <button class="btn-cancel" id="tokenCancelBtn">Cancel</button>
-                <button class="btn-primary" id="tokenSaveBtn">Save</button>
+    <div class="bg-animation"></div>
+    <div class="scanline"></div>
+    
+    <div class="container">
+        <div class="logo">
+            <img src="images/exoduss.png" alt="EXODUS">
+        </div>
+        
+        <div class="coming-soon-badge">COMING SOON</div>
+        
+        <h1>Something <span style="color:white;">Extraordinary</span> is Coming</h1>
+        
+        <p>We're preparing something special for you.<br>Our new collection is almost here.</p>
+        
+        <div class="countdown" id="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">00</div>
+                <div class="countdown-label">DAYS</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">00</div>
+                <div class="countdown-label">HOURS</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">00</div>
+                <div class="countdown-label">MINUTES</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">00</div>
+                <div class="countdown-label">SECONDS</div>
             </div>
         </div>
-    </div>
-
-    <!-- SPLASH -->
-    <div id="splash">
-        <img id="splash-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'splash-logo\' class=\'fallback\'>EY</div>'">
-        <div id="splash-title">WELCOME <span class="highlight">SIR</span> <span class="highlight">EYOB</span></div>
-        <div id="splash-sub">discipline is the <span class="highlight">edge</span></div>
-        <div id="splash-quote-box">
-            <div id="splash-quote"></div>
-            <div id="splash-date"></div>
-        </div>
-        <button id="enterBtn">Enter</button>
-    </div>
-
-    <!-- MAIN APP -->
-    <div class="wrap">
-
-        <div class="greeting-banner">
-            <span>◆</span>
-            <span>Welcome back, <span class="greeting-name">Sir Eyob</span></span>
-            <span class="greeting-quote" id="bannerQuote"></span>
-            <span class="github-status" id="githubStatus">● Ready</span>
-        </div>
-
-        <div class="header">
-            <div class="brand">
-                <img id="app-logo" src="logo.png" alt="Sir Eyob Logo" onerror="this.outerHTML='<div id=\'app-logo\' class=\'fallback\'>EY</div>'">
-                <div>
-                    <div class="title">SIR <span class="highlight">EYOB</span> <span style="color:var(--text-dim);font-size:13px;letter-spacing:1px;">· LEDGER</span></div>
-                    <div class="subtitle">a running record of every <span class="highlight">position</span></div>
-                </div>
-            </div>
-            <div class="header-actions">
-                <button class="btn-ghost" id="exportBtn">Export</button>
-                <button class="btn-ghost" id="importBtn">Import</button>
-                <input type="file" id="importFile" accept="application/json" style="display:none">
-                <button class="btn-ghost" id="githubTokenBtn">GitHub</button>
-                <button class="btn-ghost" id="syncBtn" style="display:none;">Sync</button>
-                <button class="btn-ghost" id="clearAllBtn" style="display:none;">Clear All</button>
-                <button class="btn-primary" id="toggleFormBtn">+ New</button>
-            </div>
-        </div>
-
-        <div class="tabs">
-            <button class="tab active" data-tab="journal">Journal</button>
-            <button class="tab" data-tab="analytics">Analytics</button>
-            <button class="tab" data-tab="stats">Statistics</button>
-        </div>
-
-        <div class="stats-row" id="statsRow"></div>
-
-        <form class="entry-form" id="entryForm" style="display:none;">
-            <label class="field">Date<input type="date" id="f-date"></label>
-            <label class="field">Symbol<input type="text" id="f-symbol" placeholder="EURUSD" required></label>
-            <label class="field">Direction
-                <select id="f-direction"><option>Long</option><option>Short</option></select>
-            </label>
-            <label class="field">Session
-                <select id="f-session">
-                    <option>Daily</option><option selected>New York</option><option>London</option><option>Other</option>
-                </select>
-            </label>
-            <label class="field">Entry<input type="number" step="any" id="f-entry" required></label>
-            <label class="field">Stop<input type="number" step="any" id="f-stop" required></label>
-            <label class="field">Exit<input type="number" step="any" id="f-exit" required></label>
-            <label class="field">Size<input type="number" step="any" id="f-size" placeholder="units"></label>
-            <label class="field">Risk %<input type="number" step="0.1" id="f-risk" value="1.0"></label>
-            <label class="field">Target R:R<input type="number" step="0.1" id="f-target" placeholder="2.0"></label>
-            <label class="field">Rating
-                <select id="f-rating">
-                    <option value="">None</option>
-                    <option value="A+">A+ (Perfect)</option>
-                    <option value="A">A (Good)</option>
-                    <option value="B">B (OK)</option>
-                    <option value="C">C (Poor)</option>
-                    <option value="D">D (Terrible)</option>
-                </select>
-            </label>
-            <label class="field form-full">Notes<textarea id="f-notes" rows="2" placeholder="Setup quality, emotions, lessons learned..."></textarea></label>
-            <div class="form-submit-row">
-                <button type="button" class="btn-cancel" id="cancelFormBtn">Cancel</button>
-                <button type="submit" class="btn-primary">Log Trade</button>
-            </div>
+        
+        <form class="notify-form" id="notifyForm" action="https://formspree.io/f/mlgzwdbj" method="POST">
+            <input type="email" class="notify-input" name="email" placeholder="Enter your email" required>
+            <input type="hidden" name="_subject" value="📧 New EXODUS Coming Soon Subscriber">
+            <input type="hidden" name="_replyto" value="exodusclothingeth@gmail.com">
+            <button type="submit" class="notify-btn">NOTIFY ME</button>
         </form>
-
-        <div id="journalTab">
-            <div class="chart-box" id="equityChart"></div>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="🔍 Search symbols, notes..." />
-                <button class="chip active" data-filter="all">All</button>
-                <button class="chip" data-filter="win">Wins</button>
-                <button class="chip" data-filter="loss">Losses</button>
-            </div>
-            <div class="session-filters" id="sessionFilters"></div>
-            <div class="table-box">
-                <div class="row row-head">
-                    <span></span><span>Date</span><span>Symbol</span><span>Dir</span><span>Session</span>
-                    <span>Entry</span><span>Stop</span><span>Exit</span><span>R</span><span>P&amp;L</span><span>Notes</span><span></span>
-                </div>
-                <div id="tradeRows"></div>
-            </div>
-            <div class="footnote">◆ Auto-syncs via GitHub · All devices stay in sync</div>
+        
+        <div class="social-links">
+            <a href="https://www.instagram.com/exodus_stw" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-telegram"></i></a>
+            <a href="https://www.tiktok.com/@exodus...7" target="_blank"><i class="fab fa-tiktok"></i></a>
         </div>
-
-        <div id="analyticsTab" style="display:none;"></div>
-        <div id="statsTab" style="display:none;"></div>
-
+        
+        <footer>
+            <p>EXODUS CLOTHING — Ethiopian Streetwear</p>
+            <p style="margin-top: 8px;">📞 +251968621548 | ✉️ exodusclothingeth@gmail.com</p>
+        </footer>
     </div>
 
     <script>
-        // ============================================================
-        // CONFIG
-        // ============================================================
-        const SESSIONS = ["Daily", "London", "New York", "Other"];
-        const STORAGE_KEY = "trade-ledger:trades";
-        const GITHUB_REPO = "Eyobketema28/TRADE-EYOB";
-        const GITHUB_PATH = "trades.json";
-        const TOKEN_STORAGE_KEY = "trade-ledger:github-token";
-
-        const QUOTES = [
-            "What you focus on expands. Trade the setup in front of you, not the one in your head.",
-            "Energy flows where attention goes. Give your losses less of it than your process.",
-            "The market mirrors the trader. Calm charts, calm mind.",
-            "You don't rise to the level of your goals, you fall to the level of your discipline.",
-            "Abundance is a habit before it's a number in an account.",
-            "Every green candle you missed taught you something red couldn't.",
-            "Patience compounds faster than leverage.",
-            "You attract the trades that match the state you enter the session in.",
-            "A quiet mind sees the chart clearly. A loud one sees what it fears.",
-            "Discipline today writes the equity curve of tomorrow.",
-            "The trade you didn't take can teach as much as the one you did.",
-            "Consistency is a magnet. Chaos repels good decisions.",
-            "Trust the process publicly, refine it privately.",
-            "Your next winning streak starts with the next disciplined loss.",
-            "Certainty is not required to act with conviction.",
-        ];
-
-        // ============================================================
-        // STATE
-        // ============================================================
-        let trades = [];
-        let currentTab = "journal";
-        let sessionFilter = "All";
-        let searchQuery = "";
-        let resultFilter = "all";
-        let githubToken = localStorage.getItem(TOKEN_STORAGE_KEY) || "";
-        let isSaving = false;
-        let isSyncing = false;
-        let syncTimer = null;
-        let isDirty = false;
-
-        // ============================================================
-        // TOAST NOTIFICATION
-        // ============================================================
-        function showToast(message, type) {
-            type = type || '';
-            var toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast ' + type;
-            void toast.offsetWidth;
-            toast.classList.add('show');
-            clearTimeout(toast._timeout);
-            toast._timeout = setTimeout(function() {
-                toast.classList.remove('show');
-            }, 4000);
-        }
-
-        // ============================================================
-        // TRADE FUNCTIONS
-        // ============================================================
-        function todaysQuote() {
-            var start = new Date(new Date().getFullYear(), 0, 0);
-            var diff = new Date() - start;
-            return QUOTES[Math.floor(diff / 86400000) % QUOTES.length];
-        }
-
-        function loadTrades() {
-            try { 
-                var data = localStorage.getItem(STORAGE_KEY);
-                return data ? JSON.parse(data) : []; 
-            } catch(e) { 
-                return []; 
-            }
-        }
-
-        function saveTrades() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
-            isDirty = true;
-            if (githubToken && githubToken.length > 10) {
-                saveToGitHub();
-            }
-            render();
-        }
-
-        function uid() { 
-            return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); 
-        }
-
-        function calcR(direction, entry, stop, exit) {
-            var e = parseFloat(entry), s = parseFloat(stop), x = parseFloat(exit);
-            if ([e, s, x].some(function(v) { return isNaN(v); })) return null;
-            var risk = Math.abs(e - s);
-            if (risk === 0) return null;
-            var reward = direction === "Long" ? x - e : e - x;
-            return reward / risk;
-        }
-
-        function calcPnl(direction, entry, exit, size) {
-            var e = parseFloat(entry), x = parseFloat(exit), sz = parseFloat(size);
-            if ([e, x, sz].some(function(v) { return isNaN(v); }) || sz <= 0) return null;
-            return direction === "Long" ? (x - e) * sz : (e - x) * sz;
-        }
-
-        function outcome(r) {
-            if (r === null) return "flat";
-            if (r > 0.05) return "win";
-            if (r < -0.05) return "loss";
-            return "flat";
-        }
-
-        function fmtR(r) { 
-            return r === null ? "—" : (r >= 0 ? "+" : "") + r.toFixed(2); 
-        }
-
-        // ============================================================
-        // GITHUB SYNC - FIXED & WORKING
-        // ============================================================
-        function utf8ToBase64(str) {
-            return btoa(unescape(encodeURIComponent(str)));
-        }
-
-        function base64ToUtf8(b64) {
-            var clean = b64.replace(/\n/g, '');
-            return decodeURIComponent(escape(atob(clean)));
-        }
-
-        let cachedDefaultBranch = null;
-        async function getDefaultBranch() {
-            if (cachedDefaultBranch) return cachedDefaultBranch;
-            try {
-                var res = await fetch('https://api.github.com/repos/' + GITHUB_REPO, {
-                    headers: {
-                        'Authorization': 'token ' + githubToken,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                if (res.ok) {
-                    var info = await res.json();
-                    cachedDefaultBranch = info.default_branch || 'main';
-                } else {
-                    cachedDefaultBranch = 'main';
-                }
-            } catch (e) {
-                cachedDefaultBranch = 'main';
-            }
-            return cachedDefaultBranch;
-        }
-
-        function updateGithubStatus(text, type) {
-            var el = document.getElementById('githubStatus');
-            if (!el) return;
-            el.textContent = text;
-            el.className = 'github-status';
-            if (type) el.classList.add(type);
-        }
-
-        async function saveToGitHub() {
-            if (!githubToken || githubToken.length < 10 || isSaving) return false;
-            if (trades.length === 0) {
-                updateGithubStatus('● No trades', '');
-                return false;
-            }
-
-            isSaving = true;
-            updateGithubStatus('● Saving...', 'saving');
-
-            try {
-                var data = JSON.stringify(trades, null, 2);
-                var content = utf8ToBase64(data);
-
-                var branch = await getDefaultBranch();
-                var sha = null;
-                try {
-                    var shaRes = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_PATH + '?ref=' + branch, {
-                        headers: {
-                            'Authorization': 'token ' + githubToken,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-                    if (shaRes.ok) {
-                        var file = await shaRes.json();
-                        sha = file.sha;
-                    } else if (shaRes.status !== 404) {
-                        throw new Error('Failed to check existing file (HTTP ' + shaRes.status + ')');
-                    }
-                } catch (e) {
-                    console.log('File not found, creating new');
-                }
-
-                var putRes = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_PATH, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': 'token ' + githubToken,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/vnd.github.v3+json'
-                    },
-                    body: JSON.stringify({
-                        message: 'Update trades - ' + new Date().toISOString().slice(0, 10),
-                        content: content,
-                        sha: sha || undefined,
-                        branch: branch
-                    })
-                });
-
-                if (putRes.ok) {
-                    isDirty = false;
-                    updateGithubStatus('● ' + trades.length + ' saved', 'success');
-                    showToast('✅ ' + trades.length + ' trades saved to GitHub', 'success');
-                    setTimeout(function() { 
-                        if (!isSaving) updateGithubStatus('● ' + trades.length + ' on GitHub', 'success'); 
-                    }, 3000);
-                    return true;
-                } else {
-                    var err = await putRes.json().catch(function() { return {}; });
-                    throw new Error((err.message || 'HTTP ' + putRes.status) + ' (save)');
-                }
-            } catch (error) {
-                console.error('Save error:', error);
-                updateGithubStatus('● Save failed', 'error');
-                showToast('❌ Failed to save to GitHub: ' + error.message, 'error');
-                return false;
-            } finally {
-                isSaving = false;
-            }
-        }
-
-        async function loadFromGitHub() {
-            if (!githubToken || githubToken.length < 10 || isSyncing) return false;
-
-            if (isDirty) {
-                console.log('Skipping pull: local changes pending push');
-                await saveToGitHub();
-                return false;
-            }
-
-            isSyncing = true;
-            updateGithubStatus('● Syncing...', 'syncing');
-
-            try {
-                var branch = await getDefaultBranch();
-                var res = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_PATH + '?ref=' + branch, {
-                    headers: {
-                        'Authorization': 'token ' + githubToken,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-
-                if (res.ok) {
-                    var file = await res.json();
-                    var content;
-                    try {
-                        content = JSON.parse(base64ToUtf8(file.content));
-                    } catch (parseErr) {
-                        throw new Error('the file on GitHub isn\'t valid JSON');
-                    }
-
-                    if (Array.isArray(content)) {
-                        if (isDirty) {
-                            isSyncing = false;
-                            return await loadFromGitHub();
-                        }
-                        var currentData = JSON.stringify(trades);
-                        var newData = JSON.stringify(content);
-
-                        if (currentData !== newData) {
-                            trades = content;
-                            localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
-                            render();
-                            updateGithubStatus('● ' + trades.length + ' synced', 'success');
-                            showToast('✅ Synced ' + trades.length + ' trades from GitHub', 'success');
-                            return true;
-                        } else {
-                            updateGithubStatus('● ' + trades.length + ' up to date', 'success');
-                            showToast('✅ ' + trades.length + ' trades are up to date', 'success');
-                            return true;
-                        }
-                    }
-                    updateGithubStatus('● Bad file format', 'error');
-                    showToast('❌ trades.json on GitHub is not a list of trades', 'error');
-                    return false;
-                } else if (res.status === 404) {
-                    updateGithubStatus('● No file on GitHub', '');
-                    showToast('ℹ️ No trades file found on GitHub', 'info');
-                    return false;
-                } else if (res.status === 401) {
-                    updateGithubStatus('● Bad token', 'error');
-                    showToast('❌ GitHub rejected the token (401) — re-enter it', 'error');
-                    return false;
-                } else {
-                    var err = await res.json().catch(function() { return {}; });
-                    throw new Error((err.message || 'HTTP ' + res.status));
-                }
-            } catch (error) {
-                console.error('Load error:', error);
-                updateGithubStatus('● Sync failed', 'error');
-                showToast('❌ Sync failed: ' + error.message, 'error');
-                return false;
-            } finally {
-                isSyncing = false;
-            }
-        }
-
-        function startAutoSync() {
-            if (syncTimer) clearInterval(syncTimer);
-            syncTimer = setInterval(function() {
-                if (githubToken && githubToken.length > 10) {
-                    if (isDirty) {
-                        saveToGitHub();
-                    } else {
-                        loadFromGitHub();
-                    }
-                }
-            }, 60000);
-        }
-
-        // ============================================================
-        // ADVANCED STATS
-        // ============================================================
-        function computeStats() {
-            var withR = trades.filter(function(t) { return t.r !== null && t.r !== undefined; });
-            var wins = withR.filter(function(t) { return outcome(t.r) === "win"; }).length;
-            var losses = withR.filter(function(t) { return outcome(t.r) === "loss"; }).length;
-            var total = withR.length;
-            var winRate = total ? (wins / total) * 100 : 0;
-            var totalR = withR.reduce(function(s, t) { return s + t.r; }, 0);
-            var avgR = total ? totalR / total : 0;
-            var expectancy = total ? totalR / total : 0;
-            
-            var streak = 0, streakType = null;
-            for (var i = withR.length - 1; i >= 0; i--) {
-                var o = outcome(withR[i].r);
-                if (o === "flat") break;
-                if (!streakType) { streakType = o; streak = 1; }
-                else if (o === streakType) streak++;
-                else break;
-            }
-            
-            var cum = 0, peak = 0;
-            var curve = withR.map(function(t) {
-                cum += t.r;
-                peak = Math.max(peak, cum);
-                return { cum: +cum.toFixed(2), drawdown: +(cum - peak).toFixed(2) };
-            });
-            var maxDD = curve.length ? Math.min.apply(null, curve.map(function(c) { return c.drawdown; })) : 0;
-            
-            // Average win/loss
-            var avgWin = wins ? withR.filter(function(t) { return outcome(t.r) === "win"; }).reduce(function(s, t) { return s + t.r; }, 0) / wins : 0;
-            var avgLoss = losses ? withR.filter(function(t) { return outcome(t.r) === "loss"; }).reduce(function(s, t) { return s + t.r; }, 0) / losses : 0;
-            
-            // Profit factor
-            var grossProfit = withR.filter(function(t) { return t.r > 0; }).reduce(function(s, t) { return s + t.r; }, 0);
-            var grossLoss = withR.filter(function(t) { return t.r < 0; }).reduce(function(s, t) { return s + Math.abs(t.r); }, 0);
-            var profitFactor = grossLoss > 0 ? grossProfit / grossLoss : (grossProfit > 0 ? Infinity : 0);
-            
-            // Rating distribution
-            var ratings = {};
-            trades.forEach(function(t) {
-                if (t.rating) {
-                    ratings[t.rating] = (ratings[t.rating] || 0) + 1;
-                }
-            });
-            
-            // Best/worst trades
-            var sortedByR = withR.slice().sort(function(a, b) { return b.r - a.r; });
-            var bestTrade = sortedByR.length > 0 ? sortedByR[0] : null;
-            var worstTrade = sortedByR.length > 0 ? sortedByR[sortedByR.length - 1] : null;
-            
-            return { 
-                total: total, 
-                wins: wins, 
-                losses: losses, 
-                winRate: winRate, 
-                totalR: totalR, 
-                avgR: avgR, 
-                expectancy: expectancy, 
-                streak: streak, 
-                streakType: streakType, 
-                curve: curve, 
-                maxDD: maxDD,
-                avgWin: avgWin,
-                avgLoss: avgLoss,
-                profitFactor: profitFactor,
-                ratings: ratings,
-                bestTrade: bestTrade,
-                worstTrade: worstTrade
-            };
-        }
-
-        // ============================================================
-        // CHARTS
-        // ============================================================
-        function svgLineChart(data, opts) {
-            var w = 600, h = opts.height || 140, pad = 12;
-            if (data.length < 2) return '<div class="chart-empty">need more data</div>';
-            var vals = data.map(function(d) { return d.value; });
-            var min = Math.min.apply(null, [0].concat(vals));
-            var max = Math.max.apply(null, [0].concat(vals));
-            var range = max - min || 1;
-            var x = function(i) { return pad + (i / (data.length - 1)) * (w - pad * 2); };
-            var y = function(v) { return h - pad - ((v - min) / range) * (h - pad * 2); };
-            var zeroY = y(0);
-            var points = data.map(function(d, i) { return x(i) + ',' + y(d.value); }).join(' ');
-            var fillPath = opts.fill ? '<polygon points="' + x(0) + ',' + zeroY + ' ' + points + ' ' + x(data.length-1) + ',' + zeroY + '" fill="' + opts.fill + '" opacity="0.06"/>' : '';
-            return '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" height="100%">' +
-                '<line x1="' + pad + '" y1="' + zeroY + '" x2="' + (w-pad) + '" y2="' + zeroY + '" stroke="#1A1A1A" stroke-dasharray="3,4"/>' +
-                fillPath +
-                '<polyline points="' + points + '" fill="none" stroke="' + (opts.stroke || '#FFFFFF') + '" stroke-width="2.5" opacity="0.9"/>' +
-            '</svg>';
-        }
-
-        function svgBarChart(data) {
-            var w = 600, h = 150, pad = 8, gap = 6;
-            if (!data.length) return '<div class="chart-empty">no data</div>';
-            var vals = data.map(function(d) { return d.value; });
-            var min = Math.min.apply(null, [0].concat(vals));
-            var max = Math.max.apply(null, [0].concat(vals));
-            var range = (max - min) || 1;
-            var barW = Math.min((w - pad * 2 - gap * (data.length - 1)) / data.length, 40);
-            var zeroY = h - 24 - ((0 - min) / range) * (h - 24 - pad);
-            var bars = '', labels = '';
-            data.forEach(function(d, i) {
-                var bx = pad + i * (barW + gap);
-                var by = h - 24 - ((d.value - min) / range) * (h - 24 - pad);
-                var barTop = Math.min(by, zeroY);
-                var barH = Math.abs(by - zeroY);
-                var color = d.value >= 0 ? '#00FF88' : '#FF3355';
-                bars += '<rect x="' + bx + '" y="' + barTop + '" width="' + barW + '" height="' + Math.max(barH, 1) + '" fill="' + color + '" rx="2" opacity="0.85"/>';
-                labels += '<text x="' + (bx + barW / 2) + '" y="' + (h - 6) + '" font-size="8" fill="#666" text-anchor="middle">' + d.label + '</text>';
-            });
-            return '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" height="100%">' +
-                '<line x1="' + pad + '" y1="' + zeroY + '" x2="' + (w-pad) + '" y2="' + zeroY + '" stroke="#1A1A1A"/>' +
-                bars + labels +
-            '</svg>';
-        }
-
-        // ============================================================
-        // RENDER
-        // ============================================================
-        function render() {
-            renderTabs();
-            if (currentTab === "journal") {
-                document.getElementById("journalTab").style.display = "";
-                document.getElementById("analyticsTab").style.display = "none";
-                document.getElementById("statsTab").style.display = "none";
-                renderStats();
-                renderEquityChart();
-                renderSessionFilters();
-                renderTable();
-            } else if (currentTab === "analytics") {
-                document.getElementById("journalTab").style.display = "none";
-                document.getElementById("analyticsTab").style.display = "";
-                document.getElementById("statsTab").style.display = "none";
-                renderAnalytics();
-            } else if (currentTab === "stats") {
-                document.getElementById("journalTab").style.display = "none";
-                document.getElementById("analyticsTab").style.display = "none";
-                document.getElementById("statsTab").style.display = "";
-                renderDetailedStats();
-            }
-        }
-
-        function renderTabs() {
-            var tabs = document.querySelectorAll(".tab");
-            for (var i = 0; i < tabs.length; i++) {
-                tabs[i].classList.toggle("active", tabs[i].dataset.tab === currentTab);
-            }
-        }
-
-        function renderStats() {
-            var s = computeStats();
-            
-            var statItems = [
-                { label: "Win Rate", value: s.total ? s.winRate.toFixed(0) + "%" : "—", tone: "" },
-                { label: "Avg R", value: s.total ? fmtR(s.avgR) + "R" : "—", tone: s.avgR > 0 ? "green" : s.avgR < 0 ? "red" : "" },
-                { label: "Total R", value: s.total ? fmtR(s.totalR) + "R" : "—", tone: s.totalR > 0 ? "green" : s.totalR < 0 ? "red" : "" },
-                { label: "Expectancy", value: s.total ? fmtR(s.expectancy) + "R" : "—", tone: s.expectancy > 0 ? "green" : s.expectancy < 0 ? "red" : "" },
-                { label: "Max DD", value: s.total ? s.maxDD.toFixed(2) + "R" : "—", tone: s.maxDD < 0 ? "red" : "" },
-                { label: "Streak", value: s.streak ? s.streak + " " + (s.streakType === "win" ? "W" : "L") : "—", tone: s.streakType === "win" ? "green" : s.streakType === "loss" ? "red" : "" },
-            ];
-
-            var html = '';
-            for (var i = 0; i < statItems.length; i++) {
-                var item = statItems[i];
-                var toneClass = item.tone ? ' tone-' + item.tone : '';
-                html += '<div class="stat-cell">' +
-                    '<div class="stat-label">' + item.label + '</div>' +
-                    '<div class="stat-value mono' + toneClass + '">' + item.value + '</div>' +
-                '</div>';
-            }
-            document.getElementById("statsRow").innerHTML = html;
-        }
-
-        function renderEquityChart() {
-            var s = computeStats();
-            var el = document.getElementById("equityChart");
-            if (s.curve.length > 1) {
-                el.innerHTML = svgLineChart(s.curve.map(function(c) { return { value: c.cum }; }), { stroke: '#FFFFFF', fill: '#FFFFFF' });
-            } else {
-                el.innerHTML = '<div class="chart-empty">Log trades to see your equity curve</div>';
-            }
-        }
-
-        function renderSessionFilters() {
-            var el = document.getElementById("sessionFilters");
-            var opts = ["All"].concat(SESSIONS);
-            var html = '';
-            for (var i = 0; i < opts.length; i++) {
-                html += '<button class="chip ' + (sessionFilter === opts[i] ? 'active' : '') + '" data-session="' + opts[i] + '">' + opts[i] + '</button>';
-            }
-            el.innerHTML = html;
-            var chips = el.querySelectorAll(".chip");
-            for (var j = 0; j < chips.length; j++) {
-                chips[j].addEventListener("click", function() { 
-                    sessionFilter = this.dataset.session; 
-                    render(); 
-                });
-            }
-        }
-
-        function renderTable() {
-            var filtered = trades;
-            
-            // Apply session filter
-            if (sessionFilter !== "All") {
-                filtered = filtered.filter(function(t) { return t.session === sessionFilter; });
-            }
-            
-            // Apply search
-            if (searchQuery) {
-                var query = searchQuery.toLowerCase();
-                filtered = filtered.filter(function(t) {
-                    return t.symbol.toLowerCase().indexOf(query) !== -1 ||
-                           (t.notes && t.notes.toLowerCase().indexOf(query) !== -1);
-                });
-            }
-            
-            // Apply win/loss filter
-            if (resultFilter === "win") {
-                filtered = filtered.filter(function(t) { return outcome(t.r) === "win"; });
-            } else if (resultFilter === "loss") {
-                filtered = filtered.filter(function(t) { return outcome(t.r) === "loss"; });
-            }
-            
-            var rowsEl = document.getElementById("tradeRows");
-            if (filtered.length === 0) {
-                rowsEl.innerHTML = '<div class="row"><div class="row-empty">No trades match your filters.</div></div>';
-                return;
-            }
-            
-            var html = '';
-            var reversed = filtered.slice().reverse();
-            for (var i = 0; i < reversed.length; i++) {
-                var t = reversed[i];
-                var o = outcome(t.r);
-                var stampClass = o === "win" ? "stamp-win" : o === "loss" ? "stamp-loss" : "stamp-flat";
-                var tone = o === "win" ? "tone-green" : o === "loss" ? "tone-red" : "";
-                var dirColor = t.direction === "Long" ? "tone-green" : "tone-red";
-                var ratingBadge = t.rating ? ' ★' + t.rating : '';
-                html += '<div class="row mono">' +
-                    '<span class="stamp ' + stampClass + '"></span>' +
-                    '<span style="color:var(--text-dim)">' + t.date + '</span>' +
-                    '<span style="font-weight:600;color:var(--text)">' + t.symbol + '</span>' +
-                    '<span class="' + dirColor + '">' + t.direction + '</span>' +
-                    '<span style="color:var(--text-dim);font-family:Rajdhani,sans-serif">' + t.session + '</span>' +
-                    '<span>' + t.entry + '</span><span>' + t.stop + '</span><span>' + t.exit + '</span>' +
-                    '<span class="' + tone + '">' + fmtR(t.r) + ratingBadge + '</span>' +
-                    '<span class="' + tone + '">' + (t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—") + '</span>' +
-                    '<span class="notes-cell">' + (t.notes || "").replace(/</g, "&lt;") + '</span>' +
-                    '<button class="del-btn" data-id="' + t.id + '" title="Delete trade">✕</button>' +
-                '</div>';
-            }
-            rowsEl.innerHTML = html;
-            
-            var delBtns = rowsEl.querySelectorAll(".del-btn");
-            for (var j = 0; j < delBtns.length; j++) {
-                delBtns[j].addEventListener("click", function(e) {
-                    e.stopPropagation();
-                    var id = this.dataset.id;
-                    if (confirm('Delete this trade?')) {
-                        trades = trades.filter(function(t) { return t.id !== id; });
-                        saveTrades();
-                        render();
-                        showToast('🗑️ Trade deleted', '');
-                    }
-                });
-            }
-        }
-
-        function renderAnalytics() {
-            var s = computeStats();
-            var el = document.getElementById("analyticsTab");
-            if (s.total < 2) {
-                el.innerHTML = '<div class="empty-analytics">Log more trades to unlock analytics.</div>';
-                return;
-            }
-            
-            var bySession = SESSIONS.map(function(sess) {
-                var rows = trades.filter(function(t) { return t.session === sess && t.r !== null; });
-                return { label: sess, value: rows.reduce(function(sum, t) { return sum + t.r; }, 0) };
-            }).filter(function(s) { return s.value !== 0; });
-            
-            var byMonth = {};
-            trades.forEach(function(t) {
-                if (t.r !== null) {
-                    var m = t.date.slice(0, 7);
-                    byMonth[m] = (byMonth[m] || 0) + t.r;
-                }
-            });
-            var monthData = Object.keys(byMonth).sort().map(function(m) { return { label: m.slice(5), value: byMonth[m] }; });
-            
-            // Win/Loss distribution
-            var winLossData = [
-                { label: 'Wins', value: s.wins },
-                { label: 'Losses', value: s.losses }
-            ];
-            
-            var html = '<div class="analytics-grid">';
-            if (bySession.length) {
-                html += '<div class="chart-card"><div class="chart-card-title">Performance by Session</div><div class="chart-card-body">' + svgBarChart(bySession) + '</div></div>';
-            }
-            if (monthData.length) {
-                html += '<div class="chart-card"><div class="chart-card-title">Monthly R</div><div class="chart-card-body">' + svgBarChart(monthData) + '</div></div>';
-            }
-            if (s.total > 0) {
-                html += '<div class="chart-card"><div class="chart-card-title">Win/Loss Distribution</div><div class="chart-card-body">' + svgBarChart(winLossData) + '</div></div>';
-            }
-            html += '</div>';
-            el.innerHTML = html;
-        }
-
-        function renderDetailedStats() {
-            var s = computeStats();
-            var el = document.getElementById("statsTab");
-            
-            if (s.total === 0) {
-                el.innerHTML = '<div class="empty-analytics">No trades to analyze yet.</div>';
-                return;
-            }
-            
-            var html = '<div class="analytics-grid">';
-            
-            // Summary cards
-            html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;width:100%;">';
-            var summaryItems = [
-                { label: 'Total Trades', value: s.total },
-                { label: 'Winners', value: s.wins },
-                { label: 'Losers', value: s.losses },
-                { label: 'Win Rate', value: s.winRate.toFixed(1) + '%' },
-                { label: 'Avg Win', value: fmtR(s.avgWin) + 'R' },
-                { label: 'Avg Loss', value: fmtR(s.avgLoss) + 'R' },
-                { label: 'Profit Factor', value: s.profitFactor === Infinity ? '∞' : s.profitFactor.toFixed(2) },
-                { label: 'Best Trade', value: s.bestTrade ? fmtR(s.bestTrade.r) + 'R' : '—' },
-                { label: 'Worst Trade', value: s.worstTrade ? fmtR(s.worstTrade.r) + 'R' : '—' },
-            ];
-            for (var i = 0; i < summaryItems.length; i++) {
-                var item = summaryItems[i];
-                html += '<div class="stat-cell" style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;">' +
-                    '<div class="stat-label">' + item.label + '</div>' +
-                    '<div class="stat-value mono">' + item.value + '</div>' +
-                '</div>';
-            }
-            html += '</div>';
-            
-            // Rating distribution
-            if (Object.keys(s.ratings).length > 0) {
-                var ratingData = Object.keys(s.ratings).sort().map(function(r) {
-                    return { label: r, value: s.ratings[r] };
-                });
-                html += '<div class="chart-card"><div class="chart-card-title">Trade Ratings</div><div class="chart-card-body">' + svgBarChart(ratingData) + '</div></div>';
-            }
-            
-            html += '</div>';
-            el.innerHTML = html;
-        }
-
-        // ============================================================
-        // UI EVENTS
-        // ============================================================
-        // Splash
-        var quoteText = todaysQuote();
-        document.getElementById("splash-quote").textContent = quoteText;
-        document.getElementById("bannerQuote").textContent = quoteText;
-        document.getElementById("splash-date").textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        // Set your launch date here (Year, Month-1, Day, Hour, Minute, Second)
+        // Example: July 1, 2025 = new Date(2025, 6, 1, 0, 0, 0)
+        const launchDate = new Date(2025, 6, 1, 0, 0, 0);
         
-        document.getElementById("enterBtn").addEventListener("click", function() {
-            var splash = document.getElementById("splash");
-            splash.classList.add("hidden");
-            setTimeout(function() {
-                render();
-            }, 100);
-        });
-
-        // Form
-        document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
-        document.getElementById("toggleFormBtn").addEventListener("click", function() {
-            var form = document.getElementById("entryForm");
-            var btn = document.getElementById("toggleFormBtn");
-            var isOpen = form.style.display !== "none";
-            form.style.display = isOpen ? "none" : "grid";
-            btn.textContent = isOpen ? "+ New" : "Cancel";
-            btn.className = isOpen ? "btn-primary" : "btn-cancel";
-        });
-        
-        document.getElementById("cancelFormBtn").addEventListener("click", function() {
-            document.getElementById("entryForm").style.display = "none";
-            document.getElementById("toggleFormBtn").textContent = "+ New";
-            document.getElementById("toggleFormBtn").className = "btn-primary";
-        });
-
-        document.getElementById("entryForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            var symbol = document.getElementById("f-symbol").value.trim();
-            var entry = document.getElementById("f-entry").value;
-            var stop = document.getElementById("f-stop").value;
-            var exit = document.getElementById("f-exit").value;
-            if (!symbol || !entry || !stop || !exit) return;
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = launchDate - now;
             
-            var rating = document.getElementById("f-rating").value;
-            
-            var trade = {
-                id: uid(),
-                date: document.getElementById("f-date").value,
-                symbol: symbol.toUpperCase(),
-                direction: document.getElementById("f-direction").value,
-                session: document.getElementById("f-session").value,
-                entry: parseFloat(entry),
-                stop: parseFloat(stop),
-                exit: parseFloat(exit),
-                size: parseFloat(document.getElementById("f-size").value) || 0,
-                risk: parseFloat(document.getElementById("f-risk").value) || null,
-                target: parseFloat(document.getElementById("f-target").value) || null,
-                rating: rating || null,
-                notes: document.getElementById("f-notes").value,
-                r: calcR(document.getElementById("f-direction").value, entry, stop, exit),
-                pnl: calcPnl(document.getElementById("f-direction").value, entry, exit, document.getElementById("f-size").value),
-                mt5: false
-            };
-            trades.push(trade);
-            trades.sort(function(a, b) { return a.date.localeCompare(b.date); });
-            saveTrades();
-            this.reset();
-            document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
-            document.getElementById("f-risk").value = "1.0";
-            document.getElementById("f-rating").value = "";
-            document.getElementById("entryForm").style.display = "none";
-            document.getElementById("toggleFormBtn").textContent = "+ New";
-            document.getElementById("toggleFormBtn").className = "btn-primary";
-            render();
-            showToast('✅ Trade logged successfully!', 'success');
-        });
-
-        // Tabs
-        var tabs = document.querySelectorAll(".tab");
-        for (var i = 0; i < tabs.length; i++) {
-            tabs[i].addEventListener("click", function() { 
-                currentTab = this.dataset.tab; 
-                render(); 
-            });
-        }
-
-        // Search
-        document.getElementById("searchInput").addEventListener("input", function() {
-            searchQuery = this.value;
-            render();
-        });
-
-        // Result filters (win/loss/all)
-        var filterBtns = document.querySelectorAll('.search-bar .chip');
-        for (var i = 0; i < filterBtns.length; i++) {
-            filterBtns[i].addEventListener("click", function() {
-                document.querySelectorAll('.search-bar .chip').forEach(function(b) { b.classList.remove('active'); });
-                this.classList.add('active');
-                resultFilter = this.dataset.filter;
-                render();
-            });
-        }
-
-        // Export/Import
-        document.getElementById("exportBtn").addEventListener("click", function() {
-            var blob = new Blob([JSON.stringify(trades, null, 2)], { type: "application/json" });
-            var url = URL.createObjectURL(blob);
-            var a = document.createElement("a");
-            a.href = url;
-            a.download = "trades-" + new Date().toISOString().slice(0, 10) + ".json";
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('📤 Exported trades', 'success');
-        });
-
-        document.getElementById("importBtn").addEventListener("click", function() { 
-            document.getElementById("importFile").click(); 
-        });
-        document.getElementById("importFile").addEventListener("change", function(e) {
-            var file = this.files[0];
-            if (!file) return;
-            var reader = new FileReader();
-            reader.onload = function(ev) {
-                try {
-                    var parsed = JSON.parse(ev.target.result);
-                    if (Array.isArray(parsed)) {
-                        trades = parsed;
-                        saveTrades();
-                        render();
-                        showToast('✅ Imported ' + trades.length + ' trades', 'success');
-                    } else {
-                        showToast('❌ Invalid file format', 'error');
-                    }
-                } catch(err) { 
-                    showToast('❌ Failed to parse file', 'error');
-                }
-            };
-            reader.readAsText(file);
-            this.value = "";
-        });
-
-        // Clear All
-        document.getElementById("clearAllBtn").addEventListener("click", function() {
-            if (trades.length === 0) {
-                showToast('ℹ️ No trades to clear', 'info');
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = '<div style="text-align:center; width:100%;"><p style="color:#00c853;">🎉 We\'re live! <a href="/" style="color:white;">Enter Store →</a></p></div>';
                 return;
             }
-            if (confirm('⚠️ Delete ALL trades? This cannot be undone!')) {
-                trades = [];
-                saveTrades();
-                render();
-                showToast('🗑️ All trades cleared', '');
-            }
-        });
-
-        // ============================================================
-        // GITHUB UI
-        // ============================================================
-        document.getElementById("githubTokenBtn").addEventListener("click", function() {
-            document.getElementById("tokenModal").classList.add("show");
-            document.getElementById("tokenInput").value = githubToken;
-        });
-        document.getElementById("tokenCancelBtn").addEventListener("click", function() {
-            document.getElementById("tokenModal").classList.remove("show");
-        });
-        document.getElementById("tokenModal").addEventListener("click", function(e) {
-            if (e.target === this) document.getElementById("tokenModal").classList.remove("show");
-        });
-        document.getElementById("tokenSaveBtn").addEventListener("click", async function() {
-            var token = document.getElementById("tokenInput").value.trim();
-            if (token && token.length > 10) {
-                githubToken = token;
-                localStorage.setItem(TOKEN_STORAGE_KEY, token);
-                document.getElementById("tokenModal").classList.remove("show");
-                document.getElementById("syncBtn").style.display = "inline-block";
-                document.getElementById("clearAllBtn").style.display = "inline-block";
-                updateGithubStatus('● Token saved', 'success');
-                showToast('✅ GitHub token saved', 'success');
-                startAutoSync();
-                await loadFromGitHub();
-            } else {
-                showToast('❌ Please enter a valid token (starts with ghp_)', 'error');
-            }
-        });
-
-        document.getElementById("syncBtn").addEventListener("click", async function() {
-            if (isDirty || trades.length > 0) {
-                await saveToGitHub();
-            }
-            await loadFromGitHub();
-        });
-
-        // ============================================================
-        // VOICE - Audio file is welcome.mp3
-        // ============================================================
-        function speakWelcome() {
-            var audio = new Audio('welcome.mp3');
-            audio.volume = 1.0;
             
-            audio.onerror = function() {
-                if ('speechSynthesis' in window) {
-                    var msg = new SpeechSynthesisUtterance('Welcome Sir Eyob');
-                    msg.lang = 'en-US';
-                    msg.rate = 0.9;
-                    window.speechSynthesis.speak(msg);
-                }
-            };
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
             
-            audio.play().catch(function() {
-                if ('speechSynthesis' in window) {
-                    var msg = new SpeechSynthesisUtterance('Welcome Sir Eyob');
-                    msg.lang = 'en-US';
-                    msg.rate = 0.9;
-                    window.speechSynthesis.speak(msg);
-                }
-            });
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
         }
-
-        // ============================================================
-        // INIT
-        // ============================================================
-        function init() {
-            trades = loadTrades();
-
-            if (githubToken && githubToken.length > 10) {
-                document.getElementById("syncBtn").style.display = "inline-block";
-                document.getElementById("clearAllBtn").style.display = "inline-block";
-                updateGithubStatus('● GitHub ready', 'success');
-                startAutoSync();
-                setTimeout(loadFromGitHub, 1000);
-            }
-            
-            render();
-            setTimeout(speakWelcome, 500);
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>

@@ -7,7 +7,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Sir Eyob Ledger" />
     <meta name="theme-color" content="#000000" />
-    <!-- Simple favicon - no SVG data URLs that break GitHub Pages -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>EY</text></svg>" />
     <title>Sir Eyob · Trade Ledger</title>
     <style>
@@ -714,18 +713,21 @@
         // ============================================================
         // UI EVENTS
         // ============================================================
-        // Splash
+        // Splash - FIXED
         const quoteText = todaysQuote();
         document.getElementById("splash-quote").textContent = quoteText;
         document.getElementById("bannerQuote").textContent = quoteText;
         document.getElementById("splash-date").textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        document.getElementById("enterBtn").addEventListener("click", () => {
+        
+        // FIXED: Properly hide splash when Enter is clicked
+        document.getElementById("enterBtn").addEventListener("click", function(e) {
+            e.preventDefault();
             document.getElementById("splash").classList.add("hidden");
         });
 
         // Form
         document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
-        document.getElementById("toggleFormBtn").addEventListener("click", () => {
+        document.getElementById("toggleFormBtn").addEventListener("click", function() {
             const form = document.getElementById("entryForm");
             const btn = document.getElementById("toggleFormBtn");
             const isOpen = form.style.display !== "none";
@@ -734,7 +736,7 @@
             btn.className = isOpen ? "btn-primary" : "btn-cancel";
         });
 
-        document.getElementById("entryForm").addEventListener("submit", (e) => {
+        document.getElementById("entryForm").addEventListener("submit", function(e) {
             e.preventDefault();
             const symbol = document.getElementById("f-symbol").value.trim();
             const entry = document.getElementById("f-entry").value;
@@ -762,7 +764,7 @@
             trades.push(trade);
             trades.sort((a, b) => a.date.localeCompare(b.date));
             saveTrades();
-            e.target.reset();
+            this.reset();
             document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
             document.getElementById("f-risk").value = "1.0";
             document.getElementById("entryForm").style.display = "none";
@@ -773,12 +775,15 @@
         });
 
         // Tabs
-        document.querySelectorAll(".tab").forEach(el => {
-            el.addEventListener("click", () => { currentTab = el.dataset.tab; render(); });
+        document.querySelectorAll(".tab").forEach(function(el) {
+            el.addEventListener("click", function() { 
+                currentTab = this.dataset.tab; 
+                render(); 
+            });
         });
 
         // Export/Import
-        document.getElementById("exportBtn").addEventListener("click", () => {
+        document.getElementById("exportBtn").addEventListener("click", function() {
             const blob = new Blob([JSON.stringify(trades, null, 2)], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -789,12 +794,14 @@
             showToast('📤 Exported trades', 'success');
         });
 
-        document.getElementById("importBtn").addEventListener("click", () => document.getElementById("importFile").click());
-        document.getElementById("importFile").addEventListener("change", (e) => {
-            const file = e.target.files[0];
+        document.getElementById("importBtn").addEventListener("click", function() { 
+            document.getElementById("importFile").click(); 
+        });
+        document.getElementById("importFile").addEventListener("change", function(e) {
+            const file = this.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = (ev) => {
+            reader.onload = function(ev) {
                 try {
                     const parsed = JSON.parse(ev.target.result);
                     if (Array.isArray(parsed)) {
@@ -810,23 +817,23 @@
                 }
             };
             reader.readAsText(file);
-            e.target.value = "";
+            this.value = "";
         });
 
         // ============================================================
         // GITHUB UI
         // ============================================================
-        document.getElementById("githubTokenBtn").addEventListener("click", () => {
+        document.getElementById("githubTokenBtn").addEventListener("click", function() {
             document.getElementById("tokenModal").classList.add("show");
             document.getElementById("tokenInput").value = githubToken;
         });
-        document.getElementById("tokenCancelBtn").addEventListener("click", () => {
+        document.getElementById("tokenCancelBtn").addEventListener("click", function() {
             document.getElementById("tokenModal").classList.remove("show");
         });
-        document.getElementById("tokenModal").addEventListener("click", (e) => {
-            if (e.target === e.currentTarget) document.getElementById("tokenModal").classList.remove("show");
+        document.getElementById("tokenModal").addEventListener("click", function(e) {
+            if (e.target === this) document.getElementById("tokenModal").classList.remove("show");
         });
-        document.getElementById("tokenSaveBtn").addEventListener("click", async () => {
+        document.getElementById("tokenSaveBtn").addEventListener("click", async function() {
             const token = document.getElementById("tokenInput").value.trim();
             if (token && token.length > 10) {
                 githubToken = token;
@@ -842,7 +849,7 @@
             }
         });
 
-        document.getElementById("syncBtn").addEventListener("click", async () => {
+        document.getElementById("syncBtn").addEventListener("click", async function() {
             if (trades.length > 0) {
                 await saveToGitHub();
             }

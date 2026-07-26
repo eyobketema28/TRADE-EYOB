@@ -311,6 +311,8 @@
                 <button class="btn-ghost" id="exportBtn">Export</button>
                 <button class="btn-ghost" id="importBtn">Import</button>
                 <input type="file" id="importFile" accept="application/json" style="display:none">
+                <button class="btn-ghost" id="mt5ImportBtn">MT5 Import</button>
+                <input type="file" id="mt5ImportFile" accept=".csv,.htm,.html,text/csv,text/html" style="display:none">
                 <button class="btn-ghost" id="githubTokenBtn">GitHub</button>
                 <button class="btn-ghost" id="syncBtn" style="display:none;">Sync</button>
                 <button class="btn-primary" id="toggleFormBtn">+ New</button>
@@ -395,6 +397,7 @@
         let isSaving = false;
         let isSyncing = false;
         let syncTimer = null;
+        let isDirty = false;
 
         // ============================================================
         // TOAST NOTIFICATION
@@ -433,6 +436,7 @@
 
         function saveTrades() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
+            isDirty = true;
             if (githubToken && githubToken.length > 10) {
                 saveToGitHub();
             }
@@ -525,6 +529,7 @@
                 });
 
                 if (putRes.ok) {
+                    isDirty = false;
                     updateGithubStatus('● ' + trades.length + ' saved', 'success');
                     showToast('✅ ' + trades.length + ' trades saved to GitHub', 'success');
                     setTimeout(function() { 
@@ -548,6 +553,14 @@
         async function loadFromGitHub() {
             if (!githubToken || githubToken.length < 10 || isSyncing) return false;
 
+            // Never let a pull clobber changes that haven't been pushed yet.
+            // Push first; the caller (or the next auto-sync tick) will pull once clean.
+            if (isDirty) {
+                console.log('Skipping pull: local changes pending push');
+                await saveToGitHub();
+                return false;
+            }
+
             isSyncing = true;
             updateGithubStatus('● Syncing...', 'syncing');
 
@@ -564,6 +577,11 @@
                     var content = JSON.parse(atob(file.content));
 
                     if (Array.isArray(content)) {
+                        // Double-check nothing changed locally while we were fetching.
+                        if (isDirty) {
+                            isSyncing = false;
+                            return await loadFromGitHub();
+                        }
                         var currentData = JSON.stringify(trades);
                         var newData = JSON.stringify(content);
 
@@ -602,7 +620,11 @@
             if (syncTimer) clearInterval(syncTimer);
             syncTimer = setInterval(function() {
                 if (githubToken && githubToken.length > 10) {
-                    loadFromGitHub();
+                    if (isDirty) {
+                        saveToGitHub();
+                    } else {
+                        loadFromGitHub();
+                    }
                 }
             }, 60000);
         }
@@ -802,12 +824,13 @@
                 var dirColor = t.direction === "Long" ? "tone-green" : "tone-red";
                 var targetHit = t.target && t.r !== null && t.r >= t.target;
                 var targetBadge = targetHit ? '✓' : '';
+                var mt5Badge = t.mt5 ? ' <span style="opacity:0.5;font-size:9px;" title="Imported from MT5">MT5</span>' : '';
                 html += '<div class="row mono">' +
                     '<span class="stamp ' + stampClass + '"></span>' +
                     '<span style="color:var(--text-dim)">' + t.date + '</span>' +
                     '<span style="font-weight:600;color:var(--text)">' + t.symbol + '</span>' +
                     '<span class="' + dirColor + '">' + t.direction + '</span>' +
-                    '<span style="color:var(--text-dim);font-family:Rajdhani,sans-serif">' + t.session + '</span>' +
+                    '<span style="color:var(--text-dim);font-family:Rajdhani,sans-serif">' + t.session + mt5Badge + '</span>' +
                     '<span>' + t.entry + '</span><span>' + t.stop + '</span><span>' + t.exit + '</span>' +
                     '<span class="' + tone + '">' + fmtR(t.r) + ' ' + targetBadge + '</span>' +
                     '<span class="' + tone + '">' + (t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—") + '</span>' +
@@ -861,6 +884,261 @@
             }
             html += '</div>';
             el.innerHTML = html;
+        }
+
+        // ============================================================
+        // MT5 IMPORT (CSV / HTML report)
+        // ============================================================
+        function normalizeHeader(h) {
+            return String(h || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        }
+
+        function findColIndex(headers, candidates) {
+            for (var i = 0; i < headers.length; i++) {
+                var h = normalizeHeader(headers[i]);
+                if (candidates.indexOf(h) !== -1) return i;
+            }
+            for (var i = 0; i < headers.length; i++) {
+                var h = normalizeHeader(headers[i]);
+                for (var j = 0; j < candidates.length; j++) {
+                    if (h.indexOf(candidates[j]) !== -1) return i;
+                }
+            }
+            return -1;
+        }
+
+        function findAllColIndices(headers, candidates) {
+            var out = [];
+            for (var i = 0; i < headers.length; i++) {
+                var h = normalizeHeader(headers[i]);
+                for (var j = 0; j < candidates.length; j++) {
+                    if (h === candidates[j] || h.indexOf(candidates[j]) !== -1) { out.push(i); break; }
+                }
+            }
+            return out;
+        }
+
+        function parseDelimitedLine(line, delim) {
+            // simple splitter that respects quoted fields
+            var out = [], cur = '', inQuotes = false;
+            for (var i = 0; i < line.length; i++) {
+                var c = line[i];
+                if (c === '"') { inQuotes = !inQuotes; continue; }
+                if (c === delim && !inQuotes) { out.push(cur); cur = ''; continue; }
+                cur += c;
+            }
+            out.push(cur);
+            return out.map(function(s) { return s.trim(); });
+        }
+
+        function detectDelimiter(line) {
+            var counts = { ',': (line.match(/,/g) || []).length, ';': (line.match(/;/g) || []).length, '\t': (line.match(/\t/g) || []).length };
+            var best = ',', bestCount = 0;
+            for (var d in counts) { if (counts[d] > bestCount) { best = d; bestCount = counts[d]; } }
+            return best;
+        }
+
+        function tableFromCsv(text) {
+            var lines = text.split(/\r?\n/).filter(function(l) { return l.trim().length; });
+            if (!lines.length) return null;
+            var delim = detectDelimiter(lines[0]);
+            // Find the header row: first line containing both a "symbol" and "profit"-like column
+            var headerRowIdx = -1, headers = null;
+            for (var i = 0; i < Math.min(lines.length, 20); i++) {
+                var cols = parseDelimitedLine(lines[i], delim);
+                var hasSymbol = findColIndex(cols, ['symbol']) !== -1;
+                var hasProfit = findColIndex(cols, ['profit']) !== -1;
+                if (hasSymbol && hasProfit) { headerRowIdx = i; headers = cols; break; }
+            }
+            if (headerRowIdx === -1) return null;
+            var rows = [];
+            for (var i = headerRowIdx + 1; i < lines.length; i++) {
+                var cols = parseDelimitedLine(lines[i], delim);
+                if (cols.length < 2) continue;
+                rows.push(cols);
+            }
+            return { headers: headers, rows: rows };
+        }
+
+        function tableFromHtml(text) {
+            var doc = new DOMParser().parseFromString(text, 'text/html');
+            var tables = doc.querySelectorAll('table');
+            var best = null;
+            for (var i = 0; i < tables.length; i++) {
+                var trs = tables[i].querySelectorAll('tr');
+                for (var r = 0; r < Math.min(trs.length, 10); r++) {
+                    var cells = trs[r].querySelectorAll('th,td');
+                    var headers = [];
+                    for (var c = 0; c < cells.length; c++) headers.push(cells[c].textContent);
+                    var hasSymbol = findColIndex(headers, ['symbol']) !== -1;
+                    var hasProfit = findColIndex(headers, ['profit']) !== -1;
+                    if (hasSymbol && hasProfit) {
+                        var rows = [];
+                        for (var r2 = r + 1; r2 < trs.length; r2++) {
+                            var rcells = trs[r2].querySelectorAll('th,td');
+                            if (!rcells.length) continue;
+                            var rowVals = [];
+                            for (var c2 = 0; c2 < rcells.length; c2++) rowVals.push(rcells[c2].textContent.trim());
+                            rows.push(rowVals);
+                        }
+                        best = { headers: headers, rows: rows };
+                        break;
+                    }
+                }
+                if (best) break;
+            }
+            return best;
+        }
+
+        function num(v) {
+            if (v === undefined || v === null) return NaN;
+            var n = parseFloat(String(v).replace(/[^0-9eE\.\-\+]/g, ''));
+            return n;
+        }
+
+        function mt5RowsToTrades(table) {
+            var headers = table.headers, rows = table.rows;
+            var symbolIdx = findColIndex(headers, ['symbol']);
+            var typeIdx = findColIndex(headers, ['type']);
+            var profitIdx = findColIndex(headers, ['profit']);
+            var swapIdx = findColIndex(headers, ['swap']);
+            var commissionIdx = findColIndex(headers, ['commission']);
+            var volumeIdx = findColIndex(headers, ['volume', 'lots', 'size']);
+            var directionIdx = findColIndex(headers, ['direction']);
+            var positionIdx = findColIndex(headers, ['position', 'positionid', 'order']);
+            var timeIdxs = findAllColIndices(headers, ['time', 'date']);
+            var priceIdxs = findAllColIndices(headers, ['price']);
+            var commentIdx = findColIndex(headers, ['comment']);
+
+            var out = [];
+
+            if (directionIdx !== -1 && positionIdx !== -1) {
+                // "Deals" export: one row per in/out leg, grouped by position id
+                var groups = {};
+                rows.forEach(function(r) {
+                    var pos = r[positionIdx];
+                    if (!pos) return;
+                    if (!groups[pos]) groups[pos] = [];
+                    groups[pos].push(r);
+                });
+                Object.keys(groups).forEach(function(pos) {
+                    var legs = groups[pos];
+                    var inLeg = legs.find(function(r) { return normalizeHeader(r[directionIdx]).indexOf('in') !== -1; });
+                    var outLeg = legs.find(function(r) { return normalizeHeader(r[directionIdx]).indexOf('out') !== -1; });
+                    if (!inLeg || !outLeg) return;
+                    var symbol = symbolIdx !== -1 ? inLeg[symbolIdx] : null;
+                    if (!symbol) return;
+                    var typeRaw = typeIdx !== -1 ? normalizeHeader(inLeg[typeIdx]) : '';
+                    var direction = typeRaw.indexOf('sell') !== -1 ? 'Short' : 'Long';
+                    var entry = priceIdxs.length ? num(inLeg[priceIdxs[0]]) : NaN;
+                    var exit = priceIdxs.length ? num(outLeg[priceIdxs[0]]) : NaN;
+                    var profit = 0;
+                    legs.forEach(function(r) {
+                        if (profitIdx !== -1) profit += (num(r[profitIdx]) || 0);
+                        if (swapIdx !== -1) profit += (num(r[swapIdx]) || 0);
+                        if (commissionIdx !== -1) profit += (num(r[commissionIdx]) || 0);
+                    });
+                    var dateStr = timeIdxs.length ? String(outLeg[timeIdxs[0]]).slice(0, 10).replace(/\./g, '-') : new Date().toISOString().slice(0, 10);
+                    out.push({
+                        date: dateStr, symbol: symbol.toUpperCase(), direction: direction,
+                        entry: entry, exit: exit, stop: null,
+                        size: volumeIdx !== -1 ? (num(inLeg[volumeIdx]) || 0) : 0,
+                        pnl: isNaN(profit) ? null : +profit.toFixed(2),
+                        notes: commentIdx !== -1 ? (inLeg[commentIdx] || '') : ''
+                    });
+                });
+            } else if (timeIdxs.length >= 2 && priceIdxs.length >= 2) {
+                // "Statement" export: one row per closed position, open + close columns
+                rows.forEach(function(r) {
+                    var symbol = symbolIdx !== -1 ? r[symbolIdx] : null;
+                    if (!symbol) return;
+                    var typeRaw = typeIdx !== -1 ? normalizeHeader(r[typeIdx]) : '';
+                    if (!typeRaw || (typeRaw.indexOf('buy') === -1 && typeRaw.indexOf('sell') === -1)) return;
+                    var direction = typeRaw.indexOf('sell') !== -1 ? 'Short' : 'Long';
+                    var entry = num(r[priceIdxs[0]]);
+                    var exit = num(r[priceIdxs[1]]);
+                    var profit = 0;
+                    if (profitIdx !== -1) profit += (num(r[profitIdx]) || 0);
+                    if (swapIdx !== -1) profit += (num(r[swapIdx]) || 0);
+                    if (commissionIdx !== -1) profit += (num(r[commissionIdx]) || 0);
+                    var dateStr = String(r[timeIdxs[1]] || r[timeIdxs[0]]).slice(0, 10).replace(/\./g, '-');
+                    out.push({
+                        date: dateStr, symbol: symbol.toUpperCase(), direction: direction,
+                        entry: entry, exit: exit, stop: null,
+                        size: volumeIdx !== -1 ? (num(r[volumeIdx]) || 0) : 0,
+                        pnl: isNaN(profit) ? null : +profit.toFixed(2),
+                        notes: commentIdx !== -1 ? (r[commentIdx] || '') : ''
+                    });
+                });
+            }
+
+            return out.filter(function(t) { return t.symbol && !isNaN(t.entry) && !isNaN(t.exit); });
+        }
+
+        function importMt5Trades(rawTrades) {
+            // De-dupe against existing MT5 imports using a fingerprint
+            var existingFingerprints = {};
+            trades.forEach(function(t) {
+                if (t.mt5) existingFingerprints[[t.date, t.symbol, t.direction, t.entry, t.exit, t.pnl].join('|')] = true;
+            });
+            var added = 0;
+            rawTrades.forEach(function(rt) {
+                var fp = [rt.date, rt.symbol, rt.direction, rt.entry, rt.exit, rt.pnl].join('|');
+                if (existingFingerprints[fp]) return;
+                existingFingerprints[fp] = true;
+                trades.push({
+                    id: uid(),
+                    date: rt.date,
+                    symbol: rt.symbol,
+                    direction: rt.direction,
+                    session: 'Other',
+                    entry: rt.entry,
+                    stop: rt.stop === null || rt.stop === undefined || isNaN(rt.stop) ? null : rt.stop,
+                    exit: rt.exit,
+                    size: rt.size || 0,
+                    risk: null,
+                    target: null,
+                    notes: rt.notes ? ('MT5: ' + rt.notes) : 'Imported from MT5',
+                    r: (rt.stop !== null && rt.stop !== undefined && !isNaN(rt.stop)) ? calcR(rt.direction, rt.entry, rt.stop, rt.exit) : null,
+                    pnl: rt.pnl,
+                    mt5: true
+                });
+                added++;
+            });
+            if (added > 0) {
+                trades.sort(function(a, b) { return a.date.localeCompare(b.date); });
+                saveTrades();
+                render();
+            }
+            return added;
+        }
+
+        function handleMt5File(file) {
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                var text = ev.target.result;
+                var isHtml = /\.html?$/i.test(file.name) || /<html/i.test(text.slice(0, 500));
+                var table = isHtml ? tableFromHtml(text) : tableFromCsv(text);
+                if (!table) {
+                    showToast('❌ Could not find a Symbol/Profit table in that file', 'error');
+                    return;
+                }
+                var rawTrades = mt5RowsToTrades(table);
+                if (!rawTrades.length) {
+                    showToast('❌ No closed trades recognized in that file', 'error');
+                    return;
+                }
+                var added = importMt5Trades(rawTrades);
+                if (added > 0) {
+                    showToast('✅ Imported ' + added + ' trade' + (added === 1 ? '' : 's') + ' from MT5', 'success');
+                } else {
+                    showToast('ℹ️ No new trades — all rows already imported', '');
+                }
+            };
+            reader.onerror = function() {
+                showToast('❌ Failed to read file', 'error');
+            };
+            reader.readAsText(file);
         }
 
         // ============================================================
@@ -977,6 +1255,17 @@
             this.value = "";
         });
 
+        // MT5 Import
+        document.getElementById("mt5ImportBtn").addEventListener("click", function() {
+            document.getElementById("mt5ImportFile").click();
+        });
+        document.getElementById("mt5ImportFile").addEventListener("change", function(e) {
+            var file = this.files[0];
+            if (!file) return;
+            handleMt5File(file);
+            this.value = "";
+        });
+
         // ============================================================
         // GITHUB UI
         // ============================================================
@@ -1007,7 +1296,7 @@
         });
 
         document.getElementById("syncBtn").addEventListener("click", async function() {
-            if (trades.length > 0) {
+            if (isDirty || trades.length > 0) {
                 await saveToGitHub();
             }
             await loadFromGitHub();

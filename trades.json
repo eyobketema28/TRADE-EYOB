@@ -1582,5 +1582,43 @@
     "notes": "Deposit 3.00",
     "r": null,
     "pnl": 3
+  },
+  {
+    "id": "ms303xo0u3ozrz",
+    "date": "2026-07-27",
+    "symbol": "XAU",
+    "direction": "Long",
+    "session": "New York",
+    "entry": 2,
+    "stop": 1,
+    "exit": 122,
+    "size": 0,
+    "risk": 1,
+    "target": null,
+    "rating": null,
+    "notes": "",
+    "r": 120,
+    "pnl": null,
+    "mt5": false,
+    "created": 1785143097648
+  },
+  {
+    "id": "ms30iy4o6ik3ii",
+    "date": "2026-07-27",
+    "symbol": "XAU",
+    "direction": "Long",
+    "session": "New York",
+    "entry": 2,
+    "stop": 1,
+    "exit": 3,
+    "size": 1,
+    "risk": 1,
+    "target": 1,
+    "rating": null,
+    "notes": "",
+    "r": 1,
+    "pnl": 1,
+    "mt5": false,
+    "created": 1785143798088
   }
 ]

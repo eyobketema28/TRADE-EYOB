@@ -24,6 +24,8 @@
             --text-dim: #666666;
             --green: #00FF88;
             --red: #FF3355;
+            --orange: #FF8800;
+            --yellow: #FFD700;
         }
         body { background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; min-height: 100vh; padding: 0 0 40px 0; }
         .mono { font-family: 'JetBrains Mono', monospace; }
@@ -33,9 +35,7 @@
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
 
-        /* SPLASH SCREEN */
         #splash { 
             position: fixed; 
             inset: 0; 
@@ -140,39 +140,6 @@
         .notes-cell { color: var(--text-dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .footnote { margin-top: 12px; font-size: 10px; color: var(--text-dim); text-align: right; letter-spacing: 1px; font-weight: 300; }
 
-        /* CALENDAR */
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 20px; }
-        .calendar-header { text-align: center; font-size: 12px; color: var(--text-dim); padding: 8px 4px; font-weight: 600; letter-spacing: 1px; }
-        .calendar-day { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 8px 4px; text-align: center; font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-dim); transition: all 0.2s ease; min-height: 60px; position: relative; cursor: default; }
-        .calendar-day.has-trade { border-color: var(--text-dim); background: rgba(255,255,255,0.02); }
-        .calendar-day.has-trade .day-number { color: var(--text); }
-        .calendar-day .day-number { font-size: 13px; font-weight: 600; display: block; }
-        .calendar-day .day-dots { display: flex; justify-content: center; gap: 2px; margin-top: 4px; flex-wrap: wrap; }
-        .calendar-day .day-dots .dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
-        .calendar-day .day-dots .dot.win { background: var(--green); }
-        .calendar-day .day-dots .dot.loss { background: var(--red); }
-        .calendar-day .day-dots .dot.flat { background: var(--text-dim); }
-        .calendar-day.today { border-color: var(--text); background: rgba(255,255,255,0.05); }
-        .calendar-day.today .day-number { color: var(--text); }
-        .calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .calendar-nav .month-label { font-size: 16px; font-weight: 600; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: var(--text); }
-        .calendar-nav button { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); padding: 4px 12px; border-radius: 4px; font-size: 16px; cursor: pointer; }
-
-        .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 12px 12px; transition: border-color 0.25s ease; }
-        .chart-card:hover { border-color: var(--border-light); }
-        .chart-card-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; padding-left: 8px; font-weight: 500; }
-        .chart-card-body { height: 160px; }
-        .chart-card-body .chart-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 1px; }
-        .empty-analytics { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 60px; text-align: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 0.5px; }
-
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
-        .stats-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
-        .stats-card .stats-number { font-size: 24px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--text); }
-        .stats-card .stats-number.green { color: var(--green); }
-        .stats-card .stats-number.red { color: var(--red); }
-        .stats-card .stats-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
-
         .token-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; }
         .token-modal.show { display: flex; }
         .token-modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 460px; width: 90%; }
@@ -189,6 +156,39 @@
         .toast.error { border-color: var(--red); color: var(--red); }
         .toast.info { border-color: var(--text-dim); color: var(--text-dim); }
 
+        /* NEWS / ECONOMIC CALENDAR */
+        .news-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
+        .news-section .news-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .news-section .news-header h3 { font-size: 14px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; color: var(--text); }
+        .news-section .news-header .news-date { font-size: 12px; color: var(--text-dim); }
+        .news-item { display: grid; grid-template-columns: 80px 1fr 60px 60px 40px; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 12px; align-items: center; }
+        .news-item:last-child { border-bottom: none; }
+        .news-item .news-time { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+        .news-item .news-currency { font-weight: 600; color: var(--text); }
+        .news-item .news-event { color: var(--text-dim); }
+        .news-item .news-impact { font-weight: 600; }
+        .news-item .news-impact.high { color: var(--red); }
+        .news-item .news-impact.medium { color: var(--orange); }
+        .news-item .news-impact.low { color: var(--yellow); }
+        .news-item .news-actual { color: var(--text); font-family: 'JetBrains Mono', monospace; }
+        .news-item .news-forecast { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+        .news-item .news-prev { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 10px; }
+
+        .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 12px 12px; transition: border-color 0.25s ease; }
+        .chart-card:hover { border-color: var(--border-light); }
+        .chart-card-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; padding-left: 8px; font-weight: 500; }
+        .chart-card-body { height: 160px; }
+        .chart-card-body .chart-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 1px; }
+        .empty-analytics { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 60px; text-align: center; color: var(--text-dim); font-size: 13px; font-weight: 300; letter-spacing: 0.5px; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .stats-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+        .stats-card .stats-number { font-size: 24px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--text); }
+        .stats-card .stats-number.green { color: var(--green); }
+        .stats-card .stats-number.red { color: var(--red); }
+        .stats-card .stats-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
         @media (max-width: 700px) {
             .analytics-grid { grid-template-columns: 1fr; }
             .row { grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px; gap: 4px; font-size: 10px; padding: 7px 10px; }
@@ -200,8 +200,7 @@
             .greeting-banner { flex-wrap: wrap; }
             .greeting-banner .greeting-quote { margin-left: 0; width: 100%; }
             .greeting-banner .github-status { font-size: 9px; padding: 3px 10px; }
-            .calendar-day { min-height: 40px; padding: 4px 2px; font-size: 9px; }
-            .calendar-day .day-number { font-size: 10px; }
+            .news-item { grid-template-columns: 60px 1fr 50px 50px 30px; gap: 4px; font-size: 10px; padding: 6px 8px; }
         }
         @media (max-width: 480px) {
             .row { grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px; gap: 3px; font-size: 9px; padding: 6px 6px; }
@@ -210,8 +209,7 @@
             #splash-title { font-size: 22px; letter-spacing: 2px; }
             .header-actions .btn-ghost { padding: 5px 8px; font-size: 10px; }
             .header-actions .btn-primary { padding: 5px 10px; font-size: 10px; }
-            .calendar-day { min-height: 30px; padding: 2px; }
-            .calendar-day .day-number { font-size: 8px; }
+            .news-item { grid-template-columns: 50px 1fr 40px 40px 25px; gap: 3px; font-size: 9px; padding: 4px 6px; }
         }
     </style>
 </head>
@@ -278,10 +276,11 @@
         </div>
 
         <div class="tabs">
-            <button class="tab active" data-tab="journal">Journal</button>
-            <button class="tab" data-tab="calendar">Calendar</button>
-            <button class="tab" data-tab="analytics">Analytics</button>
-            <button class="tab" data-tab="stats">Stats</button>
+            <button class="tab active" data-tab="journal">📊 Journal</button>
+            <button class="tab" data-tab="calendar">📅 Calendar</button>
+            <button class="tab" data-tab="news">📰 News</button>
+            <button class="tab" data-tab="analytics">📈 Analytics</button>
+            <button class="tab" data-tab="stats">📋 Stats</button>
         </div>
 
         <div class="stats-row" id="statsRow"></div>
@@ -354,6 +353,23 @@
             </div>
         </div>
 
+        <!-- NEWS TAB -->
+        <div id="newsTab" style="display:none;">
+            <div class="news-section">
+                <div class="news-header">
+                    <h3>📰 Economic Calendar</h3>
+                    <span class="news-date" id="newsDate">Today</span>
+                </div>
+                <div id="newsList"></div>
+            </div>
+            <div class="news-section">
+                <div class="news-header">
+                    <h3>🌍 Session Overview</h3>
+                </div>
+                <div id="sessionOverview" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;"></div>
+            </div>
+        </div>
+
         <!-- ANALYTICS TAB -->
         <div id="analyticsTab" style="display:none;"></div>
 
@@ -409,6 +425,27 @@
         const GITHUB_REPO = "Eyobketema28/TRADE-EYOB";
         const GITHUB_PATH = "trades.json";
         const TOKEN_STORAGE_KEY = "trade-ledger:github-token";
+
+        // ============================================================
+        // FOREX FACTORY NEWS DATA (Simulated - In production, you'd use an API)
+        // ============================================================
+        function getNewsData() {
+            var today = new Date();
+            var dateStr = today.toISOString().slice(0, 10);
+            
+            // This is simulated news data. In production, you'd fetch from a real API
+            var news = [
+                { time: '08:30', currency: 'USD', event: 'Durable Goods Orders', impact: 'High', actual: '0.9%', forecast: '0.9%', prev: '-2.1%' },
+                { time: '09:00', currency: 'EUR', event: 'German Ifo Business Climate', impact: 'Medium', actual: '86.5', forecast: '86.0', prev: '85.7' },
+                { time: '09:30', currency: 'GBP', event: 'Public Sector Net Borrowing', impact: 'Low', actual: '4.2B', forecast: '3.8B', prev: '5.1B' },
+                { time: '10:00', currency: 'USD', event: 'S&P/CS Composite-20 HPI', impact: 'Medium', actual: '4.2%', forecast: '4.0%', prev: '3.8%' },
+                { time: '10:30', currency: 'USD', event: 'CB Consumer Confidence', impact: 'High', actual: '102.3', forecast: '100.5', prev: '97.6' },
+                { time: '11:00', currency: 'USD', event: 'Richmond Fed Manufacturing Index', impact: 'Low', actual: '-5', forecast: '-7', prev: '-10' },
+                { time: '14:00', currency: 'JPY', event: 'BoJ Core CPI', impact: 'High', actual: '2.4%', forecast: '2.3%', prev: '2.2%' },
+                { time: '15:00', currency: 'USD', event: 'FOMC Member Williams Speaks', impact: 'Medium', actual: '', forecast: '', prev: '' },
+            ];
+            return news;
+        }
 
         // ============================================================
         // STATE
@@ -567,7 +604,6 @@
 
             grid.innerHTML = html;
 
-            // Show daily log for today
             renderDailyLog(todayStr);
         }
 
@@ -592,6 +628,53 @@
             }
             html += '</div>';
             container.innerHTML = html;
+        }
+
+        // ============================================================
+        // NEWS FUNCTIONS
+        // ============================================================
+        function renderNews() {
+            var news = getNewsData();
+            var listEl = document.getElementById('newsList');
+            var html = '';
+            
+            for (var i = 0; i < news.length; i++) {
+                var item = news[i];
+                var impactClass = item.impact.toLowerCase();
+                var arrow = item.actual && item.forecast ? 
+                    (parseFloat(item.actual) > parseFloat(item.forecast) ? '↑' : 
+                     parseFloat(item.actual) < parseFloat(item.forecast) ? '↓' : '→') : '';
+                
+                html += '<div class="news-item">' +
+                    '<span class="news-time">' + item.time + '</span>' +
+                    '<span class="news-currency">' + item.currency + '</span>' +
+                    '<span class="news-event">' + item.event + '</span>' +
+                    '<span class="news-impact ' + impactClass + '">' + item.impact + '</span>' +
+                    '<span class="news-actual">' + (item.actual || '—') + ' ' + arrow + '</span>' +
+                '</div>';
+            }
+            
+            listEl.innerHTML = html || '<div style="color:var(--text-dim);padding:12px;text-align:center;">No news events for today</div>';
+            
+            // Session Overview
+            var sessionEl = document.getElementById('sessionOverview');
+            var sessions = [
+                { name: 'Asia', time: '00:00 - 08:00', currencies: 'JPY, AUD, NZD', status: 'Closed' },
+                { name: 'London', time: '08:00 - 16:00', currencies: 'GBP, EUR', status: 'Open' },
+                { name: 'New York', time: '13:00 - 22:00', currencies: 'USD, CAD', status: 'Open' },
+            ];
+            var sessionHtml = '';
+            for (var i = 0; i < sessions.length; i++) {
+                var s = sessions[i];
+                var isOpen = s.status === 'Open';
+                sessionHtml += '<div class="stats-card" style="border-color:' + (isOpen ? 'var(--green)' : 'var(--border)') + ';">' +
+                    '<div class="stats-number" style="font-size:18px;color:' + (isOpen ? 'var(--green)' : 'var(--text-dim)') + ';">' + s.name + '</div>' +
+                    '<div class="stats-label">' + s.time + '</div>' +
+                    '<div style="font-size:10px;color:var(--text-dim);margin-top:4px;">' + s.currencies + '</div>' +
+                    '<div style="font-size:10px;margin-top:4px;color:' + (isOpen ? 'var(--green)' : 'var(--text-dim)') + ';">' + s.status + '</div>' +
+                '</div>';
+            }
+            sessionEl.innerHTML = sessionHtml;
         }
 
         // ============================================================
@@ -832,7 +915,7 @@
         }
 
         // ============================================================
-        // ADVANCED CHARTS - Black & White Theme
+        // ADVANCED CHARTS
         // ============================================================
         function svgLineChart(data, opts) {
             var w = 600, h = opts.height || 140, pad = 12;
@@ -919,6 +1002,7 @@
             if (currentTab === "journal") {
                 document.getElementById("journalTab").style.display = "";
                 document.getElementById("calendarTab").style.display = "none";
+                document.getElementById("newsTab").style.display = "none";
                 document.getElementById("analyticsTab").style.display = "none";
                 document.getElementById("statsTab").style.display = "none";
                 renderStats();
@@ -928,18 +1012,28 @@
             } else if (currentTab === "calendar") {
                 document.getElementById("journalTab").style.display = "none";
                 document.getElementById("calendarTab").style.display = "";
+                document.getElementById("newsTab").style.display = "none";
                 document.getElementById("analyticsTab").style.display = "none";
                 document.getElementById("statsTab").style.display = "none";
                 renderCalendar();
+            } else if (currentTab === "news") {
+                document.getElementById("journalTab").style.display = "none";
+                document.getElementById("calendarTab").style.display = "none";
+                document.getElementById("newsTab").style.display = "";
+                document.getElementById("analyticsTab").style.display = "none";
+                document.getElementById("statsTab").style.display = "none";
+                renderNews();
             } else if (currentTab === "analytics") {
                 document.getElementById("journalTab").style.display = "none";
                 document.getElementById("calendarTab").style.display = "none";
+                document.getElementById("newsTab").style.display = "none";
                 document.getElementById("analyticsTab").style.display = "";
                 document.getElementById("statsTab").style.display = "none";
                 renderAnalytics();
             } else if (currentTab === "stats") {
                 document.getElementById("journalTab").style.display = "none";
                 document.getElementById("calendarTab").style.display = "none";
+                document.getElementById("newsTab").style.display = "none";
                 document.getElementById("analyticsTab").style.display = "none";
                 document.getElementById("statsTab").style.display = "";
                 renderDetailedStats();
@@ -1364,6 +1458,14 @@
                 startAutoSync();
                 setTimeout(loadFromGitHub, 1000);
             }
+            
+            // Set news date
+            document.getElementById('newsDate').textContent = new Date().toLocaleDateString(undefined, { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
             
             setTimeout(speakWelcome, 500);
         }

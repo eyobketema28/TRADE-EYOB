@@ -140,39 +140,57 @@
         .notes-cell { color: var(--text-dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .footnote { margin-top: 12px; font-size: 10px; color: var(--text-dim); text-align: right; letter-spacing: 1px; font-weight: 300; }
 
-        .token-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; }
-        .token-modal.show { display: flex; }
-        .token-modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 460px; width: 90%; }
-        .token-modal h2 { color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 18px; margin-bottom: 12px; letter-spacing: 1px; }
-        .token-modal p { color: var(--text-dim); margin-bottom: 16px; font-size: 13px; line-height: 1.6; }
-        .token-modal input { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none; margin-bottom: 12px; }
-        .token-modal input:focus { border-color: var(--text-dim); }
-        .token-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
-        .token-modal .btn-row button { padding: 8px 20px; font-size: 12px; }
+        /* CALENDAR - FIXED */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 20px; }
+        .calendar-header { text-align: center; font-size: 11px; color: var(--text-dim); padding: 6px 4px; font-weight: 600; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+        .calendar-day { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border); 
+            border-radius: 6px; 
+            padding: 6px 2px; 
+            text-align: center; 
+            font-size: 11px; 
+            font-family: 'JetBrains Mono', monospace; 
+            color: var(--text-dim); 
+            transition: all 0.2s ease; 
+            min-height: 50px; 
+            position: relative; 
+            cursor: default; 
+        }
+        .calendar-day:hover { border-color: var(--text-dim); }
+        .calendar-day.has-trade { border-color: var(--text); background: rgba(255,255,255,0.03); }
+        .calendar-day.has-trade .day-number { color: var(--text); }
+        .calendar-day .day-number { font-size: 13px; font-weight: 600; display: block; color: var(--text-dim); }
+        .calendar-day .day-dots { display: flex; justify-content: center; gap: 2px; margin-top: 2px; flex-wrap: wrap; }
+        .calendar-day .day-dots .dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
+        .calendar-day .day-dots .dot.win { background: var(--green); }
+        .calendar-day .day-dots .dot.loss { background: var(--red); }
+        .calendar-day .day-dots .dot.flat { background: var(--text-dim); }
+        .calendar-day.today { border-color: var(--text); background: rgba(255,255,255,0.05); }
+        .calendar-day.today .day-number { color: var(--text); }
+        .calendar-day.weekend { opacity: 0.4; }
+        .calendar-day.empty { border-color: transparent; background: transparent; }
 
-        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 24px; font-size: 13px; color: var(--text); z-index: 999; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; max-width: 90%; }
-        .toast.show { opacity: 1; }
-        .toast.success { border-color: var(--green); color: var(--green); }
-        .toast.error { border-color: var(--red); color: var(--red); }
-        .toast.info { border-color: var(--text-dim); color: var(--text-dim); }
+        .calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .calendar-nav .month-label { font-size: 16px; font-weight: 600; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: var(--text); }
+        .calendar-nav button { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); padding: 4px 12px; border-radius: 4px; font-size: 16px; cursor: pointer; transition: all 0.2s ease; }
+        .calendar-nav button:hover { border-color: var(--text-dim); }
 
-        /* NEWS / ECONOMIC CALENDAR */
+        /* NEWS */
         .news-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
-        .news-section .news-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .news-section .news-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .news-section .news-header h3 { font-size: 14px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; color: var(--text); }
         .news-section .news-header .news-date { font-size: 12px; color: var(--text-dim); }
-        .news-item { display: grid; grid-template-columns: 80px 1fr 60px 60px 40px; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 12px; align-items: center; }
+        .news-item { display: grid; grid-template-columns: 70px 50px 1fr 60px 60px; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 12px; align-items: center; }
         .news-item:last-child { border-bottom: none; }
         .news-item .news-time { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
         .news-item .news-currency { font-weight: 600; color: var(--text); }
         .news-item .news-event { color: var(--text-dim); }
-        .news-item .news-impact { font-weight: 600; }
+        .news-item .news-impact { font-weight: 600; font-size: 11px; }
         .news-item .news-impact.high { color: var(--red); }
         .news-item .news-impact.medium { color: var(--orange); }
         .news-item .news-impact.low { color: var(--yellow); }
-        .news-item .news-actual { color: var(--text); font-family: 'JetBrains Mono', monospace; }
-        .news-item .news-forecast { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
-        .news-item .news-prev { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 10px; }
+        .news-item .news-actual { color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
 
         .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 12px 12px; transition: border-color 0.25s ease; }
@@ -189,6 +207,22 @@
         .stats-card .stats-number.red { color: var(--red); }
         .stats-card .stats-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
 
+        .token-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; }
+        .token-modal.show { display: flex; }
+        .token-modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 460px; width: 90%; }
+        .token-modal h2 { color: var(--text); font-family: 'Orbitron', sans-serif; font-size: 18px; margin-bottom: 12px; letter-spacing: 1px; }
+        .token-modal p { color: var(--text-dim); margin-bottom: 16px; font-size: 13px; line-height: 1.6; }
+        .token-modal input { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none; margin-bottom: 12px; }
+        .token-modal input:focus { border-color: var(--text-dim); }
+        .token-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
+        .token-modal .btn-row button { padding: 8px 20px; font-size: 12px; }
+
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 24px; font-size: 13px; color: var(--text); z-index: 999; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; max-width: 90%; }
+        .toast.show { opacity: 1; }
+        .toast.success { border-color: var(--green); color: var(--green); }
+        .toast.error { border-color: var(--red); color: var(--red); }
+        .toast.info { border-color: var(--text-dim); color: var(--text-dim); }
+
         @media (max-width: 700px) {
             .analytics-grid { grid-template-columns: 1fr; }
             .row { grid-template-columns: 16px 60px 50px 40px 60px 0.7fr 0.7fr 0.7fr 50px 70px 0.9fr 20px; gap: 4px; font-size: 10px; padding: 7px 10px; }
@@ -200,7 +234,9 @@
             .greeting-banner { flex-wrap: wrap; }
             .greeting-banner .greeting-quote { margin-left: 0; width: 100%; }
             .greeting-banner .github-status { font-size: 9px; padding: 3px 10px; }
-            .news-item { grid-template-columns: 60px 1fr 50px 50px 30px; gap: 4px; font-size: 10px; padding: 6px 8px; }
+            .calendar-day { min-height: 40px; padding: 4px 2px; font-size: 10px; }
+            .calendar-day .day-number { font-size: 11px; }
+            .news-item { grid-template-columns: 55px 40px 1fr 45px 45px; gap: 4px; font-size: 10px; padding: 6px 8px; }
         }
         @media (max-width: 480px) {
             .row { grid-template-columns: 14px 50px 40px 36px 50px 0.6fr 0.6fr 0.6fr 40px 60px 0.8fr 16px; gap: 3px; font-size: 9px; padding: 6px 6px; }
@@ -209,7 +245,9 @@
             #splash-title { font-size: 22px; letter-spacing: 2px; }
             .header-actions .btn-ghost { padding: 5px 8px; font-size: 10px; }
             .header-actions .btn-primary { padding: 5px 10px; font-size: 10px; }
-            .news-item { grid-template-columns: 50px 1fr 40px 40px 25px; gap: 3px; font-size: 9px; padding: 4px 6px; }
+            .calendar-day { min-height: 30px; padding: 2px; font-size: 8px; }
+            .calendar-day .day-number { font-size: 9px; }
+            .news-item { grid-template-columns: 45px 35px 1fr 35px 35px; gap: 3px; font-size: 9px; padding: 4px 6px; }
         }
     </style>
 </head>
@@ -302,14 +340,30 @@
             <label class="field">Size<input type="number" step="any" id="f-size" placeholder="units"></label>
             <label class="field">Risk %<input type="number" step="0.1" id="f-risk" value="1.0"></label>
             <label class="field">Target R:R<input type="number" step="0.1" id="f-target" placeholder="2.0"></label>
-            <label class="field">Rating
-                <select id="f-rating">
+            <label class="field">Setup Quality
+                <select id="f-setup">
                     <option value="">None</option>
-                    <option value="A+">A+</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
+                    <option value="A+">A+ (Perfect)</option>
+                    <option value="A">A (Great)</option>
+                    <option value="B">B (Good)</option>
+                    <option value="C">C (OK)</option>
+                    <option value="D">D (Poor)</option>
+                    <option value="F">F (Terrible)</option>
+                </select>
+            </label>
+            <label class="field">Emotion
+                <select id="f-emotion">
+                    <option value="">None</option>
+                    <option value="😤">😤 Frustrated</option>
+                    <option value="😰">😰 Anxious</option>
+                    <option value="😌">😌 Calm</option>
+                    <option value="😊">😊 Confident</option>
+                    <option value="😫">😫 Tired</option>
+                    <option value="🤔">🤔 Focused</option>
+                    <option value="😁">😁 Euphoric</option>
+                    <option value="😔">😔 Disappointed</option>
+                    <option value="😡">😡 Angry</option>
+                    <option value="🧘">🧘 Zen</option>
                 </select>
             </label>
             <label class="field form-full">Notes<textarea id="f-notes" rows="2" placeholder="Setup quality, emotions, lessons learned..."></textarea></label>
@@ -368,6 +422,12 @@
                 </div>
                 <div id="sessionOverview" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;"></div>
             </div>
+            <div class="news-section">
+                <div class="news-header">
+                    <h3>💡 Trading Tips</h3>
+                </div>
+                <div id="tradingTips" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;"></div>
+            </div>
         </div>
 
         <!-- ANALYTICS TAB -->
@@ -393,7 +453,17 @@
                 "Patience compounds faster than leverage.",
                 "You attract the trades that match the state you enter the session in.",
                 "A quiet mind sees the chart clearly. A loud one sees what it fears.",
-                "Discipline today writes the equity curve of tomorrow."
+                "Discipline today writes the equity curve of tomorrow.",
+                "The trade you didn't take can teach as much as the one you did.",
+                "Consistency is a magnet. Chaos repels good decisions.",
+                "Trust the process publicly, refine it privately.",
+                "Your next winning streak starts with the next disciplined loss.",
+                "Certainty is not required to act with conviction.",
+                "Small, repeatable edges beat big, unrepeatable wins.",
+                "The market rewards patience it never announces in advance.",
+                "You are not your last trade.",
+                "Clarity of intention precedes clarity of execution.",
+                "Protect your capital like it protects your future."
             ];
             var start = new Date(new Date().getFullYear(), 0, 0);
             var diff = new Date() - start;
@@ -427,13 +497,13 @@
         const TOKEN_STORAGE_KEY = "trade-ledger:github-token";
 
         // ============================================================
-        // FOREX FACTORY NEWS DATA (Simulated - In production, you'd use an API)
+        // FOREX FACTORY NEWS DATA
         // ============================================================
         function getNewsData() {
             var today = new Date();
             var dateStr = today.toISOString().slice(0, 10);
             
-            // This is simulated news data. In production, you'd fetch from a real API
+            // Simulated news data - expanded
             var news = [
                 { time: '08:30', currency: 'USD', event: 'Durable Goods Orders', impact: 'High', actual: '0.9%', forecast: '0.9%', prev: '-2.1%' },
                 { time: '09:00', currency: 'EUR', event: 'German Ifo Business Climate', impact: 'Medium', actual: '86.5', forecast: '86.0', prev: '85.7' },
@@ -443,8 +513,28 @@
                 { time: '11:00', currency: 'USD', event: 'Richmond Fed Manufacturing Index', impact: 'Low', actual: '-5', forecast: '-7', prev: '-10' },
                 { time: '14:00', currency: 'JPY', event: 'BoJ Core CPI', impact: 'High', actual: '2.4%', forecast: '2.3%', prev: '2.2%' },
                 { time: '15:00', currency: 'USD', event: 'FOMC Member Williams Speaks', impact: 'Medium', actual: '', forecast: '', prev: '' },
+                { time: '16:30', currency: 'USD', event: 'API Weekly Crude Oil Stock', impact: 'Low', actual: '-3.2M', forecast: '-2.8M', prev: '-3.5M' },
+                { time: '18:00', currency: 'EUR', event: 'ECB President Lagarde Speech', impact: 'High', actual: '', forecast: '', prev: '' },
+                { time: '20:00', currency: 'USD', event: 'Federal Budget Balance', impact: 'Low', actual: '-214B', forecast: '-200B', prev: '-236B' },
+                { time: '21:00', currency: 'NZD', event: 'ANZ Business Confidence', impact: 'Medium', actual: '25.4', forecast: '23.0', prev: '22.8' },
             ];
             return news;
+        }
+
+        // ============================================================
+        // TRADING TIPS
+        // ============================================================
+        function getTradingTips() {
+            return [
+                { emoji: '📊', title: 'Risk Management', desc: 'Never risk more than 1-2% of your account on a single trade.' },
+                { emoji: '📈', title: 'Follow the Trend', desc: 'The trend is your friend. Trade in the direction of the larger timeframe trend.' },
+                { emoji: '🧠', title: 'Control Emotions', desc: 'Fear and greed are your biggest enemies. Stick to your plan.' },
+                { emoji: '📝', title: 'Journal Everything', desc: 'Write down every trade, your emotions, and lessons learned.' },
+                { emoji: '🎯', title: 'Set Realistic Goals', desc: 'Focus on process, not profits. Small consistent wins add up.' },
+                { emoji: '⏰', title: 'Patience is Key', desc: 'Wait for your setup. The best trades are the ones you don\'t force.' },
+                { emoji: '🔄', title: 'Review and Adapt', desc: 'Review your trades weekly. What worked? What didn\'t?' },
+                { emoji: '🚫', title: 'Avoid Overtrading', desc: 'Quality over quantity. Not every move needs to be traded.' },
+            ];
         }
 
         // ============================================================
@@ -530,7 +620,7 @@
         }
 
         // ============================================================
-        // CALENDAR FUNCTIONS
+        // CALENDAR FUNCTIONS - FIXED
         // ============================================================
         function getDaysInMonth(year, month) {
             return new Date(year, month + 1, 0).getDate();
@@ -566,15 +656,17 @@
                 tradesByDate[date].push(trades[i]);
             }
 
-            var emptyCells = firstDay;
-            for (var e = 0; e < emptyCells; e++) {
-                html += '<div class="calendar-day" style="border-color:transparent;background:transparent;"></div>';
+            // Empty cells before first day
+            for (var e = 0; e < firstDay; e++) {
+                html += '<div class="calendar-day empty"></div>';
             }
 
             for (var day = 1; day <= daysInMonth; day++) {
                 var dateObj = new Date(year, month, day);
                 var dateStr = dateObj.toISOString().slice(0, 10);
                 var isToday = dateStr === todayStr;
+                var dayOfWeek = dateObj.getDay();
+                var isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
 
                 var hasTrades = tradesByDate[dateStr] && tradesByDate[dateStr].length > 0;
                 var dayTrades = tradesByDate[dateStr] || [];
@@ -595,6 +687,7 @@
                 var classes = 'calendar-day';
                 if (hasTrades) classes += ' has-trade';
                 if (isToday) classes += ' today';
+                if (isWeekend) classes += ' weekend';
 
                 html += '<div class="' + classes + '" title="' + day + ' trades: ' + dayTrades.length + '">' +
                     '<span class="day-number">' + day + '</span>' +
@@ -604,6 +697,7 @@
 
             grid.innerHTML = html;
 
+            // Show daily log for today
             renderDailyLog(todayStr);
         }
 
@@ -621,8 +715,10 @@
                 var t = dayTrades[i];
                 var o = outcome(t.r);
                 var emoji = o === 'win' ? '🟢' : o === 'loss' ? '🔴' : '⚪';
+                var emotion = t.emotion || '';
+                var setup = t.setup || '';
                 html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;">' +
-                    '<span>' + emoji + ' <strong style="color:var(--text)">' + t.symbol + '</strong> ' + t.direction + ' @ ' + t.entry + '</span>' +
+                    '<span>' + emoji + ' <strong style="color:var(--text)">' + t.symbol + '</strong> ' + t.direction + ' @ ' + t.entry + ' ' + emotion + '</span>' +
                     '<span style="color:' + (o === 'win' ? 'var(--green)' : o === 'loss' ? 'var(--red)' : 'var(--text-dim)') + ';">' + fmtR(t.r) + 'R</span>' +
                 '</div>';
             }
@@ -658,23 +754,44 @@
             
             // Session Overview
             var sessionEl = document.getElementById('sessionOverview');
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var currentTime = hours + (minutes / 60);
+            
             var sessions = [
-                { name: 'Asia', time: '00:00 - 08:00', currencies: 'JPY, AUD, NZD', status: 'Closed' },
-                { name: 'London', time: '08:00 - 16:00', currencies: 'GBP, EUR', status: 'Open' },
-                { name: 'New York', time: '13:00 - 22:00', currencies: 'USD, CAD', status: 'Open' },
+                { name: '🇯🇵 Asia', time: '00:00 - 08:00', currencies: 'JPY, AUD, NZD', open: 0, close: 8 },
+                { name: '🇬🇧 London', time: '08:00 - 16:00', currencies: 'GBP, EUR', open: 8, close: 16 },
+                { name: '🇺🇸 New York', time: '13:00 - 22:00', currencies: 'USD, CAD', open: 13, close: 22 },
             ];
+            
             var sessionHtml = '';
             for (var i = 0; i < sessions.length; i++) {
                 var s = sessions[i];
-                var isOpen = s.status === 'Open';
+                var isOpen = (currentTime >= s.open && currentTime < s.close);
+                var status = isOpen ? '🟢 Open' : '⏹ Closed';
                 sessionHtml += '<div class="stats-card" style="border-color:' + (isOpen ? 'var(--green)' : 'var(--border)') + ';">' +
                     '<div class="stats-number" style="font-size:18px;color:' + (isOpen ? 'var(--green)' : 'var(--text-dim)') + ';">' + s.name + '</div>' +
                     '<div class="stats-label">' + s.time + '</div>' +
                     '<div style="font-size:10px;color:var(--text-dim);margin-top:4px;">' + s.currencies + '</div>' +
-                    '<div style="font-size:10px;margin-top:4px;color:' + (isOpen ? 'var(--green)' : 'var(--text-dim)') + ';">' + s.status + '</div>' +
+                    '<div style="font-size:10px;margin-top:4px;color:' + (isOpen ? 'var(--green)' : 'var(--text-dim)') + ';">' + status + '</div>' +
                 '</div>';
             }
             sessionEl.innerHTML = sessionHtml;
+            
+            // Trading Tips
+            var tipsEl = document.getElementById('tradingTips');
+            var tips = getTradingTips();
+            var tipsHtml = '';
+            for (var i = 0; i < tips.length; i++) {
+                var tip = tips[i];
+                tipsHtml += '<div class="stats-card" style="text-align:left;padding:12px 16px;border-color:var(--border-light);">' +
+                    '<div style="font-size:20px;margin-bottom:4px;">' + tip.emoji + '</div>' +
+                    '<div style="font-size:13px;font-weight:600;color:var(--text);">' + tip.title + '</div>' +
+                    '<div style="font-size:11px;color:var(--text-dim);margin-top:4px;">' + tip.desc + '</div>' +
+                '</div>';
+            }
+            tipsEl.innerHTML = tipsHtml;
         }
 
         // ============================================================
@@ -883,9 +1000,13 @@
             var profitFactor = grossLoss > 0 ? grossProfit / grossLoss : (grossProfit > 0 ? Infinity : 0);
             
             var ratings = {};
+            var emotions = {};
             trades.forEach(function(t) {
-                if (t.rating) {
-                    ratings[t.rating] = (ratings[t.rating] || 0) + 1;
+                if (t.setup) {
+                    ratings[t.setup] = (ratings[t.setup] || 0) + 1;
+                }
+                if (t.emotion) {
+                    emotions[t.emotion] = (emotions[t.emotion] || 0) + 1;
                 }
             });
             
@@ -909,6 +1030,7 @@
                 avgLoss: avgLoss,
                 profitFactor: profitFactor,
                 ratings: ratings,
+                emotions: emotions,
                 bestTrade: bestTrade,
                 worstTrade: worstTrade
             };
@@ -1133,7 +1255,8 @@
                 var stampClass = o === "win" ? "stamp-win" : o === "loss" ? "stamp-loss" : "stamp-flat";
                 var tone = o === "win" ? "tone-green" : o === "loss" ? "tone-red" : "";
                 var dirColor = t.direction === "Long" ? "tone-green" : "tone-red";
-                var ratingBadge = t.rating ? ' ★' + t.rating : '';
+                var setupBadge = t.setup ? ' ★' + t.setup : '';
+                var emotionBadge = t.emotion || '';
                 html += '<div class="row mono">' +
                     '<span class="stamp ' + stampClass + '"></span>' +
                     '<span style="color:var(--text-dim)">' + t.date + '</span>' +
@@ -1141,9 +1264,9 @@
                     '<span class="' + dirColor + '">' + t.direction + '</span>' +
                     '<span style="color:var(--text-dim);font-family:Rajdhani,sans-serif">' + t.session + '</span>' +
                     '<span>' + t.entry + '</span><span>' + t.stop + '</span><span>' + t.exit + '</span>' +
-                    '<span class="' + tone + '">' + fmtR(t.r) + ratingBadge + '</span>' +
+                    '<span class="' + tone + '">' + fmtR(t.r) + setupBadge + '</span>' +
                     '<span class="' + tone + '">' + (t.pnl !== null ? (t.pnl >= 0 ? "+" : "") + t.pnl.toFixed(2) : "—") + '</span>' +
-                    '<span class="notes-cell">' + (t.notes || "").replace(/</g, "&lt;") + '</span>' +
+                    '<span class="notes-cell">' + (t.notes || "").replace(/</g, "&lt;") + ' ' + emotionBadge + '</span>' +
                     '<button class="del-btn" data-id="' + t.id + '" title="Delete trade">✕</button>' +
                 '</div>';
             }
@@ -1191,8 +1314,12 @@
                 { label: 'Losses', value: s.losses }
             ];
             
-            var ratingData = Object.keys(s.ratings).sort().map(function(r) {
+            var setupData = Object.keys(s.ratings).sort().map(function(r) {
                 return { label: r, value: s.ratings[r] };
+            });
+            
+            var emotionData = Object.keys(s.emotions).sort().map(function(e) {
+                return { label: e, value: s.emotions[e] };
             });
             
             var html = '<div class="analytics-grid">';
@@ -1206,8 +1333,11 @@
             if (s.total > 0) {
                 html += '<div class="chart-card"><div class="chart-card-title">Win/Loss Distribution</div><div class="chart-card-body">' + svgDonutChart(winLossData) + '</div></div>';
             }
-            if (ratingData.length > 0) {
-                html += '<div class="chart-card"><div class="chart-card-title">Trade Ratings</div><div class="chart-card-body">' + svgBarChart(ratingData, { height: 150 }) + '</div></div>';
+            if (setupData.length > 0) {
+                html += '<div class="chart-card"><div class="chart-card-title">Setup Quality</div><div class="chart-card-body">' + svgBarChart(setupData, { height: 150 }) + '</div></div>';
+            }
+            if (emotionData.length > 0) {
+                html += '<div class="chart-card"><div class="chart-card-title">Emotion Distribution</div><div class="chart-card-body">' + svgBarChart(emotionData, { height: 150 }) + '</div></div>';
             }
             html += '</div>';
             el.innerHTML = html;
@@ -1281,7 +1411,8 @@
             var exit = document.getElementById("f-exit").value;
             if (!symbol || !entry || !stop || !exit) return;
             
-            var rating = document.getElementById("f-rating").value;
+            var setup = document.getElementById("f-setup").value;
+            var emotion = document.getElementById("f-emotion").value;
             
             var trade = {
                 id: uid(),
@@ -1295,7 +1426,8 @@
                 size: parseFloat(document.getElementById("f-size").value) || 0,
                 risk: parseFloat(document.getElementById("f-risk").value) || null,
                 target: parseFloat(document.getElementById("f-target").value) || null,
-                rating: rating || null,
+                setup: setup || null,
+                emotion: emotion || null,
                 notes: document.getElementById("f-notes").value,
                 r: calcR(document.getElementById("f-direction").value, entry, stop, exit),
                 pnl: calcPnl(document.getElementById("f-direction").value, entry, exit, document.getElementById("f-size").value),
@@ -1308,7 +1440,8 @@
             this.reset();
             document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
             document.getElementById("f-risk").value = "1.0";
-            document.getElementById("f-rating").value = "";
+            document.getElementById("f-setup").value = "";
+            document.getElementById("f-emotion").value = "";
             document.getElementById("entryForm").style.display = "none";
             document.getElementById("toggleFormBtn").textContent = "+ New";
             document.getElementById("toggleFormBtn").className = "btn-primary";

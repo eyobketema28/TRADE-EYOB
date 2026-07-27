@@ -1584,22 +1584,22 @@
     "pnl": 3
   },
   {
-    "id": "ms303xo0u3ozrz",
-    "date": "2026-07-27",
+    "id": "ms2ejzvf597ky4",
+    "date": "2026-07-26",
     "symbol": "XAU",
     "direction": "Long",
     "session": "New York",
     "entry": 2,
     "stop": 1,
-    "exit": 122,
-    "size": 0,
+    "exit": 400,
+    "size": 1,
     "risk": 1,
-    "target": null,
-    "rating": null,
+    "target": 1,
+    "rating": "A+",
     "notes": "",
-    "r": 120,
-    "pnl": null,
+    "r": 398,
+    "pnl": 398,
     "mt5": false,
-    "created": 1785143097648
+    "created": 1785106895453
   }
 ]
